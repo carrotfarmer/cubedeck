@@ -1135,6 +1135,16 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.6.1.tgz#0c74724ba6e9ea6ad25a391eab60a79eaba4c556"
   integrity sha512-9FqhNjKQWpQ3fGnSOCovHOm+yhhiorKEqYLAfd525jWavunDJcx8rOW6i6ozAh+FbwcYMkL7b+3j4UR/30MpoQ==
 
+"@fontsource/fjalla-one@^4.5.1":
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/fjalla-one/-/fjalla-one-4.5.1.tgz#f8456373824c7a72c015c70cdff9806ad7980b2d"
+  integrity sha512-NqZ9tR3FhT+mtzyVTnz+TigvbbMdKFr2JtHbT2x/ajbO/gl9esxyrdlXNTevKoCYqYWLgEXK+J+yScpmMo59yg==
+
+"@fontsource/staatliches@^4.5.1":
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/@fontsource/staatliches/-/staatliches-4.5.1.tgz#fde3914e997d5a841db4dcb65dd52ee8a262106c"
+  integrity sha512-SBBvGfQU2vYiqC+nAEr+oyhJ2WFJUQPKsC2E5D+utOJNJx6AlVh5rC4wUOMS+FjIghRCbCl2oMO3NswK0CppVw==
+
 "@grpc/grpc-js@^1.3.2":
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.5.4.tgz#dd0237ad7df80a7a24766fe516d7e4a22cb4855e"
@@ -1976,6 +1986,11 @@ react-fast-compare@3.2.0:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
 
+react-firebase-hooks@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/react-firebase-hooks/-/react-firebase-hooks-5.0.1.tgz#5a3769b07b81436b8976e69909ab252da0b1d7d5"
+  integrity sha512-Db1QIjm3BavgzODCk/FoC5UfF/SjY0ATcXYACqkOFd+rzUL14PhytfTs405oZWgDMEGvyJ0B3+oMbp2r3/BG7w==
+
 react-focus-lock@2.5.2:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/react-focus-lock/-/react-focus-lock-2.5.2.tgz#f1e4db5e25cd8789351f2bd5ebe91e9dcb9c2922"
@@ -1987,6 +2002,11 @@ react-focus-lock@2.5.2:
     react-clientside-effect "^1.2.5"
     use-callback-ref "^1.2.5"
     use-sidecar "^1.0.5"
+
+react-icons@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.3.1.tgz#2fa92aebbbc71f43d2db2ed1aed07361124e91ca"
+  integrity sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
