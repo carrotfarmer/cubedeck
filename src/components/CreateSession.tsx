@@ -1,3 +1,4 @@
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
@@ -12,22 +13,45 @@ import {
   Button,
   useDisclosure,
   Box,
-  Avatar,
   Menu,
-  MenuButton,
   MenuItem,
   MenuList,
+  MenuButton,
 } from "@chakra-ui/react";
-import React from "react";
-import { auth } from "../firebase.config";
+import { doc, setDoc } from "firebase/firestore";
+import React, { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../firebase.config";
+import { puzzleTypes } from "../PuzzleTypes";
+import { v4 as uuidv4 } from "uuid";
+import { Session } from "../types";
 
 interface CreateSessionModalProps {}
 
 export const CreateSession: React.FC<CreateSessionModalProps> = ({}) => {
+  // get logged in user
+  const [user, loading, error] = useAuthState(auth);
+
   // modal stuff
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = React.useRef();
   const finalRef = React.useRef();
+
+  const addSessionToFirestore = async (session: Session) => {
+    const docRef = await setDoc(doc(db, `${user.uid}/${session.uuid}`), {
+      sessionTitle: session.sessionTitle,
+      sessionNotes: session.sessionNotes,
+      sessionType: session.sessionType,
+      uuid: session.uuid,
+    });
+  };
+
+  const [sessionTitle, setSessionTitle] = useState("");
+  const [sessionNote, setSessionNote] = useState("");
+
+  let puzzleType: string = "3x3";
+
+  const onPuzzleTypeChange = (newType: string) => (puzzleType = newType);
 
   return (
     <Box pt="2%" color="orange.300">
@@ -43,24 +67,62 @@ export const CreateSession: React.FC<CreateSessionModalProps> = ({}) => {
           <ModalHeader>Create your session</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl>
+            <FormControl isRequired>
+              <FormLabel>Session Title</FormLabel>
+              <Input
+                ref={initialRef}
+                id="sessionTitle"
+                placeholder="Eg: School contest practice #1"
+                onChange={(event) => setSessionTitle(event.currentTarget.value)}
+              />
+            </FormControl>
+            <FormControl pt="4%">
               <FormLabel>Session Notes</FormLabel>
-              <Input ref={initialRef} placeholder="My awesome session...." />
+              <Input
+                ref={finalRef}
+                placeholder="My awesome session...."
+                onChange={(event) => setSessionNote(event.currentTarget.value)}
+              />
             </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel>Type</FormLabel>
-              <Menu>
-                <MenuList>
-                  <MenuItem>Log Out</MenuItem>
-                </MenuList>
-              </Menu>
-            </FormControl>
+            <Menu>
+              <Box pt="4%">
+                <MenuButton rightIcon={<ChevronDownIcon />} as={Button}>
+                  Session Type
+                </MenuButton>
+              </Box>
+              <MenuList>
+                {puzzleTypes.map((puzzleType: string) => (
+                  <MenuItem onClick={() => onPuzzleTypeChange(puzzleType)}>
+                    {puzzleType}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              Save
+            <Button
+              colorScheme="orange"
+              mr={3}
+              onClick={() => {
+                if (sessionTitle !== "") {
+                  addSessionToFirestore({
+                    sessionTitle,
+                    sessionNotes: sessionNote,
+                    sessionType: puzzleType,
+                    uuid: uuidv4(),
+                  });
+                  setSessionTitle("");
+                  setSessionNote("");
+                  puzzleType = "";
+                  onClose();
+                } else {
+                  alert("Please enter a session title");
+                }
+              }}
+            >
+              Create
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
