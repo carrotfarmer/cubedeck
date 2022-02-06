@@ -25,10 +25,12 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
   }
 
   if (error) {
-    return <Text>BRUH</Text>;
+    return (
+      <Text>
+        There was an error fetching your sessions! Please reload the page.
+      </Text>
+    );
   }
-
-  console.log(sessions);
 
   return (
     <Box textAlign="center" pt="5%">
