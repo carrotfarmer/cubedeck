@@ -1,3 +1,4 @@
+import { auth, db } from "../../firebase.config";
 import {
   collection,
   DocumentData,
@@ -6,9 +7,8 @@ import {
   QuerySnapshot,
   where,
 } from "firebase/firestore";
-import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../../firebase.config";
+import { useRouter } from "next/router";
 import React, { ReactElement, useState } from "react";
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import DefaultErrorPage from "next/error";
