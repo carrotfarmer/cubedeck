@@ -22,7 +22,7 @@ import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase.config";
-import { puzzleTypes } from "../PuzzleTypes";
+import { puzzleTypes } from "../constants";
 import { v4 as uuidv4 } from "uuid";
 import { Session } from "../types";
 

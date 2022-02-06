@@ -10,6 +10,7 @@ import { CreateSession } from "./CreateSession";
 import { collection } from "firebase/firestore";
 import { Session } from "../types";
 import { SessionRenderer } from "./SessionRenderer";
+import { Subheading } from "../constants";
 
 interface SessionsProps {}
 
@@ -31,7 +32,7 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
 
   return (
     <Box textAlign="center" pt="5%">
-      <Text fontSize="3xl" fontWeight="bold" style={styles}>
+      <Text fontSize="3xl" fontWeight="bold" style={Subheading}>
         {user.displayName}'s Practice Sessions
       </Text>{" "}
       <Grid templateColumns="repeat(5, 1fr)" gap={6} pr="2%" pl="2%" pt="2%">
@@ -44,8 +45,4 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
       <CreateSession />
     </Box>
   );
-};
-
-const styles = {
-  fontFamily: "Fjalla One",
 };

@@ -16,6 +16,7 @@ import { motion } from "framer-motion";
 
 // heading font
 import "@fontsource/staatliches";
+import Link from "next/link";
 
 interface NavbarProps {
   props;
@@ -33,22 +34,23 @@ export const Navbar: React.FC<NavbarProps> = ({ props }) => {
       wrap="wrap"
       padding={6}
       bg="orange.400"
-      color="white"
       {...props}
     >
       <Flex align="center" mr={5}>
-        <Box boxShadow="lg">
-          <motion.button
-            whileHover={{
-              scale: 1.1,
-              rotate: 10,
-            }}
-          >
-            <Heading as="h1" size="lg">
-              cubedeck
-            </Heading>
-          </motion.button>
-        </Box>
+        <Link href="/">
+          <Box boxShadow="lg">
+            <motion.button
+              whileHover={{
+                scale: 1.1,
+                rotate: 10,
+              }}
+            >
+              <Heading as="h1" size="lg" color="orange.100">
+                cubedeck
+              </Heading>
+            </motion.button>
+          </Box>
+        </Link>
       </Flex>
 
       <Box display={{ base: "block", md: "none" }} onClick={handleToggle}>
