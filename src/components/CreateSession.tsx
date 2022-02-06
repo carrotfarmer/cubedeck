@@ -17,6 +17,7 @@ import {
   MenuItem,
   MenuList,
   MenuButton,
+  Text,
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
@@ -90,6 +91,9 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
                 <MenuButton rightIcon={<ChevronDownIcon />} as={Button}>
                   Session Type
                 </MenuButton>
+                <Text fontSize="smaller" pt="2.5">
+                  Default: 3x3
+                </Text>
               </Box>
               <MenuList>
                 {puzzleTypes.map((puzzleType: string) => (

@@ -9,7 +9,7 @@ import {
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase.config";
-import { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import DefaultErrorPage from "next/error";
 import { Navbar } from "../../components/Navbar";
@@ -17,7 +17,7 @@ import { Session } from "../../types";
 import { Subheading } from "../../constants";
 import "@fontsource/fjalla-one";
 
-const SessionPage = () => {
+const SessionPage = (): ReactElement<any, any> => {
   const router = useRouter();
   const { sessionId } = router.query;
 
@@ -76,13 +76,11 @@ const SessionPage = () => {
 
   // Throw 404 if the session is not found
   return (
-    <>
+    <React.Fragment>
       <Navbar props={undefined} />
       <DefaultErrorPage statusCode={404} />
-    </>
+    </React.Fragment>
   );
-
-  return null;
 };
 
 export default SessionPage;

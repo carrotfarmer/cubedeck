@@ -1,11 +1,11 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { auth } from "../firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Navbar } from "../components/Navbar";
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import { Sessions } from "../components/Sessions";
 
-const Index = () => {
+const Index = (): ReactElement<any, any> => {
   const [user, loading, error] = useAuthState(auth);
 
   // The auth state is being fetched. Displaying a spinner
