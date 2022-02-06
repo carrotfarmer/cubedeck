@@ -1,6 +1,6 @@
 import React from "react";
 import { Session } from "../types";
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 

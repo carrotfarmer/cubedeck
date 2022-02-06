@@ -1,5 +1,5 @@
-import { Box, Button, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Box, Grid, GridItem, Text } from "@chakra-ui/react";
+import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../firebase.config";
 import { useCollectionData } from "react-firebase-hooks/firestore";

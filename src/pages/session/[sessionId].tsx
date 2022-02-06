@@ -3,7 +3,6 @@ import {
   DocumentData,
   getDocs,
   query,
-  QueryDocumentSnapshot,
   QuerySnapshot,
   where,
 } from "firebase/firestore";

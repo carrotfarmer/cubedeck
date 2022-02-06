@@ -26,9 +26,9 @@ import { puzzleTypes } from "../constants";
 import { v4 as uuidv4 } from "uuid";
 import { Session } from "../types";
 
-interface CreateSessionModalProps {}
+interface CreateSessionProps {}
 
-export const CreateSession: React.FC<CreateSessionModalProps> = ({}) => {
+export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
   // get logged in user
   const [user, loading, error] = useAuthState(auth);
 
