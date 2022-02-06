@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Navbar } from "../components/Navbar";
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import { Sessions } from "../components/Sessions";
+import Head from "next/head";
 
 const Index = (): ReactElement<any, any> => {
   const [user, loading, error] = useAuthState(auth);
@@ -11,40 +12,60 @@ const Index = (): ReactElement<any, any> => {
   // The auth state is being fetched. Displaying a spinner
   if (loading) {
     return (
-      <Box textAlign={"center"} pt="25%">
-        <Spinner />
-      </Box>
+      <React.Fragment>
+        <Head>
+          <title>Cubedeck</title>
+        </Head>
+        <Box textAlign={"center"} pt="25%">
+          <Spinner />
+        </Box>
+      </React.Fragment>
     );
   }
 
   // The user is successfully logged in
   if (user) {
     return (
-      <Box>
-        <Navbar props={undefined} />
-        <Sessions />
-      </Box>
+      <React.Fragment>
+        <Head>
+          <title>Cubedeck | {user.displayName}</title>
+        </Head>
+        <Box>
+          <Navbar props={undefined} />
+          <Sessions />
+        </Box>
+      </React.Fragment>
     );
   }
 
   // there was an authentication error
   if (error) {
     return (
-      <Box>
-        <Navbar props={undefined} />
-        <Text fontWeight="bold" color="red.200">
-          Oopsie-doopsies! There was a glitch on our side...
-        </Text>
-      </Box>
+      <React.Fragment>
+        <Head>
+          <title>Cubedeck: Error</title>
+        </Head>
+        <Box>
+          <Navbar props={undefined} />
+          <Text fontWeight="bold" color="red.200">
+            Oopsie-doopsies! There was a glitch on our side...
+          </Text>
+        </Box>
+      </React.Fragment>
     );
   }
 
   // User is not logged in
   return (
-    <Box>
-      <Navbar props={undefined} />
-      <div>Not logged in</div>
-    </Box>
+    <React.Fragment>
+      <Head>
+        <title>Cubedeck</title>
+      </Head>
+      <Box>
+        <Navbar props={undefined} />
+        <div>Not logged in</div>
+      </Box>
+    </React.Fragment>
   );
 };
 

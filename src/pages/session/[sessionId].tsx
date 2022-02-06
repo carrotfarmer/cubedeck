@@ -11,11 +11,19 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import React, { ReactElement, useState } from "react";
 import { Box, Spinner, Text } from "@chakra-ui/react";
+
+// Default 404 page
 import DefaultErrorPage from "next/error";
+
 import { Navbar } from "../../components/Navbar";
 import { Session } from "../../types";
+
+// Apply subheading font
 import { Subheading } from "../../constants";
+
+// Subheading font
 import "@fontsource/fjalla-one";
+import Head from "next/head";
 
 const SessionPage = (): ReactElement<any, any> => {
   const router = useRouter();
@@ -66,6 +74,9 @@ const SessionPage = (): ReactElement<any, any> => {
   if (doesSessionExists) {
     return (
       <Box>
+        <Head>
+          <title>Cubedeck Session: {sessionDocs.sessionTitle}</title>
+        </Head>
         <Navbar props={undefined} />
         <Text fontSize="3xl" fontWeight="bold" style={Subheading}>
           {sessionDocs.sessionTitle}
