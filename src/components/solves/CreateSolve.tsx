@@ -75,7 +75,7 @@ export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
         finalFocusRef={finalRef}
         isOpen={isOpen}
         onClose={onClose}
-        size="xl"
+        size="2xl"
       >
         <ModalOverlay />
         <ModalContent>
@@ -112,11 +112,20 @@ export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
               colorScheme="orange"
               mr={3}
               onClick={() => {
-                addSolveToSession();
-                onClose();
+                if (
+                  minutes < 60 &&
+                  seconds < 60 &&
+                  minutes >= 0 &&
+                  seconds > 0
+                ) {
+                  addSolveToSession();
+                  onClose();
+                } else {
+                  alert("Invalid input");
+                }
               }}
             >
-              Create
+              Add Solve
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
