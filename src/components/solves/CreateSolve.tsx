@@ -19,21 +19,34 @@ import {
 import React, { useState } from "react";
 import { Session } from "../../types";
 import { v4 as uuidv4 } from "uuid";
-import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
-
+import Router from "next/router";
 interface CreateSolveProps {
   session: Session;
 }
 
-export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const initialRef: React.MutableRefObject<undefined> = React.useRef();
-  const finalRef: React.MutableRefObject<undefined> = React.useRef();
+interface AddSolveToSessionParams {
+  minutes: number;
+  seconds: number;
+}
 
-  // get logged in user
+export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
   const [user, loading, error] = useAuthState(auth);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const addSolveToSession = async (solve: AddSolveToSessionParams) => {
+    const docRef = await updateDoc(doc(db, `${user.uid}/${session.uuid}`), {
+      solves: arrayUnion({
+        minutes: Number(solve.minutes),
+        seconds: Number(solve.seconds),
+        totalInSeconds: Number(solve.minutes * 60) + Number(solve.seconds),
+        id: uuidv4(),
+      }),
+    });
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -49,16 +62,7 @@ export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
     setSeconds(value);
   };
 
-  const addSolveToSession = async () => {
-    await updateDoc(doc(db, `${user.uid}/${session.uuid}`), {
-      solves: arrayUnion({
-        minutes: Number(minutes),
-        seconds: Number(seconds),
-        totalInSeconds: Number(minutes * 60) + Number(seconds),
-        id: uuidv4(),
-      }),
-    });
-  };
+  const [submitting, setSubmitting] = useState(false);
 
   return (
     <Box>
@@ -71,11 +75,12 @@ export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
         New Solve
       </Button>
       <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
+        // initialFocusRef={initialRef}
+        // finalFocusRef={finalRef}
+        size="2xl"
+        isCentered
         isOpen={isOpen}
         onClose={onClose}
-        size="2xl"
       >
         <ModalOverlay />
         <ModalContent>
@@ -88,22 +93,21 @@ export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
                 <NumberInput
                   size="md"
                   defaultValue="0"
-                  height="10"
                   value={minutes}
                   onChange={handleMinutesChange}
                 >
                   <NumberInputField />
                 </NumberInput>{" "}
                 <Text fontSize="xs">mins</Text>
-                <NumberInput
-                  ref={initialRef}
-                  size="md"
-                  onChange={handleSecondsChange}
-                >
+                <NumberInput size="md" onChange={handleSecondsChange}>
                   <NumberInputField />
                 </NumberInput>
                 <Text fontSize="xs">secs</Text>
               </Stack>
+              <Text fontSize="xs" pt="5%">
+                After adding, please wait for a few moments for your data to get
+                updated.
+              </Text>
             </FormControl>
           </ModalBody>
 
@@ -111,6 +115,7 @@ export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
             <Button
               colorScheme="orange"
               mr={3}
+              isLoading={submitting}
               onClick={() => {
                 if (
                   minutes < 60 &&
@@ -118,8 +123,14 @@ export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
                   minutes >= 0 &&
                   seconds > 0
                 ) {
-                  addSolveToSession();
-                  onClose();
+                  setSubmitting(true);
+                  addSolveToSession({
+                    minutes,
+                    seconds,
+                  }).then(() => {
+                    // onClose();
+                    Router.reload();
+                  });
                 } else {
                   alert("Invalid input");
                 }
@@ -127,7 +138,14 @@ export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
             >
               Add Solve
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button
+              onClick={() => {
+                onClose();
+                Router.reload();
+              }}
+            >
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

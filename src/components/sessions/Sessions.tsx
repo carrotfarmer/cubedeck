@@ -6,6 +6,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 
 // custom font
 import "@fontsource/fjalla-one";
+
 import { CreateSession } from "./CreateSession";
 import { collection } from "firebase/firestore";
 import { Session } from "../../types";
