@@ -22,10 +22,10 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../firebase.config";
-import { puzzleTypes } from "../constants";
+import { auth, db } from "../../firebase.config";
+import { puzzleTypes } from "../../constants";
 import { v4 as uuidv4 } from "uuid";
-import { Session } from "../types";
+import { Session } from "../../types";
 
 interface CreateSessionProps {}
 
@@ -38,25 +38,32 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
   const initialRef = React.useRef();
   const finalRef = React.useRef();
 
-  const addSessionToFirestore = async (session: Session) => {
+  // helper function to add the session to firestore
+  const addSessionToFirestore = async (session: Session): Promise<void> => {
     const docRef = await setDoc(doc(db, `${user.uid}/${session.uuid}`), {
       sessionTitle: session.sessionTitle,
       sessionNotes: session.sessionNotes,
       sessionType: session.sessionType,
       uuid: session.uuid,
+      solves: session.solves,
     });
   };
 
+  // initial state for the session title and session note
   const [sessionTitle, setSessionTitle] = useState("");
   const [sessionNote, setSessionNote] = useState("");
 
+  // default puzzle type
   let puzzleType: string = "3x3";
 
-  const onPuzzleTypeChange = (newType: string) => (puzzleType = newType);
+  const onPuzzleTypeChange = (newType: string): string =>
+    (puzzleType = newType);
 
   return (
-    <Box pt="2%" color="orange.300">
-      <Button onClick={onOpen}>Create a Session</Button>
+    <Box pt="2%">
+      <Button onClick={onOpen} colorScheme="orange">
+        Create a Session
+      </Button>
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
@@ -116,6 +123,7 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
                     sessionNotes: sessionNote,
                     sessionType: puzzleType,
                     uuid: uuidv4(),
+                    solves: [],
                   });
                   setSessionTitle("");
                   setSessionNote("");

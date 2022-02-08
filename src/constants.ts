@@ -1,5 +1,5 @@
 // Default type will be 3x3 coz... duh.
-export const puzzleTypes = [
+export const puzzleTypes: string[] = [
   "2x2",
   "3x3",
   "4x4",

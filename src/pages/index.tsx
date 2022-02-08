@@ -3,7 +3,7 @@ import { auth } from "../firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Navbar } from "../components/Navbar";
 import { Box, Spinner, Text } from "@chakra-ui/react";
-import { Sessions } from "../components/Sessions";
+import { Sessions } from "../components/sessions/Sessions";
 import Head from "next/head";
 
 const Index = (): ReactElement<any, any> => {

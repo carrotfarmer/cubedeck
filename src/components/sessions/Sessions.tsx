@@ -1,16 +1,16 @@
 import { Box, Grid, GridItem, Text } from "@chakra-ui/react";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "../firebase.config";
+import { auth, db } from "../../firebase.config";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 // custom font
 import "@fontsource/fjalla-one";
 import { CreateSession } from "./CreateSession";
 import { collection } from "firebase/firestore";
-import { Session } from "../types";
+import { Session } from "../../types";
 import { SessionRenderer } from "./SessionRenderer";
-import { Subheading } from "../constants";
+import { Subheading } from "../../constants";
 
 interface SessionsProps {}
 

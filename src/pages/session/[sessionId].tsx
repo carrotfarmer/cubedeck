@@ -4,13 +4,14 @@ import {
   DocumentData,
   getDocs,
   query,
+  QueryDocumentSnapshot,
   QuerySnapshot,
   where,
 } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import React, { ReactElement, useState } from "react";
-import { Box, Spinner, Text } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, Spinner, Text } from "@chakra-ui/react";
 
 // Default 404 page
 import DefaultErrorPage from "next/error";
@@ -25,6 +26,9 @@ import { Subheading } from "../../constants";
 import "@fontsource/fjalla-one";
 import Head from "next/head";
 
+// display all solves
+import { Solves } from "../../components/solves/Solves";
+
 const SessionPage = (): ReactElement<any, any> => {
   const router = useRouter();
   const { sessionId } = router.query;
@@ -37,11 +41,18 @@ const SessionPage = (): ReactElement<any, any> => {
     sessionNotes: "",
     sessionType: "",
     uuid: "",
+    solves: [],
   });
 
   // fetching user data
   if (loading) {
-    return <Spinner />;
+    return (
+      <Alert status="info">
+        <AlertIcon />
+        Loading session data...
+        <Spinner />
+      </Alert>
+    );
   }
 
   // User is not logged in
@@ -55,8 +66,8 @@ const SessionPage = (): ReactElement<any, any> => {
   const _sessionDocs = getDocs(sessionDocQuery).then(
     (sessionDocs: QuerySnapshot<DocumentData>) => {
       const data = sessionDocs.docs;
-      data.map((dataOne) => {
-        const sessionDocData = dataOne.data();
+      data.map((docs: QueryDocumentSnapshot<DocumentData>) => {
+        const sessionDocData = docs.data();
         if (typeof sessionDocData.sessionTitle !== "undefined") {
           setSessionExists(true);
           setSessionDocs({
@@ -64,6 +75,7 @@ const SessionPage = (): ReactElement<any, any> => {
             sessionNotes: sessionDocData.sessionNotes,
             sessionType: sessionDocData.sessionType,
             uuid: sessionDocData.uuid,
+            solves: sessionDocData.solves,
           });
         }
       });
@@ -78,9 +90,16 @@ const SessionPage = (): ReactElement<any, any> => {
           <title>Cubedeck Session: {sessionDocs.sessionTitle}</title>
         </Head>
         <Navbar props={undefined} />
-        <Text fontSize="3xl" fontWeight="bold" style={Subheading}>
+        <Text
+          fontSize="3xl"
+          fontWeight="bold"
+          style={Subheading}
+          textAlign="center"
+          pt="5%"
+        >
           {sessionDocs.sessionTitle}
         </Text>
+        <Solves session={sessionDocs} />
       </Box>
     );
   }

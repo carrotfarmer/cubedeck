@@ -1,5 +1,5 @@
 import React from "react";
-import { Session } from "../types";
+import { Session } from "../../types";
 import { Box, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
