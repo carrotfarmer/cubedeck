@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
-import { Session } from "../../types";
+import { Session, Solve } from "../../types";
 
 interface SolvesRendererProps {
   session: Session;
@@ -9,7 +9,7 @@ interface SolvesRendererProps {
 export const SolvesRenderer: React.FC<SolvesRendererProps> = ({ session }) => {
   return (
     <Box>
-      {session.solves.map((solve) => (
+      {session.solves.map((solve: Solve) => (
         <Box key={solve.id}>
           {solve.minutes}:{solve.seconds}
         </Box>

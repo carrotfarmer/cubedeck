@@ -23,6 +23,7 @@ import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Router from "next/router";
+
 interface CreateSolveProps {
   session: Session;
 }
@@ -37,7 +38,9 @@ export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const addSolveToSession = async (solve: AddSolveToSessionParams) => {
+  const addSolveToSession = async (
+    solve: AddSolveToSessionParams
+  ): Promise<void> => {
     const docRef = await updateDoc(doc(db, `${user.uid}/${session.uuid}`), {
       solves: arrayUnion({
         minutes: Number(solve.minutes),
@@ -62,7 +65,7 @@ export const CreateSolve: React.FC<CreateSolveProps> = ({ session }) => {
     setSeconds(value);
   };
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   return (
     <Box>
