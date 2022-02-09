@@ -81,20 +81,13 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
             <HStack>
               <NumberInput
                 defaultValue={0}
-                min={0}
-                max={59}
                 width="20"
                 onChange={handleMinutesChange}
               >
                 <NumberInputField />
                 <Text fontSize="xs">mins</Text>
               </NumberInput>
-              <NumberInput
-                min={1}
-                max={59}
-                width="20"
-                onChange={handleSecondsChange}
-              >
+              <NumberInput width="20" onChange={handleSecondsChange}>
                 <NumberInputField />
                 <Text fontSize="xs">secs</Text>
               </NumberInput>
@@ -105,11 +98,15 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
           <Button
             colorScheme="orange"
             onClick={() => {
-              addSolveToSession({
-                minutes,
-                seconds,
-              });
-              close();
+              if (minutes < 60 && seconds < 60 && minutes >= 0 && seconds > 0) {
+                addSolveToSession({
+                  minutes,
+                  seconds,
+                });
+                close();
+              } else {
+                alert("Bruh.");
+              }
             }}
           >
             Add
