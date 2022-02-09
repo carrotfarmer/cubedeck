@@ -1,10 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
 import { Session } from "../../types";
-import { SessionRenderer } from "../sessions/SessionRenderer";
-import { CreateSolve } from "./CreateSolve";
-import { SolvesRenderer } from "./SolvesRenderer";
-
+import { SolveRenderer } from "./SolveRenderer";
 interface SolvesProps {
   session: Session;
 }
@@ -12,9 +9,9 @@ interface SolvesProps {
 export const Solves: React.FC<SolvesProps> = ({ session }) => {
   return (
     <Box pl="5%" pt="5%">
-      {/* <CreateSolve session={session} /> */}
-      <CreateSolve session={session} />
-      <SolvesRenderer session={session} />
+      {session.solves.map((solve) => (
+        <SolveRenderer solve={solve} />
+      ))}
     </Box>
   );
 };

@@ -11,7 +11,14 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import React, { ReactElement, useState } from "react";
-import { Alert, AlertIcon, Box, Spinner, Text } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Box,
+  Divider,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 
 // Default 404 page
 import DefaultErrorPage from "next/error";
@@ -25,9 +32,8 @@ import { Subheading } from "../../constants";
 // Subheading font
 import "@fontsource/fjalla-one";
 import Head from "next/head";
-
-// display all solves
 import { Solves } from "../../components/solves/Solves";
+import { NewSolve } from "../../components/solves/NewSolve";
 
 const SessionPage = (): ReactElement<any, any> => {
   const router = useRouter();
@@ -63,11 +69,11 @@ const SessionPage = (): ReactElement<any, any> => {
   // get session data from firestore
   const userCollection = collection(db, user.uid);
   const sessionDocQuery = query(userCollection, where("uuid", "==", sessionId));
-  const _sessionDocs = getDocs(sessionDocQuery).then(
+  const _sessionDocs: Promise<void> = getDocs(sessionDocQuery).then(
     (sessionDocs: QuerySnapshot<DocumentData>) => {
       const data = sessionDocs.docs;
       data.map((docs: QueryDocumentSnapshot<DocumentData>) => {
-        const sessionDocData = docs.data();
+        const sessionDocData: DocumentData = docs.data();
         if (typeof sessionDocData.sessionTitle !== "undefined") {
           setSessionExists(true);
           setSessionDocs({
@@ -99,12 +105,17 @@ const SessionPage = (): ReactElement<any, any> => {
         >
           {sessionDocs.sessionTitle}
         </Text>
-        <Solves session={sessionDocs} />
+        <Box pl="3%" pt="5%" pr="3%">
+          <NewSolve session={sessionDocs} />
+          <Box pb="3%" pt="3%">
+            <Divider />
+          </Box>
+          <Solves session={sessionDocs} />
+        </Box>
       </Box>
     );
   }
 
-  // Throw 404 if the session is not found
   return (
     <React.Fragment>
       <Navbar props={undefined} />
