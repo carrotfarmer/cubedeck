@@ -38,7 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({ props }) => {
     >
       <Flex align="center" mr={5}>
         <Link href="/">
-          <Box boxShadow="lg">
+          <Box boxShadow="md" borderRadius="md" width="5%">
             <motion.button
               whileHover={{
                 scale: 1.1,

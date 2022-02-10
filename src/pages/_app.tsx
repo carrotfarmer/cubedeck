@@ -1,5 +1,8 @@
 import { ChakraProvider } from "@chakra-ui/react";
 
+import "@fontsource/fjalla-one";
+import "@fontsource/staatliches";
+
 import theme from "../theme";
 import { AppProps } from "next/app";
 

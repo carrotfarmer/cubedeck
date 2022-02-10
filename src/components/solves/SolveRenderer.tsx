@@ -1,15 +1,81 @@
-import { Box } from "@chakra-ui/react";
-import React from "react";
-import { Solve } from "../../types";
+import { DeleteIcon } from "@chakra-ui/icons";
+import { Box, IconButton, Text, useToast } from "@chakra-ui/react";
+import { updateDoc, doc } from "firebase/firestore";
+import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../../firebase.config";
+import { Session, Solve } from "../../types";
 
 interface SolveRendererProps {
   solve: Solve;
+  session: Session;
 }
 
-export const SolveRenderer: React.FC<SolveRendererProps> = ({ solve }) => {
+export const SolveRenderer: React.FC<SolveRendererProps> = ({
+  solve,
+  session,
+}) => {
+  const [isHovering, setIsHovering] = useState("hidden");
+  const [user, loading, error] = useAuthState(auth);
+  const toast = useToast();
+
+  const prettify = (val: number): string => {
+    if (val < 10) {
+      return `0${val}`;
+    }
+    return val.toString();
+  };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  const deleteSolve = async () => {
+    const docRef = await updateDoc(doc(db, `${user.uid}/${session.uuid}`), {
+      solves: session.solves.filter((s) => s.id !== solve.id),
+    });
+  };
+
   return (
-    <Box>
-      {solve.minutes}: {solve.seconds}
-    </Box>
+    <motion.div
+      whileHover={{
+        scale: 1.08,
+      }}
+    >
+      <Box
+        bgColor="orange.300"
+        height="28"
+        width="36"
+        textAlign="center"
+        borderRadius="xl"
+        onMouseEnter={() => setIsHovering("visible")}
+        onMouseLeave={() => setIsHovering("hidden")}
+      >
+        <Box textAlign="right">
+          <IconButton
+            icon={<DeleteIcon />}
+            visibility={isHovering}
+            color="red"
+            size="xs"
+            bgColor="orange.300"
+            _hover={{ bgColor: "orange.200" }}
+            onClick={() => {
+              deleteSolve();
+              toast({
+                title: "Solve Deleted",
+                description: "Successfully deleted the sovle",
+                status: "info",
+                duration: 5000,
+                isClosable: true,
+              });
+            }}
+          />
+        </Box>
+        <Text fontSize="xl" fontWeight="extrabold" pt="10%">
+          {prettify(solve.minutes)}:{prettify(solve.seconds)}
+        </Text>
+      </Box>
+    </motion.div>
   );
 };

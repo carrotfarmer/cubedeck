@@ -13,6 +13,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { updateDoc, doc, arrayUnion } from "firebase/firestore";
 import React, { useState } from "react";
@@ -20,6 +21,7 @@ import { auth, db } from "../../firebase.config";
 import { v4 as uuidv4 } from "uuid";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Session } from "../../types";
+import { FocusLock } from "@chakra-ui/focus-lock";
 
 interface NewSolveProps {
   session: Session;
@@ -34,6 +36,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const open = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);
+  const toast = useToast();
 
   const addSolveToSession = async (solve: {
     minutes: number;
@@ -56,7 +59,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
 
   return (
     <Popover
-      placement="right-start"
+      placement="top-start"
       closeOnBlur={true}
       closeOnEsc={true}
       isOpen={isOpen}
@@ -67,6 +70,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
           variant="outline"
           colorScheme="orange"
           height="28"
+          width="36"
           onClick={open}
         >
           New Solve
@@ -77,21 +81,27 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
         <PopoverCloseButton />
         <PopoverHeader fontWeight="bold">Add Solve</PopoverHeader>
         <PopoverBody>
-          <FormControl>
-            <HStack>
-              <NumberInput
-                defaultValue={0}
-                width="20"
-                onChange={handleMinutesChange}
-              >
-                <NumberInputField />
-                <Text fontSize="xs">mins</Text>
-              </NumberInput>
-              <NumberInput width="20" onChange={handleSecondsChange}>
-                <NumberInputField />
-                <Text fontSize="xs">secs</Text>
-              </NumberInput>
-            </HStack>
+          <FormControl id="form">
+            <FocusLock>
+              <HStack>
+                <NumberInput
+                  width="20"
+                  onChange={handleMinutesChange}
+                  value={minutes}
+                >
+                  <NumberInputField />
+                  <Text fontSize="xs">mins</Text>
+                </NumberInput>
+                <NumberInput
+                  width="20"
+                  onChange={handleSecondsChange}
+                  value={seconds}
+                >
+                  <NumberInputField />
+                  <Text fontSize="xs">secs</Text>
+                </NumberInput>
+              </HStack>
+            </FocusLock>
           </FormControl>
         </PopoverBody>
         <PopoverFooter>
@@ -103,7 +113,16 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
                   minutes,
                   seconds,
                 });
+                setSeconds(0);
+                setMinutes(0);
                 close();
+                toast({
+                  title: "Added Solve!",
+                  description: "Successfuly added this solve to your session.",
+                  status: "success",
+                  duration: 5000,
+                  isClosable: true,
+                });
               } else {
                 alert("Bruh.");
               }

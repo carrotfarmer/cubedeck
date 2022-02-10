@@ -11,14 +11,7 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import React, { ReactElement, useState } from "react";
-import {
-  Alert,
-  AlertIcon,
-  Box,
-  Divider,
-  Spinner,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Center, Spinner, Text } from "@chakra-ui/react";
 
 // Default 404 page
 import DefaultErrorPage from "next/error";
@@ -33,7 +26,6 @@ import { Subheading } from "../../constants";
 import "@fontsource/fjalla-one";
 import Head from "next/head";
 import { Solves } from "../../components/solves/Solves";
-import { NewSolve } from "../../components/solves/NewSolve";
 
 const SessionPage = (): ReactElement<any, any> => {
   const router = useRouter();
@@ -53,11 +45,9 @@ const SessionPage = (): ReactElement<any, any> => {
   // fetching user data
   if (loading) {
     return (
-      <Alert status="info">
-        <AlertIcon />
-        Loading session data...
+      <Center pt="25%">
         <Spinner />
-      </Alert>
+      </Center>
     );
   }
 
@@ -106,22 +96,18 @@ const SessionPage = (): ReactElement<any, any> => {
           {sessionDocs.sessionTitle}
         </Text>
         <Box pl="3%" pt="5%" pr="3%">
-          <NewSolve session={sessionDocs} />
-          <Box pb="3%" pt="3%">
-            <Divider />
-          </Box>
           <Solves session={sessionDocs} />
         </Box>
       </Box>
     );
+  } else {
+    return (
+      <Box>
+        <Navbar props={undefined} />
+        <DefaultErrorPage statusCode={404}></DefaultErrorPage>
+      </Box>
+    );
   }
-
-  return (
-    <React.Fragment>
-      <Navbar props={undefined} />
-      <DefaultErrorPage statusCode={404} />
-    </React.Fragment>
-  );
 };
 
 export default SessionPage;

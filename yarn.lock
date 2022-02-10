@@ -198,6 +198,14 @@
     "@chakra-ui/utils" "1.9.1"
     react-focus-lock "2.5.2"
 
+"@chakra-ui/focus-lock@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/focus-lock/-/focus-lock-1.2.4.tgz#c27e2ccd93d6586373cfdd9b6a21a6ed1a27e6ec"
+  integrity sha512-irMhZLH02Ue88MM/36/cziD+VNRqZbtGTrnERB3/j5PdGZT6vF/9bv+TZDCKo3gNe2Z8pEJFfFsQ++f53xKyeg==
+  dependencies:
+    "@chakra-ui/utils" "1.10.2"
+    react-focus-lock "2.5.2"
+
 "@chakra-ui/form-control@1.5.3":
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/@chakra-ui/form-control/-/form-control-1.5.3.tgz#cbc8037470f8ef33d5ca839362e231edf9e1af56"
