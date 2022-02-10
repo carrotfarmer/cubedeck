@@ -71,7 +71,7 @@ export const SolveRenderer: React.FC<SolveRendererProps> = ({
               deleteSolve();
               toast({
                 title: "Solve Deleted",
-                description: "Successfully deleted the sovle",
+                description: "Successfully deleted the solve",
                 status: "info",
                 duration: 5000,
                 isClosable: true,
