@@ -1,5 +1,11 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Box, IconButton, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  IconButton,
+  ResponsiveValue,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { updateDoc, doc } from "firebase/firestore";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
@@ -16,7 +22,8 @@ export const SolveRenderer: React.FC<SolveRendererProps> = ({
   solve,
   session,
 }) => {
-  const [isHovering, setIsHovering] = useState("hidden");
+  const [isHovering, setIsHovering] =
+    useState<ResponsiveValue<VisibilityState>>("hidden");
   const [user, loading, error] = useAuthState(auth);
   const toast = useToast();
 
@@ -70,6 +77,7 @@ export const SolveRenderer: React.FC<SolveRendererProps> = ({
                 isClosable: true,
               });
             }}
+            aria-label="delete solve"
           />
         </Box>
         <Text fontSize="xl" fontWeight="extrabold" pt="10%">
