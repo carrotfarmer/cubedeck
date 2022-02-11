@@ -81,7 +81,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
         <PopoverCloseButton />
         <PopoverHeader fontWeight="bold">Add Solve</PopoverHeader>
         <PopoverBody>
-          <FormControl id="form">
+          <FormControl>
             <FocusLock>
               <HStack>
                 <NumberInput
