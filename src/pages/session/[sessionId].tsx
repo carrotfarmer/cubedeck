@@ -1,6 +1,7 @@
 import { auth, db } from "../../firebase.config";
 import {
   collection,
+  deleteDoc,
   doc,
   DocumentData,
   getDocs,
@@ -11,9 +12,15 @@ import {
   where,
 } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import React, { ReactElement, useState } from "react";
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
   Center,
@@ -36,6 +43,7 @@ import {
   PopoverTrigger,
   Spinner,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 
 import { Navbar } from "../../components/Navbar";
@@ -43,10 +51,8 @@ import { Session } from "../../types";
 
 import Head from "next/head";
 import { Solves } from "../../components/solves/Solves";
-import { EditSession } from "../../components/sessions/EditSession";
-import { EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { puzzleTypes } from "../../constants";
-import { update } from "lodash";
 
 const SessionPage = (): ReactElement<any, any> => {
   const router = useRouter();
@@ -68,6 +74,12 @@ const SessionPage = (): ReactElement<any, any> => {
   const [sessionTitle, setSessionTitle] = useState(sessionDocs.sessionTitle);
   const [sessionNotes, setSessionNotes] = useState(sessionDocs.sessionNotes);
   const [puzzleType, setPuzzleType] = useState(sessionDocs.sessionType);
+
+  const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+  const onClose = () => setIsAlertOpen(false);
+  const cancelRef = React.useRef();
+
+  const toast = useToast();
 
   // fetching user data
   if (loading) {
@@ -126,20 +138,19 @@ const SessionPage = (): ReactElement<any, any> => {
       );
     };
 
+    const deleteSession = async () => {
+      const _ref = await deleteDoc(doc(db, user.uid, String(sessionId)));
+    };
+
     return (
       <Box>
         <Head>
           <title>Cubedeck Session: {sessionDocs.sessionTitle}</title>
         </Head>
         <Navbar props={undefined} />
-        <Center>
+        <Center pt="1%">
           <HStack>
             <Box>
-              <Heading textAlign="center" pt="5%" fontSize="5xl">
-                {sessionDocs.sessionTitle}
-              </Heading>
-            </Box>
-            <Box pl="10%">
               <Popover isOpen={isOpen} onClose={close}>
                 <PopoverTrigger>
                   <Button colorScheme="orange" size="xs" onClick={open}>
@@ -173,7 +184,7 @@ const SessionPage = (): ReactElement<any, any> => {
                         <Button>Session Type</Button>
                       </MenuButton>
                       <Text fontSize="sm">
-                        Current session type: {puzzleType}
+                        Current session type: {sessionDocs.sessionType}
                       </Text>
                       <MenuList>
                         {puzzleTypes.map((puzzleType) => (
@@ -230,7 +241,67 @@ const SessionPage = (): ReactElement<any, any> => {
                 </PopoverContent>
               </Popover>
             </Box>
+            <Box>
+              <Button
+                colorScheme="red"
+                size="xs"
+                onClick={() => setIsAlertOpen(true)}
+              >
+                <Box pr="1">
+                  <DeleteIcon />
+                </Box>
+                Delete
+              </Button>
+              <>
+                <AlertDialog
+                  isOpen={isAlertOpen}
+                  leastDestructiveRef={cancelRef}
+                  onClose={onClose}
+                >
+                  <AlertDialogOverlay>
+                    <AlertDialogContent>
+                      <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                        Delete Session
+                      </AlertDialogHeader>
+
+                      <AlertDialogBody>
+                        Are you sure? This action cannot be undone.
+                      </AlertDialogBody>
+
+                      <AlertDialogFooter>
+                        <Button ref={cancelRef} onClick={onClose}>
+                          Cancel
+                        </Button>
+                        <Button
+                          colorScheme="red"
+                          onClick={() => {
+                            deleteSession();
+                            onClose();
+                            Router.push("/");
+                            toast({
+                              title: "Session deleted.",
+                              description: "Session deleted successfully.",
+                              status: "success",
+                              duration: 5000,
+                              isClosable: true,
+                            });
+                          }}
+                          ml={3}
+                        >
+                          Delete
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialogOverlay>
+                </AlertDialog>
+              </>
+            </Box>
           </HStack>
+        </Center>
+        <Center>
+          <Heading textAlign="center" pt="1%" fontSize="5xl">
+            {sessionDocs.sessionTitle}
+          </Heading>
         </Center>
         <Box pl="3%" pt="3%" pr="3%">
           <Solves session={sessionDocs} />
