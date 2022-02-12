@@ -12,7 +12,6 @@
     "@chakra-ui/theme-tools": "1.1.5",
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.1.5",
-    "@fontsource/fjalla-one": "^4.5.1",
     "@fontsource/staatliches": "^4.5.1",
     "firebase": "^9.6.5",
     "framer-motion": "^4.0.3",

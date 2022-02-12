@@ -1158,11 +1158,6 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.6.1.tgz#0c74724ba6e9ea6ad25a391eab60a79eaba4c556"
   integrity sha512-9FqhNjKQWpQ3fGnSOCovHOm+yhhiorKEqYLAfd525jWavunDJcx8rOW6i6ozAh+FbwcYMkL7b+3j4UR/30MpoQ==
 
-"@fontsource/fjalla-one@^4.5.1":
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/fjalla-one/-/fjalla-one-4.5.1.tgz#f8456373824c7a72c015c70cdff9806ad7980b2d"
-  integrity sha512-NqZ9tR3FhT+mtzyVTnz+TigvbbMdKFr2JtHbT2x/ajbO/gl9esxyrdlXNTevKoCYqYWLgEXK+J+yScpmMo59yg==
-
 "@fontsource/staatliches@^4.5.1":
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/@fontsource/staatliches/-/staatliches-4.5.1.tgz#fde3914e997d5a841db4dcb65dd52ee8a262106c"
