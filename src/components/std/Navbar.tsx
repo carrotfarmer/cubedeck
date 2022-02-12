@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { DarkModeSwitch } from "./DarkModeSwitch";
-import { LoginButton } from "./LoginButton";
+import { LoginButton } from "./ProfileButton";
 
 // header animation lib
 import { motion } from "framer-motion";

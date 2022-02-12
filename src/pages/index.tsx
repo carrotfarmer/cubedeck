@@ -2,9 +2,10 @@ import React, { ReactElement } from "react";
 import { auth } from "../firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Navbar } from "../components/std/Navbar";
-import { Box, Spinner, Text } from "@chakra-ui/react";
+import { Box, Divider, Spinner, Text } from "@chakra-ui/react";
 import { Sessions } from "../components/sessions/Sessions";
 import Head from "next/head";
+import { Groups } from "../components/groups/Groups";
 
 const Index = (): ReactElement<any, any> => {
   const [user, loading, error] = useAuthState(auth);
@@ -33,6 +34,8 @@ const Index = (): ReactElement<any, any> => {
         <Box>
           <Navbar props={undefined} />
           <Sessions />
+          <Divider pt="10" />
+          <Groups />
         </Box>
       </React.Fragment>
     );

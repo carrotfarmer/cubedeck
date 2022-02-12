@@ -12,3 +12,25 @@ export interface Session {
   uuid: string;
   solves: Solve[];
 }
+
+// Group colors
+export interface GroupColor {
+  colorVal: string;
+  colorName: string;
+}
+
+export interface Member {
+  name: string;
+  uuid: string;
+  profileImage: string;
+}
+export interface Group {
+  groupName: string;
+  groupColor: GroupColor;
+  groupBio: string;
+  groupImage: string;
+  groupMembers: Member[];
+  groupOwner: Member;
+  groupId: string;
+  // groupSessions: Session[];
+}

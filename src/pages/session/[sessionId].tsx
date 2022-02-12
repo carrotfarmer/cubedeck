@@ -308,6 +308,9 @@ const SessionPage = (): ReactElement<any, any> => {
             {sessionDocs.sessionTitle}
           </Heading>
         </Center>
+        <Center>
+          <Text color="gray.400">{sessionDocs.sessionNotes}</Text>
+        </Center>
         <Box pl="3%" pt="3%" pr="3%">
           <Solves session={sessionDocs} />
         </Box>

@@ -19,7 +19,6 @@ import { CreateSession } from "./CreateSession";
 import { collection } from "firebase/firestore";
 import { Session } from "../../types";
 import { SessionRenderer } from "./SessionRenderer";
-// import { Subheading } from "../../constants";
 
 interface SessionsProps {}
 
@@ -44,7 +43,7 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
   return (
     <Box textAlign="center" pt="5%">
       <Heading fontSize="4xl" fontWeight="bold">
-        {user.displayName}'s Practice Sessions
+        My Practice Sessions
       </Heading>{" "}
       <Grid templateColumns="repeat(5, 1fr)" gap={6} pr="2%" pl="2%" pt="2%">
         {sessions.map((session: Session) => (
@@ -56,7 +55,6 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
       <CreateSession />
       {sessions.length === 0 && (
         <>
-          <Divider pt="10" />
           <Center>
             <Text pt="10">Nothing here yet!</Text>
           </Center>
