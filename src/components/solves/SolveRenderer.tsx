@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase.config";
 import { Session, Solve } from "../../types";
+import { prettify } from "../../utils";
 
 interface SolveRendererProps {
   solve: Solve;
@@ -26,13 +27,6 @@ export const SolveRenderer: React.FC<SolveRendererProps> = ({
     useState<ResponsiveValue<VisibilityState>>("hidden");
   const [user, loading, error] = useAuthState(auth);
   const toast = useToast();
-
-  const prettify = (val: number): string => {
-    if (val < 10) {
-      return `0${val}`;
-    }
-    return val.toString();
-  };
 
   if (loading) {
     return <p>Loading...</p>;

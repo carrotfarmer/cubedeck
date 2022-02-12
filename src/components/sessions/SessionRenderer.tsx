@@ -1,8 +1,17 @@
 import React from "react";
-import { Session } from "../../types";
-import { Box, Text, Link as ChakraLink, Center } from "@chakra-ui/react";
+import { Session, Solve } from "../../types";
+import {
+  Box,
+  Text,
+  Link as ChakraLink,
+  Center,
+  Badge,
+  Divider,
+} from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { prettify, sessionTagColor } from "../../utils";
+import { SessionsStats } from "./SessionsStats";
 
 interface SessionRendererProps {
   session: Session;
@@ -11,6 +20,8 @@ interface SessionRendererProps {
 export const SessionRenderer: React.FC<SessionRendererProps> = ({
   session,
 }) => {
+  console.log(session.createdAt);
+
   return (
     <motion.div
       whileHover={{
@@ -21,7 +32,9 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
         border="2px solid orange"
         borderRadius="lg"
         boxShadow="xl"
-        boxSize="xs"
+        boxSize="md"
+        w={[300, 400, 400]}
+        h={[550, 500, 500]}
       >
         <Text pt="5">
           <Link href={`/session/${session.uuid}`}>
@@ -35,16 +48,18 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
               >
                 {session.sessionTitle}
               </Text>
+              <Box pl="2">
+                <Badge colorScheme={sessionTagColor(session.sessionType)}>
+                  {session.sessionType}
+                </Badge>
+              </Box>
             </Center>
           </Link>
+          <Divider pt="1" pb="1" />
         </Text>
 
         <Text color="gray.400">{session.sessionNotes}</Text>
-        <Box pr="5%">
-          <Text fontSize="sm" textAlign="right" color="gray.400">
-            {session.sessionType}
-          </Text>
-        </Box>
+        <SessionsStats session={session} />
       </Box>
     </motion.div>
   );

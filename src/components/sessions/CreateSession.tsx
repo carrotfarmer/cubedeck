@@ -20,13 +20,14 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase.config";
 import { DEFAULT_PUZZLE_TYPE, puzzleTypes } from "../../constants";
 import { v4 as uuidv4 } from "uuid";
-import { Session } from "../../types";
+import { Session, Solve } from "../../types";
+import Router from "next/router";
 
 interface CreateSessionProps {}
 
@@ -40,13 +41,20 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
   const finalRef = React.useRef();
 
   // helper function to add the session to firestore
-  const addSessionToFirestore = async (session: Session): Promise<void> => {
+  const addSessionToFirestore = async (session: {
+    sessionTitle: string;
+    sessionNotes: string;
+    sessionType: string;
+    uuid: string;
+    solves: Solve[];
+  }): Promise<void> => {
     const docRef = await setDoc(doc(db, `${user.uid}/${session.uuid}`), {
       sessionTitle: session.sessionTitle,
       sessionNotes: session.sessionNotes,
       sessionType: session.sessionType,
       uuid: session.uuid,
       solves: session.solves,
+      createdAt: serverTimestamp(),
     });
   };
 
@@ -61,6 +69,8 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
 
   const onPuzzleTypeChange = (newType: string): string =>
     (puzzleType = newType);
+
+  const uuid: string = uuidv4();
 
   return (
     <Box pt="2%">
@@ -125,7 +135,7 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
                     sessionTitle,
                     sessionNotes: sessionNote,
                     sessionType: puzzleType,
-                    uuid: uuidv4(),
+                    uuid,
                     solves: [],
                   });
                   setSessionTitle("");
@@ -139,6 +149,7 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
                     isClosable: true,
                   });
                   onClose();
+                  Router.push(`/session/${uuid}`);
                 } else {
                   toast({
                     title: "Session Title Required",

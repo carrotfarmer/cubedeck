@@ -11,11 +11,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase.config";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
-// custom font
-import "@fontsource/fjalla-one";
-
 import { CreateSession } from "./CreateSession";
-import { collection } from "firebase/firestore";
+import { collection, FieldValue, orderBy, query } from "firebase/firestore";
 import { Session } from "../../types";
 import { SessionRenderer } from "./SessionRenderer";
 
@@ -24,7 +21,7 @@ interface SessionsProps {}
 export const Sessions: React.FC<SessionsProps> = ({}) => {
   const [user, loading, error] = useAuthState(auth);
   const [sessions, loadingSessions, errorSessions] = useCollectionData(
-    collection(db, user.uid)
+    query(collection(db, user.uid), orderBy("createdAt", "desc"))
   );
 
   if (loadingSessions) {

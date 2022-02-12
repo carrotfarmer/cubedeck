@@ -1,3 +1,5 @@
+import { FieldValue } from "firebase/firestore";
+
 export interface Solve {
   minutes: number;
   seconds: number;
@@ -11,6 +13,7 @@ export interface Session {
   sessionType: string;
   uuid: string;
   solves: Solve[];
+  createdAt: FieldValue;
 }
 
 // Group colors
