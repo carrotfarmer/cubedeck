@@ -4,6 +4,7 @@ import {
   deleteDoc,
   doc,
   DocumentData,
+  DocumentReference,
   getDocs,
   query,
   QueryDocumentSnapshot,
@@ -12,7 +13,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Router, { useRouter } from "next/router";
+import Router, { NextRouter, useRouter } from "next/router";
 import React, { ReactElement, useState } from "react";
 import {
   AlertDialog,
@@ -55,7 +56,7 @@ import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { puzzleTypes } from "../../constants";
 
 const SessionPage = (): ReactElement<any, any> => {
-  const router = useRouter();
+  const router: NextRouter = useRouter();
   const { sessionId } = router.query;
 
   // currently logged in user
@@ -77,7 +78,7 @@ const SessionPage = (): ReactElement<any, any> => {
 
   const [isAlertOpen, setIsAlertOpen] = React.useState(false);
   const onClose = () => setIsAlertOpen(false);
-  const cancelRef = React.useRef();
+  const cancelRef: React.MutableRefObject<undefined> = React.useRef();
 
   const toast = useToast();
 
@@ -120,13 +121,17 @@ const SessionPage = (): ReactElement<any, any> => {
   // Session exists
   if (doesSessionExists) {
     // const sessionsRef = collection(db, user.uid);
-    const docRef = doc(db, user.uid, String(sessionId));
+    const docRef: DocumentReference<DocumentData> = doc(
+      db,
+      user.uid,
+      String(sessionId)
+    );
     // console.log(sessionDocs);
     const updateSession = async (
       sessionTitle: string,
       sessionNotes: string,
       sessionType: string
-    ) => {
+    ): Promise<void> => {
       const ref = await setDoc(
         docRef,
         {
@@ -138,7 +143,7 @@ const SessionPage = (): ReactElement<any, any> => {
       );
     };
 
-    const deleteSession = async () => {
+    const deleteSession = async (): Promise<void> => {
       const _ref = await deleteDoc(doc(db, user.uid, String(sessionId)));
     };
 
@@ -203,7 +208,7 @@ const SessionPage = (): ReactElement<any, any> => {
                     <Button
                       colorScheme="orange"
                       mr="2"
-                      onClick={() => {
+                      onClick={(): void => {
                         if (sessionTitle !== "") {
                           updateSession(
                             sessionTitle,

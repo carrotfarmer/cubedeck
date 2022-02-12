@@ -18,12 +18,13 @@ import {
   MenuList,
   MenuButton,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase.config";
-import { puzzleTypes } from "../../constants";
+import { DEFAULT_PUZZLE_TYPE, puzzleTypes } from "../../constants";
 import { v4 as uuidv4 } from "uuid";
 import { Session } from "../../types";
 
@@ -53,8 +54,10 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
   const [sessionTitle, setSessionTitle] = useState("");
   const [sessionNote, setSessionNote] = useState("");
 
+  const toast = useToast();
+
   // default puzzle type
-  let puzzleType: string = "3x3";
+  let puzzleType: string = DEFAULT_PUZZLE_TYPE;
 
   const onPuzzleTypeChange = (newType: string): string =>
     (puzzleType = newType);
@@ -128,9 +131,22 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
                   setSessionTitle("");
                   setSessionNote("");
                   puzzleType = "";
+                  toast({
+                    title: "Session Created",
+                    description: "Session created successfully",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                  });
                   onClose();
                 } else {
-                  alert("Please enter a session title");
+                  toast({
+                    title: "Session Title Required",
+                    description: "Please enter a session title",
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                  });
                 }
               }}
             >

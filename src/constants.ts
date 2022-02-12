@@ -1,4 +1,4 @@
-// Default type will be 3x3 coz... duh.
+// All the supported puzzle types
 export const puzzleTypes: string[] = [
   "2x2",
   "3x3",
@@ -9,6 +9,9 @@ export const puzzleTypes: string[] = [
   "Pyramix",
 ];
 
-export const Subheading = {
-  fontFamily: "Fjalla One",
-};
+// Default type will be 3x3 coz... duh.
+export const DEFAULT_PUZZLE_TYPE: string = "3x3";
+
+// export const Subheading = {
+//   fontFamily: "Fjalla One",
+// };
