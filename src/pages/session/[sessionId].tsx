@@ -47,7 +47,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { Navbar } from "../../components/Navbar";
+import { Navbar } from "../../components/std/Navbar";
 import { Session } from "../../types";
 
 import Head from "next/head";
