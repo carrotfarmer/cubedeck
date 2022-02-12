@@ -9,6 +9,7 @@ import {
   query,
   QueryDocumentSnapshot,
   QuerySnapshot,
+  serverTimestamp,
   setDoc,
   where,
 } from "firebase/firestore";
@@ -68,7 +69,9 @@ const SessionPage = (): ReactElement<any, any> => {
     sessionType: "",
     uuid: "",
     solves: [],
+    createdAt: serverTimestamp(),
   });
+
   const [isOpen, setIsOpen] = React.useState(false);
   const open = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);
@@ -112,6 +115,7 @@ const SessionPage = (): ReactElement<any, any> => {
             sessionType: sessionDocData.sessionType,
             uuid: sessionDocData.uuid,
             solves: sessionDocData.solves,
+            createdAt: sessionDocData.createdAt,
           });
         }
       });
