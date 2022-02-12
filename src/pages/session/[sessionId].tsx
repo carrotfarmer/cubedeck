@@ -218,7 +218,7 @@ const SessionPage = (): ReactElement<any, any> => {
                             sessionDocs.sessionType
                           );
                           close();
-                        } else if (puzzleType !== "") {
+                        } else if (puzzleType !== sessionDocs.sessionType) {
                           updateSession(
                             sessionDocs.sessionTitle,
                             sessionDocs.sessionNotes,
