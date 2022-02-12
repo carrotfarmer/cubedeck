@@ -1,10 +1,9 @@
 import {
   Box,
   Center,
-  Divider,
-  Grid,
   GridItem,
   Heading,
+  SimpleGrid,
   Text,
 } from "@chakra-ui/react";
 import React from "react";
@@ -45,13 +44,15 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
       <Heading fontSize="4xl" fontWeight="bold">
         My Practice Sessions
       </Heading>{" "}
-      <Grid templateColumns="repeat(5, 1fr)" gap={6} pr="2%" pl="2%" pt="2%">
+      <SimpleGrid columns={[1, null, 3]} spacingY={6} pt="10">
         {sessions.map((session: Session) => (
           <GridItem>
-            <SessionRenderer session={session} />
+            <Center>
+              <SessionRenderer session={session} />
+            </Center>
           </GridItem>
         ))}
-      </Grid>
+      </SimpleGrid>
       <CreateSession />
       {sessions.length === 0 && (
         <>
