@@ -48,10 +48,6 @@ export const SessionsStats: React.FC<SessionsStatsProps> = ({ session }) => {
       </Text>
       <Text>Solves: {session.solves.length}</Text>
       {session.solves.length > 0 && (
-        // <Text>
-        // Fastest solve: {prettify(fastestSolveMins)}:
-        // {prettify(fastestSolveSecs)}
-        // </Text>
         <>
           <Stat pt="5">
             <StatLabel>Average Solve Time</StatLabel>

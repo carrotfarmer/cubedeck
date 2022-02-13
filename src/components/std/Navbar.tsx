@@ -45,7 +45,12 @@ export const Navbar: React.FC<NavbarProps> = ({ props }) => {
                 rotate: 10,
               }}
             >
-              <Heading as="h1" size="lg" color="orange.100">
+              <Heading
+                as="h1"
+                size="lg"
+                color="orange.100"
+                letterSpacing="tight"
+              >
                 cubedeck
               </Heading>
             </motion.button>
@@ -65,9 +70,6 @@ export const Navbar: React.FC<NavbarProps> = ({ props }) => {
         flexGrow={1}
         mt={{ base: 4, md: 0 }}
       >
-        <Text>Docs</Text>
-        <Text>Examples</Text>
-        <Text>Blog</Text>
         <DarkModeSwitch />
       </Stack>
 

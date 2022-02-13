@@ -6,6 +6,7 @@ import { Box, Divider, Spinner, Text } from "@chakra-ui/react";
 import { Sessions } from "../components/sessions/Sessions";
 import Head from "next/head";
 import { Groups } from "../components/groups/Groups";
+import { LandingPage } from "../components/lpg/LandingPage";
 
 const Index = (): ReactElement<any, any> => {
   const [user, loading, error] = useAuthState(auth);
@@ -66,7 +67,7 @@ const Index = (): ReactElement<any, any> => {
       </Head>
       <Box>
         <Navbar props={undefined} />
-        <div>Not logged in</div>
+        <LandingPage />
       </Box>
     </React.Fragment>
   );
