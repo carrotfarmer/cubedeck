@@ -5,7 +5,6 @@ import { Navbar } from "../components/std/Navbar";
 import { Box, Divider, Spinner, Text } from "@chakra-ui/react";
 import { Sessions } from "../components/sessions/Sessions";
 import Head from "next/head";
-import { Groups } from "../components/groups/Groups";
 import { LandingPage } from "../components/lpg/LandingPage";
 
 const Index = (): ReactElement<any, any> => {
@@ -36,7 +35,6 @@ const Index = (): ReactElement<any, any> => {
           <Navbar props={undefined} />
           <Sessions />
           <Divider pt="10" />
-          <Groups />
         </Box>
       </React.Fragment>
     );
