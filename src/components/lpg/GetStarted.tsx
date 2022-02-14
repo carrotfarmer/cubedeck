@@ -12,17 +12,13 @@ export const GetStarted: React.FC<GetStartedProps> = ({}) => {
   return (
     <Box>
       <Center>
-        <Heading bgGradient="linear(to-l, #f7ab48, #f0b581)" bgClip="text">
+        <Heading bgClip="text" bgGradient="linear(to-l, #45ccc8, #1b77e0)">
           Get Started
         </Heading>
       </Center>
       <Center pl="10">Ready to get started with your Cubedeck journey?</Center>
       <Center pt="5" pb="10">
-        <Button
-          colorScheme="orange"
-          size="lg"
-          onClick={() => signInWithGoogle()}
-        >
+        <Button colorScheme="blue" size="lg" onClick={() => signInWithGoogle()}>
           Sign-up with
           <Box pl="1">
             <FaGoogle size="20px" />

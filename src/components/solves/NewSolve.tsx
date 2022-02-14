@@ -68,7 +68,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
       <PopoverTrigger>
         <Button
           variant="outline"
-          colorScheme="orange"
+          colorScheme="teal"
           height="28"
           width="36"
           onClick={open}
@@ -106,7 +106,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
         </PopoverBody>
         <PopoverFooter>
           <Button
-            colorScheme="orange"
+            colorScheme="teal"
             onClick={() => {
               if (minutes < 60 && seconds < 60 && minutes >= 0 && seconds > 0) {
                 addSolveToSession({

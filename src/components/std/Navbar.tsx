@@ -33,7 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({ props }) => {
       justify="space-between"
       wrap="wrap"
       padding={6}
-      bg="orange.400"
+      bg="blue.100"
       {...props}
     >
       <Flex align="center" mr={5}>
@@ -45,12 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({ props }) => {
                 rotate: 10,
               }}
             >
-              <Heading
-                as="h1"
-                size="lg"
-                color="orange.100"
-                letterSpacing="tight"
-              >
+              <Heading as="h1" size="lg" color="blue.800" letterSpacing="tight">
                 cubedeck
               </Heading>
             </motion.button>

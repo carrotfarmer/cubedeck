@@ -74,7 +74,7 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
 
   return (
     <Box pt="2%">
-      <Button onClick={onOpen} colorScheme="orange">
+      <Button onClick={onOpen} colorScheme="blue">
         Create a Session
       </Button>
       <Modal
@@ -127,7 +127,7 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
 
           <ModalFooter>
             <Button
-              colorScheme="orange"
+              colorScheme="blue"
               mr={3}
               onClick={() => {
                 if (sessionTitle !== "") {

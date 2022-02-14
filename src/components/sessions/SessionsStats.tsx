@@ -43,7 +43,7 @@ export const SessionsStats: React.FC<SessionsStatsProps> = ({ session }) => {
 
   return (
     <Box pt="3">
-      <Text fontSize="lg" fontWeight="bold" color="orange.400">
+      <Text fontSize="lg" fontWeight="bold" color="blue.400">
         Stats
       </Text>
       <Text>Solves: {session.solves.length}</Text>

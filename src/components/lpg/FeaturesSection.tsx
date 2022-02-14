@@ -8,7 +8,7 @@ export const Features: React.FC<FeaturesProps> = ({}) => {
   return (
     <Box>
       <Center>
-        <Heading bgGradient="linear(to-l, #f7ab48, #f0b581)" bgClip="text">
+        <Heading bgClip="text" bgGradient="linear(to-l, #45ccc8, #1b77e0)">
           Features
         </Heading>
       </Center>

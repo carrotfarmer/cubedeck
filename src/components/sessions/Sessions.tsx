@@ -38,7 +38,7 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
 
   return (
     <Box textAlign="center" pt="5%">
-      <Heading fontSize="4xl" fontWeight="bold">
+      <Heading fontSize="4xl" fontWeight="bold" color="blue.400">
         My Practice Sessions
       </Heading>{" "}
       <SimpleGrid columns={[1, null, 3]} spacingY={6} pt="10">

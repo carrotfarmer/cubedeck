@@ -39,8 +39,8 @@ export const LoginButton: React.FC<LoginButtonProps> = ({}) => {
 
   return (
     <Button
-      variant="outline"
-      _hover={{ bg: "orange.300", borderColor: "teal.100" }}
+      // variant="outline"
+      colorScheme="blue"
       onClick={() => signInWithGoogle()}
       borderRadius="lg"
     >

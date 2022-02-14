@@ -11,7 +11,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({}) => {
       <Center>
         <Heading
           fontSize={{ base: "36px", md: "40px", lg: "56px" }}
-          bgGradient="linear(to-l, #f7ab48, #f0b581)"
+          bgGradient="linear(to-l, #45ccc8, #1b77e0)"
           bgClip="text"
         >
           Welcome to Cubedeck!

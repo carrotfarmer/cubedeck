@@ -29,7 +29,7 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
       }}
     >
       <Box
-        border="2px solid orange"
+        border="2px solid #68a4e8"
         borderRadius="lg"
         boxShadow="xl"
         boxSize="md"
@@ -42,8 +42,8 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
               <Text
                 fontSize="xl"
                 fontWeight="bold"
-                color="orange.400"
-                _hover={{ color: "orange.300" }}
+                color="blue.400"
+                _hover={{ color: "blue.300" }}
                 as={ChakraLink}
               >
                 {session.sessionTitle}
