@@ -43,10 +43,15 @@ export const SessionsStats: React.FC<SessionsStatsProps> = ({ session }) => {
 
   return (
     <Box pt="3">
-      <Text fontSize="lg" fontWeight="bold" color="blue.400">
+      <Text fontSize="lg" fontWeight="bold" color="yellow.500">
         Stats
       </Text>
-      <Text>Solves: {session.solves.length}</Text>
+      <Text>
+        Solves:{" "}
+        <Text color="yellow.500" fontWeight="extrabold">
+          {session.solves.length}
+        </Text>
+      </Text>
       {session.solves.length > 0 && (
         <>
           <Stat pt="5">

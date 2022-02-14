@@ -39,10 +39,11 @@ export const LoginButton: React.FC<LoginButtonProps> = ({}) => {
 
   return (
     <Button
-      // variant="outline"
-      colorScheme="blue"
+      bgColor="yellow.300"
+      _hover={{ bgColor: "yellow.400" }}
       onClick={() => signInWithGoogle()}
       borderRadius="lg"
+      color="yellow.900"
     >
       Login
       <Box pl={"15%"}>

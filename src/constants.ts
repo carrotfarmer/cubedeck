@@ -29,3 +29,5 @@ export const DEFAULT_GROUP_COLOR: GroupColor = {
   colorVal: "orange.300",
   colorName: "Orange",
 };
+
+export const LINEAR_GRADIENT_THEME: string = "linear(to-l, #deb462, #c28610)";

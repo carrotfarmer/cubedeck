@@ -108,7 +108,10 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
           <Button
             colorScheme="teal"
             onClick={() => {
-              if (minutes < 60 && seconds < 60 && minutes >= 0 && seconds > 0) {
+              if (
+                Number(minutes * 60) + Number(seconds) > 0 &&
+                Number(minutes) + Number(seconds) < 3600
+              ) {
                 addSolveToSession({
                   minutes,
                   seconds,
@@ -118,13 +121,20 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
                 close();
                 toast({
                   title: "Added Solve!",
-                  description: "Successfuly added this solve to your session.",
+                  description: "Successfully added this solve to your session.",
                   status: "success",
                   duration: 5000,
                   isClosable: true,
                 });
               } else {
-                alert("Bruh.");
+                toast({
+                  title:
+                    "Invalid Solve! Unless you're a robot. Then I guess it's valid.",
+                  description: "Please enter a valid solve.",
+                  status: "error",
+                  duration: 5000,
+                  isClosable: true,
+                });
               }
             }}
           >

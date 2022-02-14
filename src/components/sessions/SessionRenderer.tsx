@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { prettify, sessionTagColor } from "../../utils";
+import { sessionTagColor } from "../../utils";
 import { SessionsStats } from "./SessionsStats";
 
 interface SessionRendererProps {
@@ -29,7 +29,7 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
       }}
     >
       <Box
-        border="2px solid #68a4e8"
+        border="2px solid #a67b24"
         borderRadius="lg"
         boxShadow="xl"
         boxSize="md"
@@ -42,8 +42,8 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
               <Text
                 fontSize="xl"
                 fontWeight="bold"
-                color="blue.400"
-                _hover={{ color: "blue.300" }}
+                color="yellow.500"
+                _hover={{ color: "yellow.700" }}
                 as={ChakraLink}
               >
                 {session.sessionTitle}
@@ -58,7 +58,9 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
           <Divider pt="1" pb="1" />
         </Text>
 
-        <Text color="gray.400">{session.sessionNotes}</Text>
+        <Text color="gray.500" pt="1">
+          {session.sessionNotes}
+        </Text>
         <SessionsStats session={session} />
       </Box>
     </motion.div>

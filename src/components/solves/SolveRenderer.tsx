@@ -45,7 +45,8 @@ export const SolveRenderer: React.FC<SolveRendererProps> = ({
       }}
     >
       <Box
-        bgColor="teal.300"
+        bgColor="blue.100"
+        color="black"
         height="28"
         width="36"
         textAlign="center"
@@ -59,8 +60,8 @@ export const SolveRenderer: React.FC<SolveRendererProps> = ({
             visibility={isHovering}
             color="red"
             size="xs"
-            bgColor="teal.300"
-            _hover={{ bgColor: "teal.200" }}
+            bgColor="blue.100"
+            _hover={{ bgColor: "blue.200" }}
             onClick={() => {
               deleteSolve();
               toast({

@@ -6,6 +6,8 @@ import {
   Box,
   Stack,
   Text,
+  Image,
+  HStack,
 } from "@chakra-ui/react";
 import React from "react";
 import { DarkModeSwitch } from "./DarkModeSwitch";
@@ -33,7 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({ props }) => {
       justify="space-between"
       wrap="wrap"
       padding={6}
-      bg="blue.100"
+      bg="yellow.200"
       {...props}
     >
       <Flex align="center" mr={5}>
@@ -45,9 +47,18 @@ export const Navbar: React.FC<NavbarProps> = ({ props }) => {
                 rotate: 10,
               }}
             >
-              <Heading as="h1" size="lg" color="blue.800" letterSpacing="tight">
-                cubedeck
-              </Heading>
+              <HStack spacing="0.5">
+                <Heading size="lg" color="yellow.800" letterSpacing="tight">
+                  cube
+                </Heading>
+                <Image
+                  src="https://www.pinclipart.com/picdir/big/541-5413373_clip-art-png-download.png"
+                  boxSize="7"
+                />
+                <Heading size="lg" color="yellow.800" letterSpacing="tight">
+                  deck
+                </Heading>
+              </HStack>
             </motion.button>
           </Box>
         </Link>

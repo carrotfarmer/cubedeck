@@ -1,5 +1,6 @@
 import { Box, Center, Code, Heading, Text, Image } from "@chakra-ui/react";
 import React from "react";
+import { LINEAR_GRADIENT_THEME } from "../../constants";
 import { Features } from "./FeaturesSection";
 import { GetStarted } from "./GetStarted";
 
@@ -11,7 +12,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({}) => {
       <Center>
         <Heading
           fontSize={{ base: "36px", md: "40px", lg: "56px" }}
-          bgGradient="linear(to-l, #45ccc8, #1b77e0)"
+          bgGradient={LINEAR_GRADIENT_THEME}
           bgClip="text"
         >
           Welcome to Cubedeck!

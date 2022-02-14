@@ -74,7 +74,7 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
 
   return (
     <Box pt="2%">
-      <Button onClick={onOpen} colorScheme="blue">
+      <Button onClick={onOpen} colorScheme="yellow">
         Create a Session
       </Button>
       <Modal

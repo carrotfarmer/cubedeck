@@ -78,7 +78,7 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
 
   return (
     <Box pt="10">
-      <Button colorScheme="blue" onClick={onOpen}>
+      <Button colorScheme="yellow" onClick={onOpen}>
         Create Group
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="2xl">
@@ -143,7 +143,7 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
 
           <ModalFooter>
             <Button
-              colorScheme="blue"
+              colorScheme="yellow"
               mr={3}
               onClick={() => {
                 addGroupToFirestore(grpColor, grpImgUrl, grpName, grpBio, v4());
