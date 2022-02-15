@@ -1,0 +1,51 @@
+import {
+  Avatar,
+  AvatarGroup,
+  Box,
+  Center,
+  Flex,
+  Spacer,
+  Text,
+} from "@chakra-ui/react";
+import React from "react";
+import { Group, Member } from "../../types";
+
+interface GroupRendererProps {
+  group: Group;
+}
+
+export const GroupRenderer: React.FC<GroupRendererProps> = ({ group }) => {
+  return (
+    <Box
+      pt="5"
+      borderRadius="md"
+      boxShadow="sm"
+      borderColor={group.grpColor.colorVal}
+      borderWidth="thin"
+    >
+      <Flex>
+        <Box pl="10">
+          <Center>
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              color={group.grpColor.colorVal}
+            >
+              {group.grpName}
+            </Text>
+          </Center>
+          <Text>{group.grpBio}</Text>
+          <AvatarGroup>
+            {group.grpMembers.map((member: Member) => (
+              <Avatar name={member.name} src={member.profileImage} size="sm" />
+            ))}
+          </AvatarGroup>
+        </Box>
+        <Spacer />
+        <Box pr="5">
+          <Avatar name={group.grpName} src={group.grpImg} size="xl" />
+        </Box>
+      </Flex>
+    </Box>
+  );
+};

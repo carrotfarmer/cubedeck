@@ -130,7 +130,6 @@ const SessionPage = (): ReactElement<any, any> => {
       user.uid,
       String(sessionId)
     );
-    // console.log(sessionDocs);
     const updateSession = async (
       sessionTitle: string,
       sessionNotes: string,
@@ -156,7 +155,7 @@ const SessionPage = (): ReactElement<any, any> => {
         <Head>
           <title>Cubedeck Session: {sessionDocs.sessionTitle}</title>
         </Head>
-        <Navbar props={undefined} />
+        <Navbar />
         <Center pt="1%">
           <HStack>
             <Box>
@@ -324,7 +323,7 @@ const SessionPage = (): ReactElement<any, any> => {
     return (
       <Box>
         {/* 404 not found; cannot return 404 because this component is rendered even on data loading */}
-        <Navbar props={undefined} />
+        <Navbar />
       </Box>
     );
   }

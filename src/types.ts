@@ -28,12 +28,12 @@ export interface Member {
   profileImage: string;
 }
 export interface Group {
-  groupName: string;
-  groupColor: GroupColor;
-  groupBio: string;
-  groupImage: string;
-  groupMembers: Member[];
-  groupOwner: Member;
+  grpName: string;
+  grpColor: GroupColor;
+  grpBio: string;
+  grpImg: string;
+  grpMembers: Member[];
+  grpOwner: Member;
   groupId: string;
   // groupSessions: Session[];
 }

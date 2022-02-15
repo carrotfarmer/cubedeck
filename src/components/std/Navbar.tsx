@@ -8,10 +8,14 @@ import {
   Text,
   Image,
   HStack,
+  Button,
+  IconButton,
 } from "@chakra-ui/react";
 import React from "react";
 import { DarkModeSwitch } from "./DarkModeSwitch";
 import { LoginButton } from "./ProfileButton";
+import { NextRouter, useRouter } from "next/router";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 // header animation lib
 import { motion } from "framer-motion";
@@ -20,13 +24,12 @@ import { motion } from "framer-motion";
 import "@fontsource/staatliches";
 import Link from "next/link";
 
-interface NavbarProps {
-  props;
-}
+interface NavbarProps {}
 
-export const Navbar: React.FC<NavbarProps> = ({ props }) => {
+export const Navbar: React.FC<NavbarProps> = ({}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleToggle = () => (isOpen ? onClose() : onOpen());
+  const router: NextRouter = useRouter();
 
   return (
     <Flex
@@ -36,7 +39,6 @@ export const Navbar: React.FC<NavbarProps> = ({ props }) => {
       wrap="wrap"
       padding={6}
       bg="yellow.200"
-      {...props}
     >
       <Flex align="center" mr={5}>
         <Link href="/">
@@ -65,7 +67,13 @@ export const Navbar: React.FC<NavbarProps> = ({ props }) => {
       </Flex>
 
       <Box display={{ base: "block", md: "none" }} onClick={handleToggle}>
-        <HamburgerIcon />
+        <IconButton
+          icon={<HamburgerIcon />}
+          aria-label="Mobile navbar toggle"
+          bgColor="yellow.800"
+          _hover={{ bgColor: "yellow.700" }}
+          color="white"
+        />
       </Box>
 
       <Stack
@@ -76,7 +84,33 @@ export const Navbar: React.FC<NavbarProps> = ({ props }) => {
         flexGrow={1}
         mt={{ base: 4, md: 0 }}
       >
-        <DarkModeSwitch />
+        <HStack>
+          <DarkModeSwitch />
+          {router.pathname === "/" ? (
+            <Link href="/groups">
+              <Button
+                bgColor="yellow.800"
+                _hover={{ bgColor: "yellow.700" }}
+                color="white"
+              >
+                Groups
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/">
+              <Button
+                bgColor="yellow.800"
+                _hover={{ bgColor: "yellow.700" }}
+                color="white"
+              >
+                <Box pr="1">
+                  <AiOutlineArrowLeft />
+                </Box>
+                Home
+              </Button>
+            </Link>
+          )}
+        </HStack>
       </Stack>
 
       <Box

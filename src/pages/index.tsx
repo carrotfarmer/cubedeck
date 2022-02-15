@@ -32,7 +32,7 @@ const Index = (): ReactElement<any, any> => {
           <title>Cubedeck | {user.displayName}</title>
         </Head>
         <Box>
-          <Navbar props={undefined} />
+          <Navbar />
           <Sessions />
           <Divider pt="10" />
         </Box>
@@ -48,7 +48,7 @@ const Index = (): ReactElement<any, any> => {
           <title>Cubedeck: Error</title>
         </Head>
         <Box>
-          <Navbar props={undefined} />
+          <Navbar />
           <Text fontWeight="bold" color="red.200">
             Oopsie-doopsies! There was a glitch on our side...
           </Text>
@@ -64,7 +64,7 @@ const Index = (): ReactElement<any, any> => {
         <title>Cubedeck</title>
       </Head>
       <Box>
-        <Navbar props={undefined} />
+        <Navbar />
         <LandingPage />
       </Box>
     </React.Fragment>

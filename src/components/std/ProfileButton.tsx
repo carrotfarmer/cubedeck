@@ -11,6 +11,7 @@ import React from "react";
 import { FaGoogle } from "react-icons/fa";
 import { auth } from "../../firebase.config";
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
+import Router from "next/router";
 
 interface LoginButtonProps {}
 
@@ -28,6 +29,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({}) => {
           <MenuItem
             onClick={async () => {
               await auth.signOut();
+              Router.push("/");
             }}
           >
             Log Out

@@ -20,8 +20,6 @@ interface SessionRendererProps {
 export const SessionRenderer: React.FC<SessionRendererProps> = ({
   session,
 }) => {
-  console.log(session.createdAt);
-
   return (
     <motion.div
       whileHover={{
