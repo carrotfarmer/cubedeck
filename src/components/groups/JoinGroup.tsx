@@ -37,7 +37,7 @@ export const JoinGroup: React.FC<JoinGroupProps> = ({}) => {
   const [groupsData, loadingData, errorData] = useCollectionData(
     collection(db, "groups")
   );
-  const [grp, setGrp] = useState<DocumentData | null>(null);
+  // const [grp, setGrp] = useState<DocumentData | null>(null);
   const focusRef = React.useRef();
 
   const toast = useToast();
@@ -49,19 +49,35 @@ export const JoinGroup: React.FC<JoinGroupProps> = ({}) => {
   const joinGroup = async (inviteCode: string): Promise<null | void> => {
     const group: DocumentData = getGroupByInviteCode(inviteCode, groupsData);
 
-    setGrp(group);
-    const groupRef: DocumentReference<DocumentData> = doc(
-      db,
-      `groups/${group.grpId}`
-    );
+    if (group) {
+      const groupRef: DocumentReference<DocumentData> = doc(
+        db,
+        `groups/${group.grpId}`
+      );
 
-    await updateDoc(groupRef, {
-      grpMembers: arrayUnion({
-        name: user.displayName,
-        uuid: user.uid,
-        profileImage: user.photoURL,
-      }),
-    });
+      await updateDoc(groupRef, {
+        grpMembers: arrayUnion({
+          name: user.displayName,
+          uuid: user.uid,
+          profileImage: user.photoURL,
+        }),
+      });
+      toast({
+        title: "Joined Group!",
+        description: `You have successfully joined the group!`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: "Invalid invite code",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -94,25 +110,9 @@ export const JoinGroup: React.FC<JoinGroupProps> = ({}) => {
               colorScheme="yellow"
               mr={3}
               onClick={() => {
-                if (grp !== null) {
-                  joinGroup(inviteCode);
-                  toast({
-                    title: "Joined Group!",
-                    description: `You have successfully joined ${grp.grpName}!`,
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                  });
-                  onClose();
-                } else {
-                  toast({
-                    title: "Invalid Invite Code",
-                    description: "No group with this invite code.",
-                    status: "error",
-                    duration: 5000,
-                    isClosable: true,
-                  });
-                }
+                joinGroup(inviteCode);
+
+                onClose();
               }}
             >
               Join!
