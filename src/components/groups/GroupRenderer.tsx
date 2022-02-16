@@ -3,6 +3,7 @@ import {
   AvatarGroup,
   Box,
   Center,
+  Divider,
   Flex,
   Spacer,
   Text,
@@ -22,6 +23,9 @@ export const GroupRenderer: React.FC<GroupRendererProps> = ({ group }) => {
       boxShadow="sm"
       borderColor={group.grpColor.colorVal}
       borderWidth="thin"
+      boxSize="sm"
+      width="50"
+      height="2xs"
     >
       <Flex>
         <Box pl="10">
@@ -34,12 +38,21 @@ export const GroupRenderer: React.FC<GroupRendererProps> = ({ group }) => {
               {group.grpName}
             </Text>
           </Center>
-          <Text>{group.grpBio}</Text>
-          <AvatarGroup>
-            {group.grpMembers.map((member: Member) => (
-              <Avatar name={member.name} src={member.profileImage} size="sm" />
-            ))}
-          </AvatarGroup>
+          <Text pt="5">{group.grpBio}</Text>
+          <Box>
+            <Text fontWeight="bold" color={group.grpColor.colorVal}>
+              Members
+            </Text>
+            <AvatarGroup>
+              {group.grpMembers.map((member: Member) => (
+                <Avatar
+                  name={member.name}
+                  src={member.profileImage}
+                  size="sm"
+                />
+              ))}
+            </AvatarGroup>
+          </Box>
         </Box>
         <Spacer />
         <Box pr="5">

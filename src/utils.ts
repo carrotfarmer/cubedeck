@@ -1,3 +1,6 @@
+import { DocumentData } from "firebase/firestore";
+import { Group } from "./types";
+
 export const prettify = (val: number): string => {
   if (val < 10) {
     return `0${val}`;
@@ -34,4 +37,22 @@ export const convertToMinutesAndSeconds = (
     minutes: Math.floor(seconds / 60),
     seconds: seconds % 60,
   };
+};
+
+// https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+export const generateInviteCode = (length: number): string => {
+  let result: string = "";
+  const characters: string =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+};
+
+export const getGroupByInviteCode = (
+  inviteCode: string,
+  groups: DocumentData[]
+) => {
+  return groups.find((group) => group.inviteCode === inviteCode);
 };

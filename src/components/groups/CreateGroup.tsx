@@ -19,6 +19,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
@@ -27,16 +28,20 @@ import { v4 } from "uuid";
 import { DEFAULT_GROUP_COLOR, GROUP_COLORS } from "../../constants";
 import { auth, db } from "../../firebase.config";
 import { GroupColor } from "../../types";
+import { generateInviteCode } from "../../utils";
 
 interface CreateGroupProps {}
 
 export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
 
   const [grpColor, setGrpColor] = useState<GroupColor>(DEFAULT_GROUP_COLOR);
   const [grpImgUrl, setGrpImgUrl] = useState<string>("https://broken-lmao.org");
   const [grpName, setGrpName] = useState<string>("");
   const [grpBio, setGrpBio] = useState<string>("");
+
+  const toast = useToast();
 
   const [user, loading, error] = useAuthState(auth);
 
@@ -47,6 +52,7 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
   const ownerDpName = user.displayName;
   const ownerUid = user.uid;
   const ownerPfp = user.photoURL;
+  const inviteCode = generateInviteCode(7);
 
   const addGroupToFirestore = async (
     grpColor: GroupColor,
@@ -73,6 +79,7 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
       grpImg,
       grpColor,
       grpId,
+      inviteCode,
     });
   };
 
@@ -146,8 +153,34 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
               colorScheme="yellow"
               mr={3}
               onClick={() => {
-                addGroupToFirestore(grpColor, grpImgUrl, grpName, grpBio, v4());
-                onClose();
+                if (grpName.length >= 3 && grpBio.length >= 3) {
+                  addGroupToFirestore(
+                    grpColor,
+                    grpImgUrl,
+                    grpName,
+                    grpBio,
+                    v4()
+                  );
+                  onClose();
+                  toast({
+                    title: "Created Group",
+                    description:
+                      "Group created successfully! Invite copied to clipboard. You can now add your friends by sharing the invite code!",
+                    status: "success",
+                    duration: 10000,
+                    isClosable: true,
+                  });
+                  navigator.clipboard.writeText(inviteCode);
+                } else {
+                  toast({
+                    title: "Invalid inputs",
+                    description:
+                      "Group name and bio must be atleast 3 characters long",
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                  });
+                }
               }}
             >
               Create!

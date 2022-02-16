@@ -34,6 +34,6 @@ export interface Group {
   grpImg: string;
   grpMembers: Member[];
   grpOwner: Member;
-  groupId: string;
-  // groupSessions: Session[];
+  grpId: string;
+  inviteCode: string;
 }
