@@ -1,5 +1,5 @@
 import { DocumentData } from "firebase/firestore";
-import { Group } from "./types";
+import { Group, Member } from "./types";
 
 export const prettify = (val: number): string => {
   if (val < 10) {
@@ -55,4 +55,18 @@ export const getGroupByInviteCode = (
   groups: DocumentData[]
 ) => {
   return groups.find((group) => group.inviteCode === inviteCode);
+};
+
+export const getGroupById = (id: string | string[], groups: DocumentData[]) => {
+  return groups.find((group) => group.grpId === id);
+};
+
+export const isUserInGroup = (userId: string, group: DocumentData): boolean => {
+  group.grpMembers.map((member: Member) => {
+    if (member.uuid === userId) {
+      return false;
+    }
+  });
+
+  return true;
 };

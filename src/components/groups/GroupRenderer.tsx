@@ -8,6 +8,7 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import React from "react";
 import { Group, Member } from "../../types";
 
@@ -30,13 +31,16 @@ export const GroupRenderer: React.FC<GroupRendererProps> = ({ group }) => {
       <Flex>
         <Box pl="10">
           <Center>
-            <Text
-              fontSize="xl"
-              fontWeight="bold"
-              color={group.grpColor.colorVal}
-            >
-              {group.grpName}
-            </Text>
+            <Link href={`/group/${group.grpId}`}>
+              <Text
+                fontSize="xl"
+                fontWeight="bold"
+                color={group.grpColor.colorVal}
+                _hover={{ textDecoration: "underline", cursor: "pointer" }}
+              >
+                {group.grpName}
+              </Text>
+            </Link>
           </Center>
           <Text pt="5">{group.grpBio}</Text>
           <Box>
