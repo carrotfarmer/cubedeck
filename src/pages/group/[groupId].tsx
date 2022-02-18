@@ -10,6 +10,7 @@ import {
   Button,
   Center,
   Circle,
+  Divider,
   FormControl,
   FormLabel,
   Heading,
@@ -27,6 +28,7 @@ import {
   PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
+  Spacer,
   Text,
   toast,
   useToast,
@@ -46,6 +48,7 @@ import Head from "next/head";
 import { GroupColor } from "../../types";
 import { DEFAULT_GROUP_COLOR, GROUP_COLORS } from "../../constants";
 import { ImExit } from "react-icons/im";
+import { GroupTabs } from "../../components/groups/GroupTabs";
 
 const GroupPage: NextPage = () => {
   const router: NextRouter = useRouter();
@@ -280,72 +283,86 @@ const GroupPage: NextPage = () => {
 
           <Center pt="5">
             <HStack>
-              <Heading fontSize="4xl">{group.grpName}</Heading>
-              {/* Leave group */}
-              {user.uid !== group.grpOwner.uuid && (
-                <Box>
-                  <Button
-                    colorScheme="red"
-                    size="xs"
-                    pr="2"
-                    onClick={() => setIsLeaveAlertOpen(true)}
-                  >
-                    <Box pr="1">
-                      <ImExit />
-                    </Box>
-                    Leave
-                  </Button>
-                  <>
-                    <AlertDialog
-                      isOpen={isLeaveAlertOpen}
-                      leastDestructiveRef={leaveAlertCancelRef}
-                      onClose={onLeaveAlertClose}
+              <Box>
+                <Avatar src={group.grpImg} name={group.grpName} size="xl" />
+              </Box>
+              <Spacer />
+              <Box>
+                <Heading fontSize="4xl">{group.grpName}</Heading>
+                {/* Leave group */}
+                {user.uid !== group.grpOwner.uuid && (
+                  <Box>
+                    <Button
+                      colorScheme="red"
+                      size="xs"
+                      pr="2"
+                      onClick={() => setIsLeaveAlertOpen(true)}
                     >
-                      <AlertDialogOverlay>
-                        <AlertDialogContent>
-                          <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                            Leave Group
-                          </AlertDialogHeader>
+                      <Box pr="1">
+                        <ImExit />
+                      </Box>
+                      Leave
+                    </Button>
+                    <>
+                      <AlertDialog
+                        isOpen={isLeaveAlertOpen}
+                        leastDestructiveRef={leaveAlertCancelRef}
+                        onClose={onLeaveAlertClose}
+                      >
+                        <AlertDialogOverlay>
+                          <AlertDialogContent>
+                            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                              Leave Group
+                            </AlertDialogHeader>
 
-                          <AlertDialogBody>
-                            Are you sure you want to leave "{group.grpName}"?
-                            You can still join again.
-                          </AlertDialogBody>
+                            <AlertDialogBody>
+                              Are you sure you want to leave "{group.grpName}
+                              "? You can still join again.
+                            </AlertDialogBody>
 
-                          <AlertDialogFooter>
-                            <Button
-                              ref={leaveAlertCancelRef}
-                              onClick={onLeaveAlertClose}
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              colorScheme="red"
-                              onClick={() => {
-                                removeFromGroup(group, user.uid);
-                                Router.push("/groups");
-                                toast({
-                                  title: "Left group.",
-                                  description: "You have left the group.",
-                                  status: "success",
-                                  duration: 5000,
-                                  isClosable: true,
-                                });
-                              }}
-                              ml={3}
-                            >
-                              Delete
-                            </Button>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialogOverlay>
-                    </AlertDialog>
-                  </>
-                </Box>
-              )}
+                            <AlertDialogFooter>
+                              <Button
+                                ref={leaveAlertCancelRef}
+                                onClick={onLeaveAlertClose}
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                colorScheme="red"
+                                onClick={() => {
+                                  removeFromGroup(group, user.uid);
+                                  Router.push("/groups");
+                                  toast({
+                                    title: "Left group.",
+                                    description: "You have left the group.",
+                                    status: "success",
+                                    duration: 5000,
+                                    isClosable: true,
+                                  });
+                                }}
+                                ml={3}
+                              >
+                                Delete
+                              </Button>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialogOverlay>
+                      </AlertDialog>
+                    </>
+                  </Box>
+                )}
+              </Box>
             </HStack>
           </Center>
-          <Text>{group.grpBio}</Text>
+          <Center pt="5">
+            <Text>{group.grpBio}</Text>
+          </Center>
+          <Divider pt="10" />
+          <Box pt="10">
+            <Center>
+              <GroupTabs group={group} />
+            </Center>
+          </Box>
         </Box>
       );
     }

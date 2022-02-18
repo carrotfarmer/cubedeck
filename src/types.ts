@@ -27,6 +27,12 @@ export interface Member {
   uuid: string;
   profileImage: string;
 }
+
+export interface GroupSolve {
+  solve: Solve;
+  member: Member;
+}
+
 export interface Group {
   grpName: string;
   grpColor: GroupColor;
@@ -36,4 +42,5 @@ export interface Group {
   grpOwner: Member;
   grpId: string;
   inviteCode: string;
+  solves: GroupSolve[];
 }

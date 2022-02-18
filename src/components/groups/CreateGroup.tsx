@@ -22,7 +22,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { MutableRefObject, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { v4 } from "uuid";
 import { DEFAULT_GROUP_COLOR, GROUP_COLORS } from "../../constants";
@@ -42,6 +42,8 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
   const [grpBio, setGrpBio] = useState<string>("");
 
   const toast = useToast();
+
+  const initialFocusRef: React.MutableRefObject<undefined> = React.useRef();
 
   const [user, loading, error] = useAuthState(auth);
 
@@ -88,7 +90,12 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
       <Button colorScheme="yellow" onClick={onOpen}>
         Create Group
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size="2xl"
+        initialFocusRef={initialFocusRef}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create Group</ModalHeader>
@@ -101,6 +108,7 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setGrpName(e.currentTarget.value)
                 }
+                ref={initialFocusRef}
               />
             </FormControl>
             <FormControl pt="5">
