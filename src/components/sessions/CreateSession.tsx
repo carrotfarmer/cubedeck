@@ -26,7 +26,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase.config";
 import { DEFAULT_PUZZLE_TYPE, puzzleTypes } from "../../constants";
 import { v4 as uuidv4 } from "uuid";
-import { Session, Solve } from "../../types";
+import { Solve } from "../../types";
 import Router from "next/router";
 
 interface CreateSessionProps {}
@@ -127,7 +127,7 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
 
           <ModalFooter>
             <Button
-              colorScheme="blue"
+              colorScheme="yellow"
               mr={3}
               onClick={() => {
                 if (sessionTitle !== "") {

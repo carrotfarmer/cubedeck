@@ -53,7 +53,7 @@ import { Session } from "../../types";
 
 import Head from "next/head";
 import { Solves } from "../../components/solves/Solves";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { puzzleTypes } from "../../constants";
 
 const SessionPage = (): ReactElement<any, any> => {
@@ -82,6 +82,8 @@ const SessionPage = (): ReactElement<any, any> => {
   const [isAlertOpen, setIsAlertOpen] = React.useState(false);
   const onClose = () => setIsAlertOpen(false);
   const cancelRef: React.MutableRefObject<undefined> = React.useRef();
+
+  const initialFocusRef = React.useRef();
 
   const toast = useToast();
 
@@ -159,7 +161,11 @@ const SessionPage = (): ReactElement<any, any> => {
         <Center pt="1%">
           <HStack>
             <Box>
-              <Popover isOpen={isOpen} onClose={close}>
+              <Popover
+                isOpen={isOpen}
+                onClose={close}
+                initialFocusRef={initialFocusRef}
+              >
                 <PopoverTrigger>
                   <Button colorScheme="orange" size="xs" onClick={open}>
                     <Box pr="1">
@@ -178,6 +184,7 @@ const SessionPage = (): ReactElement<any, any> => {
                       <Input
                         placeholder={sessionDocs.sessionTitle}
                         onChange={(e) => setSessionTitle(e.currentTarget.value)}
+                        ref={initialFocusRef}
                       />
                     </FormControl>
                     <FormControl pt="5">
@@ -189,9 +196,12 @@ const SessionPage = (): ReactElement<any, any> => {
                     </FormControl>
                     <Menu>
                       <MenuButton pt="5%">
-                        <Button>Session Type</Button>
+                        <Button>
+                          Session Type
+                          <ChevronDownIcon />
+                        </Button>
                       </MenuButton>
-                      <Text fontSize="sm">
+                      <Text fontSize="sm" pt="1">
                         Current session type: {sessionDocs.sessionType}
                       </Text>
                       <MenuList>

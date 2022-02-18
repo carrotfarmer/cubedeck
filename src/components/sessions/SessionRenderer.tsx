@@ -41,7 +41,7 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
                 fontSize="xl"
                 fontWeight="bold"
                 color="yellow.500"
-                _hover={{ color: "yellow.700" }}
+                _hover={{ color: "yellow.600" }}
                 as={ChakraLink}
               >
                 {session.sessionTitle}
