@@ -5,9 +5,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  Avatar,
   Box,
   Button,
   Center,
+  Circle,
   FormControl,
   FormLabel,
   Heading,
@@ -29,7 +31,7 @@ import {
   toast,
   useToast,
 } from "@chakra-ui/react";
-import { collection, deleteDoc, doc } from "firebase/firestore";
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
 import type { NextPage } from "next";
 import Router, { type NextRouter, useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -38,10 +40,11 @@ import { auth, db } from "../../firebase.config";
 import { getGroupById, isUserInGroup } from "../../utils";
 import DefaultErrorPage from "next/error";
 import { Navbar } from "../../components/std/Navbar";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
 import Head from "next/head";
-import { puzzleTypes } from "../../constants";
+import { GroupColor } from "../../types";
+import { DEFAULT_GROUP_COLOR, GROUP_COLORS } from "../../constants";
 
 const GroupPage: NextPage = () => {
   const router: NextRouter = useRouter();
@@ -61,7 +64,9 @@ const GroupPage: NextPage = () => {
   const open = () => setIsOpen(!isOpen);
   const close = () => setIsOpen(false);
 
-  const [grpName, setGrpName] = useState<string>("");
+  const [grpColor, setGrpColor] = useState(DEFAULT_GROUP_COLOR);
+
+  const initialFocusRef = React.useRef();
 
   if (loadingGroupsData || loading) {
     return <p>Loading...</p>;
@@ -73,13 +78,40 @@ const GroupPage: NextPage = () => {
 
   const group = getGroupById(groupId, groupsData);
 
+  let grpName: string = group.grpName;
+  let grpBio: string = group.grpBio;
+  let grpImg: string = group.grpImg;
+
+  const setGrpName = (newName: string) => (grpName = newName);
+  const setGrpBio = (newBio: string) => (grpBio = newBio);
+  const setGrpImg = (newImg: string) => (grpImg = newImg);
+
   const deleteGroup = async (): Promise<void> => {
     const _ref = await deleteDoc(doc(db, "groups", String(groupId)));
+  };
+
+  const updateGroup = async (
+    grpName: string,
+    grpBio: string,
+    grpImg: string,
+    grpColor: GroupColor
+  ): Promise<void> => {
+    const ref = await setDoc(
+      doc(db, "groups", String(groupId)),
+      {
+        grpName,
+        grpBio,
+        grpImg,
+        grpColor,
+      },
+      { merge: true }
+    );
   };
 
   // group found
   if (group) {
     const isUserInGrp: boolean = isUserInGroup(user.uid, group);
+
     if (isUserInGrp) {
       return (
         <Box>
@@ -94,13 +126,13 @@ const GroupPage: NextPage = () => {
             <Center pt="5">
               <HStack>
                 <Box>
-                  <Popover>
+                  <Popover
+                    isOpen={isOpen}
+                    onClose={close}
+                    initialFocusRef={initialFocusRef}
+                  >
                     <PopoverTrigger>
-                      <Button
-                        colorScheme="orange"
-                        size="xs"
-                        onClick={() => console.log("bruh")}
-                      >
+                      <Button colorScheme="orange" size="xs" onClick={open}>
                         <Box pr="1">
                           <EditIcon />
                         </Box>
@@ -111,7 +143,7 @@ const GroupPage: NextPage = () => {
                       <PopoverArrow />
                       <PopoverCloseButton />
                       <PopoverHeader fontWeight="bold">
-                        Edit Session
+                        Edit Group
                       </PopoverHeader>
                       <PopoverBody>
                         <FormControl>
@@ -119,14 +151,52 @@ const GroupPage: NextPage = () => {
                           <Input
                             placeholder={group.grpName}
                             onChange={(e) => setGrpName(e.currentTarget.value)}
+                            ref={initialFocusRef}
                           />
                         </FormControl>
                         <FormControl pt="5">
                           <FormLabel>Group Bio</FormLabel>
                           <Input
                             placeholder={group.grpBio}
-                            // onChange={(e) => (e.currentTarget.value)}
+                            onChange={(e) => setGrpBio(e.currentTarget.value)}
                           />
+                        </FormControl>
+                        <HStack>
+                          <FormControl pt="5">
+                            <FormLabel>Group Image URL</FormLabel>
+                            <Input
+                              placeholder={group.grpImg}
+                              onChange={(e) => setGrpImg(e.currentTarget.value)}
+                            />
+                          </FormControl>
+                          <Avatar src={grpImg} name={grpName} />
+                        </HStack>
+                        <FormControl pt="5">
+                          <FormLabel fontWeight="bold">Group Color</FormLabel>
+                          <Menu>
+                            <MenuButton>
+                              <Button>
+                                {grpColor.colorName}
+                                <Box pl="2">
+                                  <Circle size="6" bg={grpColor.colorVal} />
+                                </Box>
+                                <ChevronDownIcon pl="1" />
+                              </Button>
+                            </MenuButton>
+                            <MenuList>
+                              {GROUP_COLORS.map((color: GroupColor) => (
+                                <MenuItem
+                                  onClick={() => {
+                                    setGrpColor(color);
+                                    console.log(grpColor);
+                                  }}
+                                >
+                                  <Circle size="6" bg={color.colorVal} />
+                                  <Box pl="2">{color.colorName}</Box>
+                                </MenuItem>
+                              ))}
+                            </MenuList>
+                          </Menu>
                         </FormControl>
                       </PopoverBody>
                       <PopoverFooter>
@@ -134,6 +204,7 @@ const GroupPage: NextPage = () => {
                           colorScheme="orange"
                           mr="2"
                           onClick={(): void => {
+                            updateGroup(grpName, grpBio, grpImg, grpColor);
                             close();
                           }}
                         >

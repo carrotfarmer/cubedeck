@@ -86,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
       >
         <HStack>
           <DarkModeSwitch />
-          {router.pathname === "/" ? (
+          {router.pathname === "/" || router.pathname === `/group/[groupId]` ? (
             <Link href="/groups">
               <Button
                 bgColor="yellow.800"

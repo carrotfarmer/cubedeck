@@ -1,5 +1,5 @@
 import { DocumentData } from "firebase/firestore";
-import { Group, Member } from "./types";
+import { Member } from "./types";
 
 export const prettify = (val: number): string => {
   if (val < 10) {
