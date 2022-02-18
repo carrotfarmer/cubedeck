@@ -1,4 +1,6 @@
-import { DocumentData } from "firebase/firestore";
+import { group } from "console";
+import { doc, DocumentData, updateDoc } from "firebase/firestore";
+import { db } from "./firebase.config";
 import { Member } from "./types";
 
 export const prettify = (val: number): string => {
@@ -69,4 +71,10 @@ export const isUserInGroup = (userId: string, group: DocumentData): boolean => {
   });
 
   return true;
+};
+
+export const removeFromGroup = (group, userId: string) => {
+  const _group = updateDoc(doc(db, `groups/${group.grpId}`), {
+    grpMembers: group.grpMembers.filter((member) => member.uuid !== userId),
+  });
 };

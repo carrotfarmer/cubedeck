@@ -37,7 +37,7 @@ import Router, { type NextRouter, useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { auth, db } from "../../firebase.config";
-import { getGroupById, isUserInGroup } from "../../utils";
+import { getGroupById, isUserInGroup, removeFromGroup } from "../../utils";
 import DefaultErrorPage from "next/error";
 import { Navbar } from "../../components/std/Navbar";
 import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
@@ -45,6 +45,7 @@ import React, { useState } from "react";
 import Head from "next/head";
 import { GroupColor } from "../../types";
 import { DEFAULT_GROUP_COLOR, GROUP_COLORS } from "../../constants";
+import { ImExit } from "react-icons/im";
 
 const GroupPage: NextPage = () => {
   const router: NextRouter = useRouter();
@@ -57,6 +58,10 @@ const GroupPage: NextPage = () => {
   const [isAlertOpen, setIsAlertOpen] = React.useState(false);
   const onClose = () => setIsAlertOpen(false);
   const cancelRef: React.MutableRefObject<undefined> = React.useRef();
+
+  const [isLeaveAlertOpen, setIsLeaveAlertOpen] = useState(false);
+  const onLeaveAlertClose = () => setIsLeaveAlertOpen(false);
+  const leaveAlertCancelRef: React.MutableRefObject<undefined> = React.useRef();
 
   const toast = useToast();
 
@@ -274,7 +279,71 @@ const GroupPage: NextPage = () => {
           )}
 
           <Center pt="5">
-            <Heading fontSize="4xl">{group.grpName}</Heading>
+            <HStack>
+              <Heading fontSize="4xl">{group.grpName}</Heading>
+              {/* Leave group */}
+              {user.uid !== group.grpOwner.uuid && (
+                <Box>
+                  <Button
+                    colorScheme="red"
+                    size="xs"
+                    pr="2"
+                    onClick={() => setIsLeaveAlertOpen(true)}
+                  >
+                    <Box pr="1">
+                      <ImExit />
+                    </Box>
+                    Leave
+                  </Button>
+                  <>
+                    <AlertDialog
+                      isOpen={isLeaveAlertOpen}
+                      leastDestructiveRef={leaveAlertCancelRef}
+                      onClose={onLeaveAlertClose}
+                    >
+                      <AlertDialogOverlay>
+                        <AlertDialogContent>
+                          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            Leave Group
+                          </AlertDialogHeader>
+
+                          <AlertDialogBody>
+                            Are you sure you want to leave "{group.grpName}"?
+                            You can still join again.
+                          </AlertDialogBody>
+
+                          <AlertDialogFooter>
+                            <Button
+                              ref={leaveAlertCancelRef}
+                              onClick={onLeaveAlertClose}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              colorScheme="red"
+                              onClick={() => {
+                                removeFromGroup(group, user.uid);
+                                Router.push("/groups");
+                                toast({
+                                  title: "Left group.",
+                                  description: "You have left the group.",
+                                  status: "success",
+                                  duration: 5000,
+                                  isClosable: true,
+                                });
+                              }}
+                              ml={3}
+                            >
+                              Delete
+                            </Button>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialogOverlay>
+                    </AlertDialog>
+                  </>
+                </Box>
+              )}
+            </HStack>
           </Center>
           <Text>{group.grpBio}</Text>
         </Box>
