@@ -1,39 +1,77 @@
-# Example app with [chakra-ui](https://github.com/chakra-ui/chakra-ui) and TypeScript
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ccb24bd7-1849-451c-b725-ed327f6878d7/deploy-status)](https://app.netlify.com/sites/cubedeck/deploys)
 
-This example features how to use [chakra-ui](https://github.com/chakra-ui/chakra-ui) as the component library within a Next.js app with TypeScript.
+<p align="center">
+<img src="https://i.imgur.com/7pmIcEP.png" alt="cubedeck-img">
+</p>
+<center>
+<h1>cubedeck</h1>
+<p>Taking your cubing skills to the moon! 🚀🌔</p>
+</center>
 
-Next.js and chakra-ui have built-in TypeScript declarations, so we'll get autocompletion for their modules straight away.
+The app is live at [cubedeck.netlify.app](https://cubedeck.netlify.aoo)
 
-We are connecting the Next.js `_app.js` with `chakra-ui`'s Provider and theme so the pages can have app-wide dark/light mode. We are also creating some components which shows the usage of `chakra-ui`'s style props.
+## About
 
-## Preview
+Cubedeck is a web application designed for cubers (peeps who solve Rubik's cubes), to track their progress and of course, compete and flex their solve times with their friends.
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+## Technologies
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-chakra-ui-typescript)
+- React
+- Next.js
+- ChakraUI
+- TypeScript
+- Firebase (Auth/Firestore)
+- Netlify/Netlify Functions (Hosting)
 
-## Deploy your own
+## Project Structure
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+The code base mainly contains React components in the `components` directory, and Next.js pages in the `pages` directory.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-chakra-ui-typescript&project-name=with-chakra-ui-typescript&repository-name=with-chakra-ui-typescript)
+### Components
 
-## How to use
+Most of the code lies in the `components` folder in `src`.
 
-### Using `create-next-app`
+- [`groups`](https://github.com/carrotfarmer/cubedeck/tree/main/src/components/groups) - Contains components which is involved in managing groups (creating, leaderboard etc.)
+- [`lpg`](https://github.com/carrotfarmer/cubedeck/tree/main/src/components/lpg) - Landing page
+- [`sessions`](https://github.com/carrotfarmer/cubedeck/tree/main/src/components/sessions) - Contains components involved in managing individual user sessions.
+- [`solves`](https://github.com/carrotfarmer/cubedeck/tree/main/src/components/solves) - Manages solves in a user session
+- [`std`](https://github.com/carrotfarmer/cubedeck/tree/main/src/components/std) - Standard components like navbar etc.
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+### Pages
 
-```bash
-npx create-next-app --example with-chakra-ui-typescript with-chakra-ui-typescript-app
-# or
-yarn create next-app --example with-chakra-ui-typescript with-chakra-ui-typescript-app
+- [`index`](https://github.com/carrotfarmer/cubedeck/blob/main/src/pages/index.tsx) - Home route
+- [`groups`](https://github.com/carrotfarmer/cubedeck/blob/main/src/pages/groups.tsx) - Groups route; contains all the groups a user has + buttons for creating and joining a group
+- [`session/[sessionId]`](https://github.com/carrotfarmer/cubedeck/blob/main/src/pages/session/%5BsessionId%5D.tsx) - Individual session route
+- [`group/[groupId]`](https://github.com/carrotfarmer/cubedeck/tree/main/src/pages/group) - Individual group route
+
+## Running Locally
+
+- Clone the repo
+
+```sh
+git clone https://github.com/carrotfarmer/cubedeck.git
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+- Install all dependencies
 
-## Notes
+```sh
+yarn
+```
 
-Chakra has supported Gradients and RTL in `v1.1`. To utilize RTL, [add RTL direction and swap](https://chakra-ui.com/docs/features/rtl-support).
+- Create a firebase project
+- Add your firebase credentials to a `.env` file like so:
 
-If you don't have multi-direction app, you should make `<Html lang="ar" dir="rtl">` inside `_document.ts`.
+```env
+NEXT_PUBLIC_API_KEY=
+NEXT_PUBLIC_AUTH_DOMAIN=
+NEXT_PUBLIC_PROJECT_ID=
+NEXT_PUBLIC_STORAGE_BUCKET=
+NEXT_PUBLIC_MESSAGING_CENTER_ID=
+NEXT_PUBLIC_APP_ID=
+```
+
+- Run the app
+
+```sh
+yarn start
+```
