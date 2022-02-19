@@ -110,7 +110,9 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
             onClick={() => {
               if (
                 Number(minutes * 60) + Number(seconds) > 0 &&
-                Number(minutes) + Number(seconds) < 3600
+                Number(minutes) + Number(seconds) < 3600 &&
+                Number(minutes) < 60 &&
+                Number(seconds) < 60
               ) {
                 addSolveToSession({
                   minutes,
