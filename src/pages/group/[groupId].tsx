@@ -37,7 +37,8 @@ import {
 } from "@chakra-ui/react";
 import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
 import type { NextPage } from "next";
-import Router, { type NextRouter, useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
+import type { NextRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { auth, db } from "../../firebase.config";
