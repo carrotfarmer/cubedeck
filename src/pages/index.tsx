@@ -7,6 +7,7 @@ import { Sessions } from "../components/sessions/Sessions";
 import Head from "next/head";
 import { LandingPage } from "../components/lpg/LandingPage";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Index = (): ReactElement<any, any> => {
   const [user, loading, error] = useAuthState(auth);
 

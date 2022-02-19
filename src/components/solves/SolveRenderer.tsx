@@ -25,6 +25,7 @@ export const SolveRenderer: React.FC<SolveRendererProps> = ({
 }) => {
   const [isHovering, setIsHovering] =
     useState<ResponsiveValue<VisibilityState>>("hidden");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
   const toast = useToast();
 
@@ -33,7 +34,7 @@ export const SolveRenderer: React.FC<SolveRendererProps> = ({
   }
 
   const deleteSolve = async () => {
-    const docRef = await updateDoc(doc(db, `${user.uid}/${session.uuid}`), {
+    await updateDoc(doc(db, `${user.uid}/${session.uuid}`), {
       solves: session.solves.filter((s) => s.id !== solve.id),
     });
   };

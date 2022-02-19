@@ -12,14 +12,16 @@ import { auth, db } from "../../firebase.config";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import { CreateSession } from "./CreateSession";
-import { collection, FieldValue, orderBy, query } from "firebase/firestore";
+import { collection, orderBy, query } from "firebase/firestore";
 import { Session } from "../../types";
 import { SessionRenderer } from "./SessionRenderer";
 
 interface SessionsProps {}
 
 export const Sessions: React.FC<SessionsProps> = ({}) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sessions, loadingSessions, errorSessions] = useCollectionData(
     query(collection(db, user.uid), orderBy("createdAt", "desc"))
   );
@@ -43,7 +45,7 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
       </Heading>{" "}
       <SimpleGrid columns={[1, null, 3]} spacingY={6} pt="10">
         {sessions.map((session: Session) => (
-          <GridItem>
+          <GridItem key={session.uuid}>
             <Center>
               <SessionRenderer session={session} />
             </Center>

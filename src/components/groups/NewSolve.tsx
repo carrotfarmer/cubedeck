@@ -31,6 +31,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ group }) => {
   const handleMinutesChange = (value) => {
     setMinutes(value);
   };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
   const [isOpen, setIsOpen] = React.useState(false);
   const open = () => setIsOpen(!isOpen);
@@ -41,7 +42,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ group }) => {
     minutes: number;
     seconds: number;
   }): Promise<void> => {
-    const docRef = await updateDoc(doc(db, `groups/${group.grpId}`), {
+    await updateDoc(doc(db, `groups/${group.grpId}`), {
       solves: arrayUnion({
         minutes: Number(solve.minutes),
         seconds: Number(solve.seconds),

@@ -32,6 +32,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
   const handleMinutesChange = (value) => {
     setMinutes(value);
   };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
   const [isOpen, setIsOpen] = React.useState(false);
   const open = () => setIsOpen(!isOpen);
@@ -42,7 +43,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
     minutes: number;
     seconds: number;
   }): Promise<void> => {
-    const docRef = await updateDoc(doc(db, `${user.uid}/${session.uuid}`), {
+    await updateDoc(doc(db, `${user.uid}/${session.uuid}`), {
       solves: arrayUnion({
         minutes: Number(solve.minutes),
         seconds: Number(solve.seconds),

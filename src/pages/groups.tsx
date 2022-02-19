@@ -21,7 +21,9 @@ import { auth, db } from "../firebase.config";
 import { Group, Member } from "../types";
 
 const Groups: NextPage = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [groupsData, loadingGroupsData, errorGroupsData] = useCollectionData(
     collection(db, "groups")
   );

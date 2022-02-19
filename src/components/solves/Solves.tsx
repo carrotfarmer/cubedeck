@@ -13,7 +13,7 @@ export const Solves: React.FC<SolvesProps> = ({ session }) => {
       <SimpleGrid columns={[2, 4, 6]} spacing="12">
         <NewSolve session={session} />
         {session.solves.map((solve: Solve) => (
-          <SolveRenderer solve={solve} session={session} />
+          <SolveRenderer solve={solve} session={session} key={solve.id} />
         ))}
       </SimpleGrid>
     </Box>

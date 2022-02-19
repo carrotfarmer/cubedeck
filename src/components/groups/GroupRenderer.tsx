@@ -3,7 +3,6 @@ import {
   AvatarGroup,
   Box,
   Center,
-  Divider,
   Flex,
   Spacer,
   Text,
@@ -37,7 +36,7 @@ export const GroupRenderer: React.FC<GroupRendererProps> = ({ group }) => {
         <Flex>
           <Box pl="10">
             <Center>
-              <Link href={`/group/${group.grpId}`}>
+              <Link href={`/group/${group.grpId}`} passHref>
                 <Text
                   fontSize="xl"
                   fontWeight="bold"
@@ -59,6 +58,7 @@ export const GroupRenderer: React.FC<GroupRendererProps> = ({ group }) => {
                     name={member.name}
                     src={member.profileImage}
                     size="sm"
+                    key={member.uuid}
                   />
                 ))}
               </AvatarGroup>

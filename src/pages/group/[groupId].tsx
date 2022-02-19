@@ -32,7 +32,6 @@ import {
   PopoverTrigger,
   Spacer,
   Text,
-  toast,
   useToast,
 } from "@chakra-ui/react";
 import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
@@ -61,9 +60,13 @@ import { GroupTabs } from "../../components/groups/GroupTabs";
 const GroupPage: NextPage = () => {
   const router: NextRouter = useRouter();
   const { groupId } = router.query;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [groupsData, loadingGroupsData, errorGroupsData] = useCollectionData(
     collection(db, "groups")
   );
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
 
   const [isAlertOpen, setIsAlertOpen] = React.useState(false);
@@ -103,7 +106,7 @@ const GroupPage: NextPage = () => {
   const setGrpImg = (newImg: string) => (grpImg = newImg);
 
   const deleteGroup = async (): Promise<void> => {
-    const _ref = await deleteDoc(doc(db, "groups", String(groupId)));
+    await deleteDoc(doc(db, "groups", String(groupId)));
   };
 
   const updateGroup = async (
@@ -112,7 +115,7 @@ const GroupPage: NextPage = () => {
     grpImg: string,
     grpColor: GroupColor
   ): Promise<void> => {
-    const ref = await setDoc(
+    await setDoc(
       doc(db, "groups", String(groupId)),
       {
         grpName,
@@ -206,6 +209,7 @@ const GroupPage: NextPage = () => {
                                     setGrpColor(color);
                                     console.log(grpColor);
                                   }}
+                                  key={color.colorName}
                                 >
                                   <Circle size="6" bg={color.colorVal} />
                                   <Box pl="2">{color.colorName}</Box>
@@ -324,8 +328,8 @@ const GroupPage: NextPage = () => {
                             </AlertDialogHeader>
 
                             <AlertDialogBody>
-                              Are you sure you want to leave "{group.grpName}
-                              "? You can still join again.
+                              Are you sure you want to leave &quot;
+                              {group.grpName}&quot;? You can still join again.
                             </AlertDialogBody>
 
                             <AlertDialogFooter>

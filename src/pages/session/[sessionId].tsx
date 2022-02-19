@@ -56,11 +56,13 @@ import { Solves } from "../../components/solves/Solves";
 import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { puzzleTypes } from "../../constants";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SessionPage = (): ReactElement<any, any> => {
   const router: NextRouter = useRouter();
   const { sessionId } = router.query;
 
   // currently logged in user
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
   const [doesSessionExists, setSessionExists] = useState(false);
   const [sessionDocs, setSessionDocs] = useState<Session>({
@@ -104,6 +106,7 @@ const SessionPage = (): ReactElement<any, any> => {
   // get session data from firestore
   const userCollection = collection(db, user.uid);
   const sessionDocQuery = query(userCollection, where("uuid", "==", sessionId));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _sessionDocs: Promise<void> = getDocs(sessionDocQuery).then(
     (sessionDocs: QuerySnapshot<DocumentData>) => {
       const data = sessionDocs.docs;
@@ -137,7 +140,7 @@ const SessionPage = (): ReactElement<any, any> => {
       sessionNotes: string,
       sessionType: string
     ): Promise<void> => {
-      const ref = await setDoc(
+      await setDoc(
         docRef,
         {
           sessionTitle,
@@ -149,7 +152,7 @@ const SessionPage = (): ReactElement<any, any> => {
     };
 
     const deleteSession = async (): Promise<void> => {
-      const _ref = await deleteDoc(doc(db, user.uid, String(sessionId)));
+      await deleteDoc(doc(db, user.uid, String(sessionId)));
     };
 
     return (
@@ -210,6 +213,7 @@ const SessionPage = (): ReactElement<any, any> => {
                             onClick={() => {
                               setPuzzleType(puzzleType);
                             }}
+                            key={puzzleType}
                           >
                             {puzzleType}
                           </MenuItem>

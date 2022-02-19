@@ -1,4 +1,4 @@
-import { Box, Center, Heading, Text } from "@chakra-ui/react";
+import { Box, Center, Heading } from "@chakra-ui/react";
 import React from "react";
 import { LINEAR_GRADIENT_THEME } from "../../constants";
 import { FeaturesGrid } from "./FeaturesGrid";

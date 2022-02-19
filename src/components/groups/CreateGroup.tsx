@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import Router from "next/router";
-import React, { MutableRefObject, useState } from "react";
+import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { v4 } from "uuid";
 import { DEFAULT_GROUP_COLOR, GROUP_COLORS } from "../../constants";
@@ -33,9 +33,10 @@ import { generateInviteCode } from "../../utils";
 
 interface CreateGroupProps {}
 
+// eslint-disable-next-line no-empty-pattern
 export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef();
+  // const cancelRef = React.useRef();
 
   const [grpColor, setGrpColor] = useState<GroupColor>(DEFAULT_GROUP_COLOR);
   const [grpImgUrl, setGrpImgUrl] = useState<string>("https://broken-lmao.org");
@@ -46,6 +47,7 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
 
   const initialFocusRef: React.MutableRefObject<undefined> = React.useRef();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
 
   if (loading) {
@@ -64,7 +66,7 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
     grpBio: string,
     grpId: string
   ) => {
-    const docRef = await setDoc(doc(db, `groups/${grpId}`), {
+    await setDoc(doc(db, `groups/${grpId}`), {
       grpName,
       grpBio,
       grpOwner: {
@@ -138,7 +140,10 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
                 </MenuButton>
                 <MenuList>
                   {GROUP_COLORS.map((color: GroupColor) => (
-                    <MenuItem onClick={() => setGrpColor(color)}>
+                    <MenuItem
+                      onClick={() => setGrpColor(color)}
+                      key={color.colorName}
+                    >
                       <Circle size="6" bg={color.colorVal} />
                       <Box pl="2">{color.colorName}</Box>
                     </MenuItem>

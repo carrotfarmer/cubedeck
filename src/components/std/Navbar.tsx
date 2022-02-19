@@ -5,7 +5,6 @@ import {
   Heading,
   Box,
   Stack,
-  Text,
   Image,
   HStack,
   Button,
@@ -23,6 +22,8 @@ import { motion } from "framer-motion";
 // heading font
 import "@fontsource/staatliches";
 import Link from "next/link";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase.config";
 
 interface NavbarProps {}
 
@@ -30,6 +31,10 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleToggle = () => (isOpen ? onClose() : onOpen());
   const router: NextRouter = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [user, loading, error] = useAuthState(auth);
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <Flex
@@ -41,8 +46,8 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
       bg="yellow.200"
     >
       <Flex align="center" mr={5}>
-        <Link href="/">
-          <Box boxShadow="md" borderRadius="md" width="5%">
+        <Link href="/" passHref>
+          <Box borderRadius="md">
             <motion.button
               whileHover={{
                 scale: 1.1,
@@ -86,30 +91,32 @@ export const Navbar: React.FC<NavbarProps> = ({}) => {
       >
         <HStack>
           <DarkModeSwitch />
-          {router.pathname === "/" || router.pathname === `/group/[groupId]` ? (
-            <Link href="/groups">
-              <Button
-                bgColor="yellow.800"
-                _hover={{ bgColor: "yellow.700" }}
-                color="white"
-              >
-                Groups
-              </Button>
-            </Link>
-          ) : (
-            <Link href="/">
-              <Button
-                bgColor="yellow.800"
-                _hover={{ bgColor: "yellow.700" }}
-                color="white"
-              >
-                <Box pr="1">
-                  <AiOutlineArrowLeft />
-                </Box>
-                Home
-              </Button>
-            </Link>
-          )}
+          {user &&
+            (router.pathname === "/" ||
+            router.pathname === `/group/[groupId]` ? (
+              <Link href="/groups" passHref>
+                <Button
+                  bgColor="yellow.800"
+                  _hover={{ bgColor: "yellow.700" }}
+                  color="white"
+                >
+                  Groups
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/" passHref>
+                <Button
+                  bgColor="yellow.800"
+                  _hover={{ bgColor: "yellow.700" }}
+                  color="white"
+                >
+                  <Box pr="1">
+                    <AiOutlineArrowLeft />
+                  </Box>
+                  Home
+                </Button>
+              </Link>
+            ))}
         </HStack>
       </Stack>
 

@@ -1,7 +1,7 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import { DocumentData } from "firebase/firestore";
 import React from "react";
-import { GroupSolve, Solve } from "../../types";
+import { GroupSolve } from "../../types";
 import { NewSolve } from "./NewSolve";
 import { GroupSolveRenderer } from "./GroupSolveRenderer";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Session, Solve } from "../../types";
+import { Session } from "../../types";
 import {
   Box,
   Text,
@@ -35,7 +35,7 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
         h={[550, 500, 500]}
       >
         <Text pt="5">
-          <Link href={`/session/${session.uuid}`}>
+          <Link href={`/session/${session.uuid}`} passHref>
             <Center pr="10" pl="10">
               <Text
                 fontSize="xl"

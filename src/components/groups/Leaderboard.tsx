@@ -22,12 +22,12 @@ interface LeaderboardProps {
 }
 
 export const Leaderboard: React.FC<LeaderboardProps> = ({ group }) => {
-  const bestSolves = group.solves.slice(0, 5).sort((a, b) => {
+  const bestSolves: GroupSolve[] = group.solves.slice(0, 5).sort((a, b) => {
     return a.totalInSeconds - b.totalInSeconds;
   });
 
-  const topThree = bestSolves.slice(0, 3);
-  const remaining = bestSolves.slice(3);
+  const topThree: GroupSolve[] = bestSolves.slice(0, 3);
+  const remaining: GroupSolve[] = bestSolves.slice(3);
 
   return (
     <Box>
@@ -55,22 +55,26 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ group }) => {
                   <HStack>
                     <Avatar size="sm" src={solve.member.profileImage} />
                     <Text>{solve.member.name}</Text>
-                    <ImTrophy color="yellow" />
+                    <ImTrophy color="orange" />
                   </HStack>
                 </Td>
               </Tr>
             );
           })}
-          {remaining.map((solve: GroupSolve, index) => {
+          {remaining.map((solve: GroupSolve) => {
             return (
-              <Tr>
+              <Tr key={solve.id}>
                 <Td>
                   {prettify(solve.minutes)}:{prettify(solve.seconds)}
                 </Td>
                 <Td>
                   <HStack>
-                    <Avatar src={solve.member.profileImage} size="xs" />
-                    <Text>{solve.member.name}</Text>
+                    <Avatar
+                      src={solve.member.profileImage}
+                      size="xs"
+                      key={solve.member.uuid}
+                    />
+                    <Text key={solve.member.uuid}>{solve.member.name}</Text>
                   </HStack>
                 </Td>
               </Tr>

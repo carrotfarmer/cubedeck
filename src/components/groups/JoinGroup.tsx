@@ -32,8 +32,10 @@ interface JoinGroupProps {}
 
 export const JoinGroup: React.FC<JoinGroupProps> = ({}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
   const [inviteCode, setInviteCode] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [groupsData, loadingData, errorData] = useCollectionData(
     collection(db, "groups")
   );

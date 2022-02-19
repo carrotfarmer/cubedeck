@@ -33,6 +33,7 @@ interface CreateSessionProps {}
 
 export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
   // get logged in user
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
 
   // modal stuff
@@ -48,7 +49,7 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
     uuid: string;
     solves: Solve[];
   }): Promise<void> => {
-    const docRef = await setDoc(doc(db, `${user.uid}/${session.uuid}`), {
+    await setDoc(doc(db, `${user.uid}/${session.uuid}`), {
       sessionTitle: session.sessionTitle,
       sessionNotes: session.sessionNotes,
       sessionType: session.sessionType,
@@ -117,7 +118,10 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
               </Box>
               <MenuList>
                 {puzzleTypes.map((puzzleType: string) => (
-                  <MenuItem onClick={() => onPuzzleTypeChange(puzzleType)}>
+                  <MenuItem
+                    onClick={() => onPuzzleTypeChange(puzzleType)}
+                    key={puzzleType}
+                  >
                     {puzzleType}
                   </MenuItem>
                 ))}

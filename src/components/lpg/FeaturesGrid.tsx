@@ -1,12 +1,5 @@
 import { Box, SimpleGrid, Icon } from "@chakra-ui/react";
-import {
-  FcViewDetails,
-  FcDonate,
-  FcInTransit,
-  FcTodoList,
-  FcBullish,
-  FcConferenceCall,
-} from "react-icons/fc";
+import { FcTodoList, FcBullish, FcConferenceCall } from "react-icons/fc";
 import { Feature } from "./Feature";
 
 interface FeaturesGridProps {}

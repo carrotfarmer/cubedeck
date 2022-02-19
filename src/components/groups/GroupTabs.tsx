@@ -9,7 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { DocumentData } from "firebase/firestore";
 import React from "react";
-import { NewSolve } from "./NewSolve";
 import { Members } from "./Members";
 import { Solves } from "./Solves";
 import { User } from "firebase/auth";

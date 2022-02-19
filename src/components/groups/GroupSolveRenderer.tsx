@@ -28,6 +28,7 @@ export const GroupSolveRenderer: React.FC<GroupSolveRendererProps> = ({
 }) => {
   const [isHovering, setIsHovering] =
     useState<ResponsiveValue<VisibilityState>>("hidden");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
   const toast = useToast();
 
@@ -36,7 +37,7 @@ export const GroupSolveRenderer: React.FC<GroupSolveRendererProps> = ({
   }
 
   const deleteSolve = async () => {
-    const docRef = await updateDoc(doc(db, `groups/${group.grpId}`), {
+    await updateDoc(doc(db, `groups/${group.grpId}`), {
       solves: group.solves.filter((s) => s.id !== solve.id),
     });
   };

@@ -8,6 +8,7 @@ import { auth } from "../../firebase.config";
 interface GetStartedProps {}
 
 export const GetStarted: React.FC<GetStartedProps> = ({}) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   return (
     <Box>

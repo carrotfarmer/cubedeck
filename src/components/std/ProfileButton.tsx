@@ -16,7 +16,9 @@ import Router from "next/router";
 interface LoginButtonProps {}
 
 export const LoginButton: React.FC<LoginButtonProps> = ({}) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userState, loadingState, errorState] = useAuthState(auth);
 
   if (userState) {
