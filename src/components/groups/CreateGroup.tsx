@@ -22,6 +22,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
+import Router from "next/router";
 import React, { MutableRefObject, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { v4 } from "uuid";
@@ -82,8 +83,11 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
       grpColor,
       grpId,
       inviteCode,
+      solves: [],
     });
   };
+
+  const groupId = v4();
 
   return (
     <Box pt="10">
@@ -167,7 +171,7 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
                     grpImgUrl,
                     grpName,
                     grpBio,
-                    v4()
+                    groupId
                   );
                   onClose();
                   toast({
@@ -179,6 +183,7 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
                     isClosable: true,
                   });
                   navigator.clipboard.writeText(inviteCode);
+                  Router.push(`/group/${groupId}`);
                 } else {
                   toast({
                     title: "Invalid inputs",

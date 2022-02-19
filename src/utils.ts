@@ -77,4 +77,13 @@ export const removeFromGroup = (group, userId: string) => {
   const _group = updateDoc(doc(db, `groups/${group.grpId}`), {
     grpMembers: group.grpMembers.filter((member) => member.uuid !== userId),
   });
+
+  if (group.solves.length > 0) {
+    const _solves = group.solves.filter(
+      (solve) => solve.member.uuid !== userId
+    );
+    updateDoc(doc(db, `groups/${group.grpId}`), {
+      solves: _solves,
+    });
+  }
 };

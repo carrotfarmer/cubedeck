@@ -29,7 +29,10 @@ export interface Member {
 }
 
 export interface GroupSolve {
-  solve: Solve;
+  minutes: number;
+  seconds: number;
+  totalInSeconds: number;
+  id: string;
   member: Member;
 }
 

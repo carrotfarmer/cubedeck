@@ -10,11 +10,13 @@ import {
   Button,
   Center,
   Circle,
+  Code,
   Divider,
   FormControl,
   FormLabel,
   Heading,
   HStack,
+  IconButton,
   Input,
   Menu,
   MenuButton,
@@ -42,7 +44,12 @@ import { auth, db } from "../../firebase.config";
 import { getGroupById, isUserInGroup, removeFromGroup } from "../../utils";
 import DefaultErrorPage from "next/error";
 import { Navbar } from "../../components/std/Navbar";
-import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import {
+  ChevronDownIcon,
+  CopyIcon,
+  DeleteIcon,
+  EditIcon,
+} from "@chakra-ui/icons";
 import React, { useState } from "react";
 import Head from "next/head";
 import { GroupColor } from "../../types";
@@ -357,10 +364,34 @@ const GroupPage: NextPage = () => {
           <Center pt="5">
             <Text>{group.grpBio}</Text>
           </Center>
+          <Center pt="5">
+            Invite Code:
+            <Box pl="1">
+              <HStack>
+                <Code>{group.inviteCode}</Code>
+                <IconButton
+                  icon={<CopyIcon />}
+                  onClick={() => {
+                    navigator.clipboard.writeText(group.inviteCode);
+                    toast({
+                      title: "Invite code copied.",
+                      description: "Invite code copied to clipboard.",
+                      status: "success",
+                      duration: 5000,
+                      isClosable: true,
+                    });
+                  }}
+                  aria-label="copy invite code"
+                  size="sm"
+                  colorScheme={group.grpColor.colorVal.split(".")[0]}
+                />
+              </HStack>
+            </Box>
+          </Center>
           <Divider pt="10" />
           <Box pt="10">
             <Center>
-              <GroupTabs group={group} />
+              <GroupTabs group={group} loggedInUser={user} />
             </Center>
           </Box>
         </Box>

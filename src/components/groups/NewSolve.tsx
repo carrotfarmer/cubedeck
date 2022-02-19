@@ -42,19 +42,17 @@ export const NewSolve: React.FC<NewSolveProps> = ({ group }) => {
     seconds: number;
   }): Promise<void> => {
     const docRef = await updateDoc(doc(db, `groups/${group.grpId}`), {
-      solves: {
-        solve: arrayUnion({
-          minutes: Number(solve.minutes),
-          seconds: Number(solve.seconds),
-          totalInSeconds: Number(solve.minutes * 60) + Number(solve.seconds),
-          id: uuidv4(),
-          member: {
-            name: user.displayName,
-            uuid: user.uid,
-            profileImage: user.photoURL,
-          },
-        }),
-      },
+      solves: arrayUnion({
+        minutes: Number(solve.minutes),
+        seconds: Number(solve.seconds),
+        totalInSeconds: Number(solve.minutes * 60) + Number(solve.seconds),
+        id: uuidv4(),
+        member: {
+          name: user.displayName,
+          uuid: user.uid,
+          profileImage: user.photoURL,
+        },
+      }),
     });
   };
 
