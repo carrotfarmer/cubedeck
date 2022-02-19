@@ -58,25 +58,28 @@ export const GroupSolveRenderer: React.FC<GroupSolveRendererProps> = ({
         onMouseLeave={() => setIsHovering("hidden")}
       >
         <Box textAlign="right">
-          <IconButton
-            icon={<DeleteIcon />}
-            visibility={isHovering}
-            color="red"
-            size="xs"
-            bgColor={`${groupColor.colorVal.split(".")[0]}.100`}
-            _hover={{ bgColor: `${groupColor.colorVal.split(".")[0]}.200` }}
-            onClick={() => {
-              deleteSolve();
-              toast({
-                title: "Solve Deleted",
-                description: "Successfully deleted the solve",
-                status: "info",
-                duration: 5000,
-                isClosable: true,
-              });
-            }}
-            aria-label="delete solve"
-          />
+          {(user.uid === solve.member.uuid ||
+            user.uid === group.grpOwner.uuid) && (
+            <IconButton
+              icon={<DeleteIcon />}
+              visibility={isHovering}
+              color="red"
+              size="xs"
+              bgColor={`${groupColor.colorVal.split(".")[0]}.100`}
+              _hover={{ bgColor: `${groupColor.colorVal.split(".")[0]}.200` }}
+              onClick={() => {
+                deleteSolve();
+                toast({
+                  title: "Solve Deleted",
+                  description: "Successfully deleted the solve",
+                  status: "info",
+                  duration: 5000,
+                  isClosable: true,
+                });
+              }}
+              aria-label="delete solve"
+            />
+          )}
         </Box>
         <Text fontSize="xl" fontWeight="extrabold" pt="10%">
           {prettify(solve.minutes)}:{prettify(solve.seconds)}

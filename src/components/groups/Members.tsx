@@ -1,4 +1,3 @@
-import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
@@ -11,6 +10,7 @@ import { User } from "firebase/auth";
 import { DocumentData } from "firebase/firestore";
 import React from "react";
 import { FaCrown } from "react-icons/fa";
+import { ImExit } from "react-icons/im";
 import { Member } from "../../types";
 import { removeFromGroup } from "../../utils";
 
@@ -42,7 +42,7 @@ export const Members: React.FC<MembersProps> = ({
                   {group.grpOwner.uuid === loggedInUser.uid &&
                     group.grpOwner.uuid !== member.uuid && (
                       <IconButton
-                        icon={<DeleteIcon />}
+                        icon={<ImExit />}
                         aria-label="remove user"
                         colorScheme="red"
                         size="xs"
