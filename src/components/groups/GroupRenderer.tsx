@@ -29,7 +29,6 @@ export const GroupRenderer: React.FC<GroupRendererProps> = ({ group }) => {
         boxShadow="sm"
         borderColor={group.grpColor.colorVal}
         borderWidth="thin"
-        boxSize="sm"
         width="50"
         height="3xs"
       >

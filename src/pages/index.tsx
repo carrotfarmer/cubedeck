@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { auth } from "../firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Navbar } from "../components/std/Navbar";
-import { Box, Divider, Spinner, Text } from "@chakra-ui/react";
+import { Box, Spinner, Text } from "@chakra-ui/react";
 import { Sessions } from "../components/sessions/Sessions";
 import Head from "next/head";
 import { LandingPage } from "../components/lpg/LandingPage";
@@ -35,7 +35,6 @@ const Index = (): ReactElement<any, any> => {
         <Box>
           <Navbar />
           <Sessions />
-          <Divider pt="10" />
         </Box>
       </React.Fragment>
     );

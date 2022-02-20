@@ -9,7 +9,7 @@ interface SolvesProps {
 
 export const Solves: React.FC<SolvesProps> = ({ session }) => {
   return (
-    <Box pl="5%" pt="5%" pr="5%">
+    <Box pl="5%" pt="3" pr="5%">
       <SimpleGrid columns={[2, 4, 6]} spacing="12">
         <NewSolve session={session} />
         {session.solves.map((solve: Solve) => (

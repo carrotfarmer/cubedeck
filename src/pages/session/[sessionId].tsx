@@ -26,6 +26,7 @@ import {
   Box,
   Button,
   Center,
+  Divider,
   FormControl,
   FormLabel,
   Heading,
@@ -52,9 +53,9 @@ import { Navbar } from "../../components/std/Navbar";
 import { Session } from "../../types";
 
 import Head from "next/head";
-import { Solves } from "../../components/solves/Solves";
 import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { puzzleTypes } from "../../constants";
+import { SessionTabs } from "../../components/sessions/SessionTabs";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SessionPage = (): ReactElement<any, any> => {
@@ -325,11 +326,12 @@ const SessionPage = (): ReactElement<any, any> => {
             {sessionDocs.sessionTitle}
           </Heading>
         </Center>
-        <Center>
+        <Center pl="16" pr="16">
           <Text color="gray.400">{sessionDocs.sessionNotes}</Text>
         </Center>
+        <Divider pt="5" />
         <Box pl="3%" pt="3%" pr="3%">
-          <Solves session={sessionDocs} />
+          <SessionTabs session={sessionDocs} />
         </Box>
       </Box>
     );

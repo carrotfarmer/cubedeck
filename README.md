@@ -73,5 +73,5 @@ NEXT_PUBLIC_APP_ID=
 - Run the app
 
 ```sh
-yarn start
+yarn dev
 ```

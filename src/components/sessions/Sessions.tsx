@@ -43,7 +43,8 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
       <Heading fontSize="4xl" fontWeight="bold">
         My Practice Sessions
       </Heading>{" "}
-      <SimpleGrid columns={[1, null, 3]} spacingY={6} pt="10">
+      <CreateSession />
+      <SimpleGrid columns={[1, null, 3]} spacingY={6} pt="10" pl="5" pr="5">
         {sessions.map((session: Session) => (
           <GridItem key={session.uuid}>
             <Center>
@@ -52,7 +53,6 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
           </GridItem>
         ))}
       </SimpleGrid>
-      <CreateSession />
       {sessions.length === 0 && (
         <>
           <Center>
