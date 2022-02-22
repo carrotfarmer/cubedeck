@@ -44,7 +44,7 @@ export const GroupSolveRenderer: React.FC<GroupSolveRendererProps> = ({
 
   let paddingTop = 10;
 
-  if (user.uid === solve.member.uuid) {
+  if (user.uid === solve.member.uuid || user.uid === group.grpOwner.uuid) {
     paddingTop = 3;
   }
 

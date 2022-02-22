@@ -114,7 +114,8 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
                 Number(minutes) + Number(seconds) < 3600 &&
                 Number(minutes) < 60 &&
                 Number(seconds) < 60 &&
-                Number(minutes) === Math.floor(Number(minutes))
+                Number(minutes) === Math.floor(Number(minutes)) &&
+                Number(seconds) === Math.floor(Number(seconds))
               ) {
                 addSolveToSession({
                   minutes,

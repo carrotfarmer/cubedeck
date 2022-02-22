@@ -36,6 +36,7 @@ export const LoginButton: React.FC<LoginButtonProps> = ({}) => {
           >
             Log Out
           </MenuItem>
+          <MenuItem onClick={() => Router.push("/guide")}>Guide</MenuItem>
         </MenuList>
       </Menu>
     );
