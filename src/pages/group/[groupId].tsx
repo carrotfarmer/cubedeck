@@ -51,11 +51,11 @@ import {
   EditIcon,
 } from "@chakra-ui/icons";
 import React, { useState } from "react";
-import Head from "next/head";
 import { GroupColor } from "../../types";
 import { DEFAULT_GROUP_COLOR, GROUP_COLORS } from "../../constants";
 import { ImExit } from "react-icons/im";
 import { GroupTabs } from "../../components/groups/GroupTabs";
+import { PageHead } from "../../components/utils/PageHead";
 
 const GroupPage: NextPage = () => {
   const router: NextRouter = useRouter();
@@ -134,9 +134,7 @@ const GroupPage: NextPage = () => {
     if (isUserInGrp) {
       return (
         <Box>
-          <Head>
-            <title>{group.grpName} | Cubedeck</title>
-          </Head>
+          <PageHead title={`${group.grpName} | Cubedeck`} />
           <Navbar />
 
           {/* Edit Group */}

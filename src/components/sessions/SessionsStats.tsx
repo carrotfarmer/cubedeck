@@ -45,17 +45,17 @@ export const SessionsStats: React.FC<SessionsStatsProps> = ({ session }) => {
       {session.solves.length > 0 && (
         <>
           <StatGroup>
-            <Stat pt="5">
+            <Stat pt="5" pr="2">
               <StatLabel>No. of Solves</StatLabel>
               <StatNumber>{session.solves.length}</StatNumber>
             </Stat>
-            <Stat pt="5">
+            <Stat pt="5" pr="2">
               <StatLabel>Average Solve Time</StatLabel>
               <StatNumber>
                 {prettify(averageTimeMins)}:{prettify(averageTimeSecs)}
               </StatNumber>
             </Stat>
-            <Stat pt="5">
+            <Stat pt="5" pr="2">
               <StatLabel>Fastest Solve</StatLabel>
               <StatNumber>
                 {prettify(fastestSolveMins)}:{prettify(fastestSolveSecs)}
@@ -65,7 +65,7 @@ export const SessionsStats: React.FC<SessionsStatsProps> = ({ session }) => {
                 {fasterPercentage}% faster than average
               </StatHelpText>
             </Stat>
-            <Stat pt="5">
+            <Stat pt="5" pr="2">
               <StatLabel>Slowest Solve</StatLabel>
               <StatNumber>
                 {prettify(slowestSolveMins)}:{prettify(slowestSolveSecs)}

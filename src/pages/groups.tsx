@@ -9,7 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { collection } from "firebase/firestore";
 import type { NextPage } from "next";
-import Head from "next/head";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -17,6 +16,7 @@ import { CreateGroup } from "../components/groups/CreateGroup";
 import { GroupRenderer } from "../components/groups/GroupRenderer";
 import { JoinGroup } from "../components/groups/JoinGroup";
 import { Navbar } from "../components/std/Navbar";
+import { PageHead } from "../components/utils/PageHead";
 import { auth, db } from "../firebase.config";
 import { Group, Member } from "../types";
 
@@ -31,9 +31,7 @@ const Groups: NextPage = () => {
   if (loading || loadingGroupsData) {
     return (
       <React.Fragment>
-        <Head>
-          <title>Cubedeck | Loading</title>
-        </Head>
+        <PageHead title="Cubedeck | Loading" />
         <Center>Loading...</Center>
       </React.Fragment>
     );
@@ -46,9 +44,7 @@ const Groups: NextPage = () => {
   return (
     <Box>
       {/* set page title to groups / user name */}
-      <Head>
-        <title>Groups | {user.displayName}</title>
-      </Head>
+      <PageHead title={`Cubedeck | ${user.displayName}`} />
       <Navbar />
       <Heading fontSize="4xl" textAlign="center" pt="5">
         Groups

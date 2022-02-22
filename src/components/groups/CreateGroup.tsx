@@ -120,7 +120,7 @@ export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
             <FormControl pt="5">
               <FormLabel fontWeight="bold">Group Bio</FormLabel>
               <Input
-                placeholder="Cubing group with class 8B"
+                placeholder="Cubing group for da boiz"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setGrpBio(e.currentTarget.value)
                 }

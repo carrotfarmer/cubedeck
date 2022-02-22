@@ -52,10 +52,10 @@ import {
 import { Navbar } from "../../components/std/Navbar";
 import { Session } from "../../types";
 
-import Head from "next/head";
 import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { puzzleTypes } from "../../constants";
 import { SessionTabs } from "../../components/sessions/SessionTabs";
+import { PageHead } from "../../components/utils/PageHead";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SessionPage = (): ReactElement<any, any> => {
@@ -158,9 +158,7 @@ const SessionPage = (): ReactElement<any, any> => {
 
     return (
       <Box>
-        <Head>
-          <title>Cubedeck Session: {sessionDocs.sessionTitle}</title>
-        </Head>
+        <PageHead title={`Cubedeck Session: ${sessionDocs.sessionTitle}`} />
         <Navbar />
         <Center pt="1%">
           <HStack>

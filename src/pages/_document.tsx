@@ -6,6 +6,7 @@ export default class Document extends NextDocument {
     return (
       <Html>
         <Head />
+        {/* set favicon of the whole app to the favicon.ico in assets */}
         <body>
           {/* Make Color mode to persists when you refresh the page. */}
           <ColorModeScript />

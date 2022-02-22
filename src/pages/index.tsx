@@ -4,8 +4,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Navbar } from "../components/std/Navbar";
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import { Sessions } from "../components/sessions/Sessions";
-import Head from "next/head";
 import { LandingPage } from "../components/lpg/LandingPage";
+import { PageHead } from "../components/utils/PageHead";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Index = (): ReactElement<any, any> => {
@@ -15,9 +15,7 @@ const Index = (): ReactElement<any, any> => {
   if (loading) {
     return (
       <React.Fragment>
-        <Head>
-          <title>Cubedeck</title>
-        </Head>
+        <PageHead title="Cubedeck" />
         <Box textAlign={"center"} pt="25%">
           <Spinner />
         </Box>
@@ -29,9 +27,7 @@ const Index = (): ReactElement<any, any> => {
   if (user) {
     return (
       <React.Fragment>
-        <Head>
-          <title>Cubedeck | {user.displayName}</title>
-        </Head>
+        <PageHead title={`Cubedeck | ${user.displayName}`} />
         <Box>
           <Navbar />
           <Sessions />
@@ -44,9 +40,7 @@ const Index = (): ReactElement<any, any> => {
   if (error) {
     return (
       <React.Fragment>
-        <Head>
-          <title>Cubedeck: Error</title>
-        </Head>
+        <PageHead title="Cubedeck: Error" />
         <Box>
           <Navbar />
           <Text fontWeight="bold" color="red.200">
@@ -60,9 +54,7 @@ const Index = (): ReactElement<any, any> => {
   // User is not logged in
   return (
     <React.Fragment>
-      <Head>
-        <title>Cubedeck</title>
-      </Head>
+      <PageHead title="Cubedeck" />
       <Box>
         <Navbar />
         <LandingPage />
