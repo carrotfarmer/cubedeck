@@ -12,7 +12,11 @@ The app is live at [cubedeck.netlify.app](https://cubedeck.netlify.aoo)
 
 ## About
 
-Cubedeck is a web application designed for cubers (peeps who solve Rubik's cubes), to track their progress and of course, compete and flex their solve times with their friends.
+Cubedeck is a web application that is designed to assist cubers to keep track of their progress by and improve themselves by:
+
+- helping them easily log their solve times and obtaining stats about their solves
+- creating practice sessions to segregate their solves
+- creating and joining friend groups, to compete for the best solves
 
 ## Technologies
 
@@ -36,6 +40,7 @@ Most of the code lies in the `components` folder in `src`.
 - [`sessions`](https://github.com/carrotfarmer/cubedeck/tree/main/src/components/sessions) - Contains components involved in managing individual user sessions.
 - [`solves`](https://github.com/carrotfarmer/cubedeck/tree/main/src/components/solves) - Manages solves in a user session
 - [`std`](https://github.com/carrotfarmer/cubedeck/tree/main/src/components/std) - Standard components like navbar etc.
+- [`utils`](https://github.com/carrotfarmer/cubedeck/tree/main/src/components/utils) - Utility components
 
 ### Pages
 
@@ -43,6 +48,7 @@ Most of the code lies in the `components` folder in `src`.
 - [`groups`](https://github.com/carrotfarmer/cubedeck/blob/main/src/pages/groups.tsx) - Groups route; contains all the groups a user has + buttons for creating and joining a group
 - [`session/[sessionId]`](https://github.com/carrotfarmer/cubedeck/blob/main/src/pages/session/%5BsessionId%5D.tsx) - Individual session route
 - [`group/[groupId]`](https://github.com/carrotfarmer/cubedeck/tree/main/src/pages/group) - Individual group route
+- [`guide`](https://github.com/carrotfarmer/cubedeck/tree/main/src/pages/guide.tsx) - The guide page
 
 ## Running Locally
 
