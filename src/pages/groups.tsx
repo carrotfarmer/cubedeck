@@ -7,7 +7,7 @@ import {
   HStack,
   SimpleGrid,
 } from "@chakra-ui/react";
-import { collection } from "firebase/firestore";
+import { collection, orderBy, query } from "firebase/firestore";
 import type { NextPage } from "next";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -25,7 +25,7 @@ const Groups: NextPage = () => {
   const [user, loading, error] = useAuthState(auth);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [groupsData, loadingGroupsData, errorGroupsData] = useCollectionData(
-    collection(db, "groups")
+    query(collection(db, "groups"), orderBy("grpName", "asc"))
   );
 
   if (loading || loadingGroupsData) {
