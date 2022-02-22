@@ -98,8 +98,8 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
                 onChange={(event) => setSessionTitle(event.currentTarget.value)}
               />
             </FormControl>
-            <FormControl pt="4%">
-              <FormLabel>Session Notes</FormLabel>
+            <FormControl pt="4%" isRequired>
+              <FormLabel>Session Notes/Description</FormLabel>
               <Input
                 ref={finalRef}
                 placeholder="My awesome session...."
@@ -134,7 +134,7 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
               colorScheme="yellow"
               mr={3}
               onClick={() => {
-                if (sessionTitle !== "") {
+                if (sessionTitle !== "" && sessionNote !== "") {
                   addSessionToFirestore({
                     sessionTitle,
                     sessionNotes: sessionNote,
@@ -156,10 +156,10 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
                   Router.push(`/session/${uuid}`);
                 } else {
                   toast({
-                    title: "Session Title Required",
-                    description: "Please enter a session title",
+                    title: "Session Title/Notes Required",
+                    description: "Please fill in all the missing fields",
                     status: "error",
-                    duration: 9000,
+                    duration: 5000,
                     isClosable: true,
                   });
                 }

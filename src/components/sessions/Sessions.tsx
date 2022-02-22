@@ -56,7 +56,10 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
       {sessions.length === 0 && (
         <>
           <Center>
-            <Text pt="10">Nothing here yet!</Text>
+            <Text pt="10">
+              Nothing here yet! Create a session, time yourself and add your
+              solve times to get started!
+            </Text>
           </Center>
         </>
       )}
