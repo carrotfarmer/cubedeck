@@ -42,6 +42,12 @@ export const GroupSolveRenderer: React.FC<GroupSolveRendererProps> = ({
     });
   };
 
+  let paddingTop = 10;
+
+  if (user.uid === solve.member.uuid) {
+    paddingTop = 3;
+  }
+
   return (
     <motion.div
       whileHover={{
@@ -82,7 +88,7 @@ export const GroupSolveRenderer: React.FC<GroupSolveRendererProps> = ({
             />
           )}
         </Box>
-        <Text fontSize="xl" fontWeight="extrabold" pt="10%">
+        <Text fontSize="xl" fontWeight="extrabold" pt={paddingTop}>
           {prettify(solve.minutes)}:{prettify(solve.seconds)}
         </Text>
         <Box pt="2.5">
