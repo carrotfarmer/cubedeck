@@ -1,14 +1,15 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/ccb24bd7-1849-451c-b725-ed327f6878d7/deploy-status)](https://app.netlify.com/sites/cubedeck/deploys)
-
 <p align="center">
 <img src="https://i.imgur.com/7pmIcEP.png" alt="cubedeck-img">
+</p>
+<p align="center">
+<img src="https://api.netlify.com/api/v1/badges/ccb24bd7-1849-451c-b725-ed327f6878d7/deploy-status">
 </p>
 <center>
 <h1>cubedeck</h1>
 <p>Taking your cubing skills to the moon! 🚀🌔</p>
 </center>
 
-The app is live at [cubedeck.netlify.app](https://cubedeck.netlify.aoo)
+The app is live at [cubedeck.netlify.app](https://cubedeck.netlify.app)
 
 ## About
 
