@@ -15,6 +15,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { CreateGroup } from "../components/groups/CreateGroup";
 import { GroupRenderer } from "../components/groups/GroupRenderer";
 import { JoinGroup } from "../components/groups/JoinGroup";
+import { Footer } from "../components/std/Footer";
 import { Navbar } from "../components/std/Navbar";
 import { PageHead } from "../components/utils/PageHead";
 import { auth, db } from "../firebase.config";
@@ -56,7 +57,7 @@ const Groups: NextPage = () => {
         </HStack>
       </Center>
       <Divider pt="5" />
-      <SimpleGrid columns={[1, 3, 3]} spacing="6" pr="5" pl="5" pt="5">
+      <SimpleGrid columns={[1, 3, 3]} spacing="6" pr="5" pl="5" pt="5" pb="10">
         {groupsData.map((group: Group) =>
           group.grpMembers.map((member: Member) =>
             member.uuid === user.uid ? (
@@ -69,6 +70,7 @@ const Groups: NextPage = () => {
           )
         )}
       </SimpleGrid>
+      <Footer />
     </Box>
   );
 };

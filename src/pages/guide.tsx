@@ -8,6 +8,7 @@ import {
   Code,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
+import { Footer } from "../components/std/Footer";
 import { Navbar } from "../components/std/Navbar";
 import { PageHead } from "../components/utils/PageHead";
 
@@ -110,7 +111,7 @@ const GuidePage: NextPage = () => {
             <Divider />
           </Heading>
         </Center>
-        <Center pt="2.5">
+        <Center pt="2.5" pb="10">
           <Text pl="16" pr="16">
             You can create groups to share your solves with other cubers. To do
             this, go to the home page and then click on the &quot;Groups&quot;
@@ -123,6 +124,7 @@ const GuidePage: NextPage = () => {
           </Text>
         </Center>
       </Box>
+      <Footer />
     </>
   );
 };

@@ -56,6 +56,7 @@ import { DEFAULT_GROUP_COLOR, GROUP_COLORS } from "../../constants";
 import { ImExit } from "react-icons/im";
 import { GroupTabs } from "../../components/groups/GroupTabs";
 import { PageHead } from "../../components/utils/PageHead";
+import { Footer } from "../../components/std/Footer";
 
 const GroupPage: NextPage = () => {
   const router: NextRouter = useRouter();
@@ -392,11 +393,12 @@ const GroupPage: NextPage = () => {
             </Box>
           </Center>
           <Divider pt="10" />
-          <Box pt="10">
+          <Box pt="10" pb="10">
             <Center>
               <GroupTabs group={group} loggedInUser={user} />
             </Center>
           </Box>
+          <Footer />
         </Box>
       );
     }

@@ -6,6 +6,7 @@ import { Box, Spinner, Text } from "@chakra-ui/react";
 import { Sessions } from "../components/sessions/Sessions";
 import { LandingPage } from "../components/lpg/LandingPage";
 import { PageHead } from "../components/utils/PageHead";
+import { Footer } from "../components/std/Footer";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Index = (): ReactElement<any, any> => {
@@ -30,7 +31,11 @@ const Index = (): ReactElement<any, any> => {
         <PageHead title={`Cubedeck | ${user.displayName}`} />
         <Box>
           <Navbar />
-          <Sessions />
+          <Box pb="15%">
+            <Sessions />
+          </Box>
+
+          <Footer />
         </Box>
       </React.Fragment>
     );
@@ -47,6 +52,7 @@ const Index = (): ReactElement<any, any> => {
             Oopsie-doopsies! There was a glitch on our side...
           </Text>
         </Box>
+        <Footer />
       </React.Fragment>
     );
   }
@@ -58,6 +64,7 @@ const Index = (): ReactElement<any, any> => {
       <Box>
         <Navbar />
         <LandingPage />
+        <Footer />
       </Box>
     </React.Fragment>
   );

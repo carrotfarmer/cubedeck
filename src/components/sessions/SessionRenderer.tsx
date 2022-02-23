@@ -62,10 +62,10 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
           </Link>
         </Text>
 
-        <Text color="gray.500" pt="1" pb={["15%", "2%", "2%"]}>
+        <Text color="gray.500" pt="1" pb={["8%", "2%", "2%"]}>
           {session.sessionNotes}
         </Text>
-        <Box pl="2" textAlign="left" pt="8%">
+        <Box pl="2" textAlign="left" pt={["8%", "8%", "8%"]}>
           <HStack>
             <Badge colorScheme={sessionTagColor(session.sessionType)}>
               {session.sessionType}

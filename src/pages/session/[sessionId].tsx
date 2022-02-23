@@ -56,6 +56,7 @@ import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { puzzleTypes } from "../../constants";
 import { SessionTabs } from "../../components/sessions/SessionTabs";
 import { PageHead } from "../../components/utils/PageHead";
+import { Footer } from "../../components/std/Footer";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SessionPage = (): ReactElement<any, any> => {
@@ -328,9 +329,10 @@ const SessionPage = (): ReactElement<any, any> => {
           <Text color="gray.400">{sessionDocs.sessionNotes}</Text>
         </Center>
         <Divider pt="5" />
-        <Box pl="3%" pt="3%" pr="3%">
+        <Box pl="3%" pt="3%" pr="3%" pb="10">
           <SessionTabs session={sessionDocs} />
         </Box>
+        <Footer />
       </Box>
     );
   } else {
