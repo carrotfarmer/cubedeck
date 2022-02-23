@@ -14,6 +14,7 @@ import {
   convertToMinutesAndSeconds,
   prettify,
   sessionTagColor,
+  truncate,
 } from "../../utils";
 
 interface SessionRendererProps {
@@ -44,7 +45,7 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
         boxShadow="md"
         boxSize="2xs"
         w={["xs", "md", "md"]}
-        h={["180", "150", "150"]}
+        h="auto"
       >
         <Text pt="5">
           <Link href={`/session/${session.uuid}`} passHref>
@@ -62,11 +63,17 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
           </Link>
         </Text>
 
-        <Text color="gray.500" pt="1" pb={["8%", "2%", "2%"]}>
-          {session.sessionNotes}
+        <Text
+          color="gray.500"
+          pt="1"
+          pb={["8%", "1.5%", "1.5%"]}
+          pl="1.5"
+          pr="1.5"
+        >
+          {truncate(session.sessionNotes, 100)}
         </Text>
         <Box pl="2" textAlign="left" pt={["8%", "8%", "8%"]}>
-          <HStack>
+          <HStack pb="2.5">
             <Badge colorScheme={sessionTagColor(session.sessionType)}>
               {session.sessionType}
             </Badge>

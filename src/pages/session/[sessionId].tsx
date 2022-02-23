@@ -329,7 +329,7 @@ const SessionPage = (): ReactElement<any, any> => {
           <Text color="gray.400">{sessionDocs.sessionNotes}</Text>
         </Center>
         <Divider pt="5" />
-        <Box pl="3%" pt="3%" pr="3%" pb="10">
+        <Box pl="3%" pt="3%" pr="3%" pb="24">
           <SessionTabs session={sessionDocs} />
         </Box>
         <Footer />

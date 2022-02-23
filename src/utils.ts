@@ -1,4 +1,3 @@
-import { group } from "console";
 import { doc, DocumentData, updateDoc } from "firebase/firestore";
 import { db } from "./firebase.config";
 import { Member } from "./types";
@@ -43,8 +42,8 @@ export const convertToMinutesAndSeconds = (
 
 // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 export const generateInviteCode = (length: number): string => {
-  let result: string = "";
-  const characters: string =
+  let result = "";
+  const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -74,6 +73,7 @@ export const isUserInGroup = (userId: string, group: DocumentData): boolean => {
 };
 
 export const removeFromGroup = (group, userId: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _group = updateDoc(doc(db, `groups/${group.grpId}`), {
     grpMembers: group.grpMembers.filter((member) => member.uuid !== userId),
   });
@@ -86,4 +86,11 @@ export const removeFromGroup = (group, userId: string) => {
       solves: _solves,
     });
   }
+};
+
+export const truncate = (str: string, chars: number): string => {
+  if (str.length > chars) {
+    return str.substring(0, chars) + "...";
+  }
+  return str;
 };

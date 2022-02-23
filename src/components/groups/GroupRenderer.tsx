@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
 import { Group, Member } from "../../types";
+import { truncate } from "../../utils";
 
 interface GroupRendererProps {
   group: Group;
@@ -46,7 +47,7 @@ export const GroupRenderer: React.FC<GroupRendererProps> = ({ group }) => {
                 </Text>
               </Link>
             </Center>
-            <Text pt="5">{group.grpBio}</Text>
+            <Text pt="2">{truncate(group.grpBio, 60)}</Text>
             <Box>
               <Text fontWeight="bold" color={group.grpColor.colorVal} pt="10">
                 Members
