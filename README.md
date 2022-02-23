@@ -4,10 +4,10 @@
 <p align="center">
 <img src="https://api.netlify.com/api/v1/badges/ccb24bd7-1849-451c-b725-ed327f6878d7/deploy-status">
 </p>
-<center>
+<p align="center">
 <h1>cubedeck</h1>
 <p>Taking your cubing skills to the moon! 🚀🌔</p>
-</center>
+</p>
 
 The app is live at [cubedeck.netlify.app](https://cubedeck.netlify.app)
 
@@ -18,6 +18,13 @@ Cubedeck is a web application that is designed to assist cubers to keep track of
 - helping them easily log their solve times and obtaining stats about their solves
 - creating practice sessions to segregate their solves
 - creating and joining friend groups, to compete for the best solves
+
+## Screenshots
+
+![session screenshot](https://i.imgur.com/vcb3eZU.png)
+![groups screenshot](https://i.imgur.com/8I86LAG.png)
+![groups indiv ss](https://i.imgur.com/BpyZjCc.png)
+![home page](https://i.imgur.com/pOImEEM.png)
 
 ## Technologies
 
