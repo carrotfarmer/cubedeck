@@ -1,6 +1,6 @@
 import { doc, DocumentData, updateDoc } from "firebase/firestore";
 import { db } from "./firebase.config";
-import { Member } from "./types";
+import { Member, Solve } from "./types";
 
 export const prettify = (val: number): string => {
   if (val < 10) {
@@ -93,4 +93,17 @@ export const truncate = (str: string, chars: number): string => {
     return str.substring(0, chars) + "...";
   }
   return str;
+};
+
+export const getAllSolves = <Session>(sessions: Array<Session>): number[] => {
+  // get all solves from all sessions
+  const allSolves: number[] = [];
+  sessions.forEach((session: Session) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    session.solves.forEach((solve: Solve) => {
+      allSolves.push(solve.totalInSeconds);
+    });
+  });
+  return allSolves;
 };
