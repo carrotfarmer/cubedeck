@@ -69,7 +69,7 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
             <SimpleGrid
               columns={[1, 1, 1, 2, 3]}
               spacingY={6}
-              spacingX={10}
+              // spacingX={}
               pt="10"
               pl="5"
               pr="5"

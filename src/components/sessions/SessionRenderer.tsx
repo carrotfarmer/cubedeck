@@ -43,7 +43,7 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
         borderColor="cyan.300"
         borderRadius="md"
         boxShadow="md"
-        w="sm"
+        w={["xs", "sm"]}
         h="auto"
       >
         <Text pt="5">
