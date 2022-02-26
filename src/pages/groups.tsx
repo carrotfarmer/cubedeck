@@ -57,7 +57,14 @@ const Groups: NextPage = () => {
         </HStack>
       </Center>
       <Divider pt="5" />
-      <SimpleGrid columns={[1, 3, 3]} spacing="6" pr="5" pl="5" pt="5" pb="10">
+      <SimpleGrid
+        columns={[1, 2, 2, 3]}
+        spacing="6"
+        pr="5"
+        pl="5"
+        pt="5"
+        pb="10"
+      >
         {groupsData.map((group: Group) =>
           group.grpMembers.map((member: Member) =>
             member.uuid === user.uid ? (

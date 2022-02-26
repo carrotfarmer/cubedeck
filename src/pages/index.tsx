@@ -34,7 +34,6 @@ const Index = (): ReactElement<any, any> => {
           <Box pb="15%">
             <Sessions />
           </Box>
-
           <Footer />
         </Box>
       </React.Fragment>
@@ -64,7 +63,6 @@ const Index = (): ReactElement<any, any> => {
       <Box>
         <Navbar />
         <LandingPage />
-        <Footer />
       </Box>
     </React.Fragment>
   );

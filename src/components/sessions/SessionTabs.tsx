@@ -19,11 +19,7 @@ interface SessionTabsProps {
 export const SessionTabs: React.FC<SessionTabsProps> = ({ session }) => {
   return (
     <Box>
-      <Tabs
-        variant="solid-rounded"
-        // colorScheme={group.grpColor.colorVal.split(".")[0]}
-        colorScheme="cyan"
-      >
+      <Tabs variant="solid-rounded" colorScheme="cyan">
         <Center>
           <TabList border="1px" borderRadius="xl" p="4" borderColor="blue.100">
             <Tab>Solves</Tab>

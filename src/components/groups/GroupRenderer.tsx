@@ -31,7 +31,7 @@ export const GroupRenderer: React.FC<GroupRendererProps> = ({ group }) => {
         borderColor={group.grpColor.colorVal}
         borderWidth="thin"
         width="50"
-        height={["2xs", "3xs", "3xs"]}
+        height={["2xs", "xs", "xs", "2xs"]}
       >
         <Flex>
           <Box pl="10">

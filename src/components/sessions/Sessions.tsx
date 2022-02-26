@@ -45,8 +45,8 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
   }
 
   return (
-    <Box textAlign="center" pt="1%">
-      <Tabs variant="solid-rounded" colorScheme="yellow">
+    <Box>
+      <Tabs variant="solid-rounded" colorScheme="yellow" pt="5">
         <Center>
           <TabList
             border="1px"
@@ -60,17 +60,19 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
         </Center>
         <TabPanels pt="5">
           <TabPanel>
-            <Heading fontSize="4xl" fontWeight="bold">
+            <Heading fontSize="4xl" fontWeight="bold" textAlign="center">
               My Practice Sessions
             </Heading>{" "}
-            <CreateSession />
+            <Center>
+              <CreateSession />
+            </Center>
             <SimpleGrid
-              columns={[1, null, 3]}
+              columns={[1, 1, 1, 2, 3]}
               spacingY={6}
+              spacingX={10}
               pt="10"
               pl="5"
               pr="5"
-              spacingX={10}
             >
               {sessions.map((session: Session) => (
                 <GridItem key={session.uuid}>
@@ -92,7 +94,9 @@ export const Sessions: React.FC<SessionsProps> = ({}) => {
             )}
           </TabPanel>
           <TabPanel>
-            <PersonalStats user={user} />
+            <Center>
+              <PersonalStats user={user} />
+            </Center>
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -43,8 +43,7 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
         borderColor="cyan.300"
         borderRadius="md"
         boxShadow="md"
-        boxSize="2xs"
-        w={["xs", "md", "md"]}
+        w="sm"
         h="auto"
       >
         <Text pt="5">
@@ -69,6 +68,7 @@ export const SessionRenderer: React.FC<SessionRendererProps> = ({
           pb={["8%", "1.5%", "1.5%"]}
           pl="1.5"
           pr="1.5"
+          textAlign="center"
         >
           {truncate(session.sessionNotes, 100)}
         </Text>
