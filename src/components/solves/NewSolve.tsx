@@ -110,7 +110,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ session }) => {
             colorScheme="teal"
             onClick={() => {
               if (
-                Number(minutes * 60) + Number(seconds) > 1 &&
+                Number(minutes * 60) + Number(seconds) >= 1 &&
                 Number(minutes) + Number(seconds) < 3600 &&
                 Number(minutes) < 60 &&
                 Number(seconds) < 60 &&

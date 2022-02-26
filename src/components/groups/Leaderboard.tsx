@@ -36,7 +36,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ group }) => {
         colorScheme={group.grpColor.colorVal.split(".")[0]}
       >
         <TableCaption fontSize="xl">
-          Top 10 solves for {group.grpName}
+          Top solves for {group.grpName}
         </TableCaption>
         <Thead>
           <Tr>
@@ -45,22 +45,29 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({ group }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {topThree.map((solve: GroupSolve) => {
-            return (
-              <Tr key={solve.id}>
-                <Td>
-                  {prettify(solve.minutes)}:{prettify(solve.seconds)}
-                </Td>
-                <Td>
-                  <HStack>
-                    <Avatar size="sm" src={solve.member.profileImage} />
-                    <Text>{solve.member.name}</Text>
-                    <ImTrophy color="orange" />
-                  </HStack>
-                </Td>
-              </Tr>
-            );
-          })}
+          {topThree.length > 0 &&
+            topThree.map((solve: GroupSolve) => {
+              return (
+                <Tr key={solve.id}>
+                  <Td>
+                    {prettify(solve.minutes)}:{prettify(solve.seconds)}
+                  </Td>
+                  <Td>
+                    <HStack>
+                      <Avatar size="sm" src={solve.member.profileImage} />
+                      <Text>{solve.member.name}</Text>
+                      <ImTrophy color="orange" />
+                    </HStack>
+                  </Td>
+                </Tr>
+              );
+            })}
+          {topThree.length < 1 && (
+            <Tr>
+              <Td>No solves yet!</Td>
+              <Td></Td>
+            </Tr>
+          )}
           {remaining.map((solve: GroupSolve) => {
             return (
               <Tr key={solve.id}>

@@ -7,7 +7,7 @@ export const Footer: React.FC<FooterProps> = ({}) => {
   return (
     <Box bgColor="yellow.200">
       <Center>
-        <Text pt="2%" color="yellow.800" fontWeight="bold" height="20">
+        <Text pt="2.5%" color="yellow.800" fontWeight="bold" height="24">
           &copy; 2022 Dhruva Srinivas &bull;{" "}
           <Link
             href="https://github.com/carrotfarmer/cubedeck"

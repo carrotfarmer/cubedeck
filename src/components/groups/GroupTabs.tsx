@@ -13,6 +13,7 @@ import { Members } from "./Members";
 import { Solves } from "./Solves";
 import { User } from "firebase/auth";
 import { Leaderboard } from "./Leaderboard";
+import { GroupStats } from "./GroupStats";
 
 interface GroupTabsProps {
   group: DocumentData;
@@ -38,6 +39,7 @@ export const GroupTabs: React.FC<GroupTabsProps> = ({
           >
             <Tab>Solves</Tab>
             <Tab>Leaderboard</Tab>
+            <Tab>Stats</Tab>
             <Tab>Members</Tab>
           </TabList>
         </Center>
@@ -48,7 +50,9 @@ export const GroupTabs: React.FC<GroupTabsProps> = ({
           <TabPanel>
             <Leaderboard group={group} />
           </TabPanel>
-
+          <TabPanel>
+            <GroupStats group={group} />
+          </TabPanel>
           <TabPanel>
             <Members
               groupMembers={group.grpMembers}

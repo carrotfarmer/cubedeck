@@ -113,7 +113,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ group }) => {
             colorScheme={group.grpColor.colorVal.split(".")[0]}
             onClick={() => {
               if (
-                Number(minutes * 60) + Number(seconds) > 1 &&
+                Number(minutes * 60) + Number(seconds) >= 1 &&
                 Number(minutes) + Number(seconds) < 3600 &&
                 Number(minutes) < 60 &&
                 Number(seconds) < 60 &&
