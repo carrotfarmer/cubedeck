@@ -353,7 +353,7 @@ const GroupPage: NextPage = () => {
                                 }}
                                 ml={3}
                               >
-                                Delete
+                                Leave
                               </Button>
                             </AlertDialogFooter>
                           </AlertDialogContent>
