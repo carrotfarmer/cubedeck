@@ -77,7 +77,9 @@ const Groups: NextPage = () => {
           )
         )}
       </SimpleGrid>
-      <Footer />
+      <Box pt="10">
+        <Footer />
+      </Box>
     </Box>
   );
 };
