@@ -13,4 +13,4 @@ jobs:
           node-version: "17"
       - uses: wagoid/commitlint-github-action@v4
         with:
-          configFile: commitlint.config.ts
+          configFile: .commitlintrc.json
