@@ -79,6 +79,8 @@ yarn
 - Create a firebase project
 - Add your firebase credentials to a `.env` file like so:
 
+> Check out `.env.example`
+
 ```env
 NEXT_PUBLIC_API_KEY=
 NEXT_PUBLIC_AUTH_DOMAIN=
