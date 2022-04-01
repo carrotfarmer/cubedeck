@@ -5,8 +5,6 @@
 <img src="https://api.netlify.com/api/v1/badges/ccb24bd7-1849-451c-b725-ed327f6878d7/deploy-status" />
 <img src="https://img.shields.io/github/stars/carrotfarmer/cubedeck" />
 <img src="https://img.shields.io/github/license/carrotfarmer/cubedeck" />
-<img src="https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fcarrotfarmer%2Fcubedeck
-" />
 </p>
 <p align="center">
 <h1>cubedeck</h1>
