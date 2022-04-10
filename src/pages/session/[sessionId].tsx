@@ -49,7 +49,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { Navbar } from "../../components/std/Navbar";
+import { Navbar } from "../../components/utils/nav/Navbar";
 import { Session } from "../../types";
 
 import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";

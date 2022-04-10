@@ -43,7 +43,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { auth, db } from "../../firebase.config";
 import { getGroupById, isUserInGroup, removeFromGroup } from "../../utils";
 import DefaultErrorPage from "next/error";
-import { Navbar } from "../../components/std/Navbar";
+import { Navbar } from "../../components/utils/nav/Navbar";
 import {
   ChevronDownIcon,
   CopyIcon,

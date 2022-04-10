@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { FaGoogle } from "react-icons/fa";
-import { auth } from "../../firebase.config";
+import { auth } from "../../../firebase.config";
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import Router from "next/router";
 

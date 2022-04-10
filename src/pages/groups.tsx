@@ -16,7 +16,7 @@ import { CreateGroup } from "../components/groups/CreateGroup";
 import { GroupRenderer } from "../components/groups/GroupRenderer";
 import { JoinGroup } from "../components/groups/JoinGroup";
 import { Footer } from "../components/std/Footer";
-import { Navbar } from "../components/std/Navbar";
+import { Navbar } from "../components/utils/nav/Navbar";
 import { PageHead } from "../components/utils/PageHead";
 import { auth, db } from "../firebase.config";
 import { Group, Member } from "../types";

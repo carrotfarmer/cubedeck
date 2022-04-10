@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { auth } from "../firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Navbar } from "../components/std/Navbar";
+import { Navbar } from "../components/utils/nav/Navbar";
 import { Box, Spinner, Text } from "@chakra-ui/react";
 import { Sessions } from "../components/sessions/Sessions";
 import { LandingPage } from "../components/lpg/LandingPage";

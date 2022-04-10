@@ -23,7 +23,7 @@ import { motion } from "framer-motion";
 import "@fontsource/staatliches";
 import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase.config";
+import { auth } from "../../../firebase.config";
 
 interface NavbarProps {}
 
