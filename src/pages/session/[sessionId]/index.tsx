@@ -1,4 +1,4 @@
-import { auth, db } from "../../firebase.config";
+import { auth, db } from "../../../firebase.config";
 import {
   collection,
   deleteDoc,
@@ -49,14 +49,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { Navbar } from "../../components/utils/nav/Navbar";
-import { Session } from "../../types";
+import { Navbar } from "../../../components/utils/nav/Navbar";
+import { Session } from "../../../types";
 
 import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { puzzleTypes } from "../../constants";
-import { SessionTabs } from "../../components/sessions/SessionTabs";
-import { PageHead } from "../../components/utils/PageHead";
-import { Footer } from "../../components/std/Footer";
+import { puzzleTypes } from "../../../constants";
+import { SessionTabs } from "../../../components/sessions/SessionTabs";
+import { PageHead } from "../../../components/utils/PageHead";
+import { Footer } from "../../../components/std/Footer";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SessionPage = (): ReactElement<any, any> => {
