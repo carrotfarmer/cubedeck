@@ -200,7 +200,7 @@ const SessionPage = (): ReactElement<any, any> => {
                     <Menu>
                       <MenuButton pt="5%">
                         <Button>
-                          Session Type
+                          {puzzleType}
                           <ChevronDownIcon />
                         </Button>
                       </MenuButton>

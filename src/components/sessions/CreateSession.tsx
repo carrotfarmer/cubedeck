@@ -17,7 +17,6 @@ import {
   MenuItem,
   MenuList,
   MenuButton,
-  Text,
   useToast,
 } from "@chakra-ui/react";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -34,7 +33,7 @@ interface CreateSessionProps {}
 export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
   // get logged in user
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   // modal stuff
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -66,10 +65,7 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
   const toast = useToast();
 
   // default puzzle type
-  let puzzleType: string = DEFAULT_PUZZLE_TYPE;
-
-  const onPuzzleTypeChange = (newType: string): string =>
-    (puzzleType = newType);
+  const [puzzleType, setPuzzleType] = useState<string>(DEFAULT_PUZZLE_TYPE);
 
   const uuid: string = uuidv4();
 
@@ -110,16 +106,13 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
             <Menu>
               <Box pt="4%">
                 <MenuButton rightIcon={<ChevronDownIcon />} as={Button}>
-                  Session Type
+                  {puzzleType}
                 </MenuButton>
-                <Text fontSize="smaller" pt="2.5">
-                  Default: 3x3
-                </Text>
               </Box>
               <MenuList>
                 {puzzleTypes.map((puzzleType: string) => (
                   <MenuItem
-                    onClick={() => onPuzzleTypeChange(puzzleType)}
+                    onClick={() => setPuzzleType(puzzleType)}
                     key={puzzleType}
                   >
                     {puzzleType}
