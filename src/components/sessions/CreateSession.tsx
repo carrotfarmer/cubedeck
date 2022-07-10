@@ -137,7 +137,7 @@ export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
                   });
                   setSessionTitle("");
                   setSessionNote("");
-                  puzzleType = "";
+                  setPuzzleType(DEFAULT_PUZZLE_TYPE);
                   toast({
                     title: "Session Created",
                     description: "Session created successfully",
