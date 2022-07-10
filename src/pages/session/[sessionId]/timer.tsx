@@ -116,7 +116,7 @@ const TimerPage: NextPage = () => {
             {formatMilliseconds(time)}
           </Text>
           <Flex experimental_spaceX={4} flexDir="row-reverse">
-            <Button onClick={handlePauseResumeStart}>
+            <Button onClick={handlePauseResumeStart} autoFocus={true}>
               {isActive ? "Pause" : time === 0 ? "Start" : "Resume"}
             </Button>
             {time > 0 && <Button onClick={handleReset}>Reset</Button>}
