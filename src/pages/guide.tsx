@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { Footer } from "../components/std/Footer";
-import { Navbar } from "../components/std/Navbar";
+import { Navbar } from "../components/utils/nav/Navbar";
 import { PageHead } from "../components/utils/PageHead";
 
 const GuidePage: NextPage = () => {

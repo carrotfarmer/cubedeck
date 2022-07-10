@@ -1,4 +1,4 @@
-import { auth, db } from "../../firebase.config";
+import { auth, db } from "../../../firebase.config";
 import {
   collection,
   deleteDoc,
@@ -46,17 +46,26 @@ import {
   PopoverTrigger,
   Spinner,
   Text,
+  Link,
   useToast,
 } from "@chakra-ui/react";
 
-import { Navbar } from "../../components/utils/nav/Navbar";
-import { Session } from "../../types";
+import NextLink from "next/link";
 
-import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { puzzleTypes } from "../../constants";
-import { SessionTabs } from "../../components/sessions/SessionTabs";
-import { PageHead } from "../../components/utils/PageHead";
-import { Footer } from "../../components/std/Footer";
+import { Navbar } from "../../../components/utils/nav/Navbar";
+import { Session } from "../../../types";
+
+import {
+  ChevronDownIcon,
+  DeleteIcon,
+  EditIcon,
+  RepeatClockIcon,
+} from "@chakra-ui/icons";
+import { puzzleTypes } from "../../../constants";
+import { SessionTabs } from "../../../components/sessions/SessionTabs";
+import { PageHead } from "../../../components/utils/PageHead";
+import { Footer } from "../../../components/std/Footer";
+import { FaClock } from "react-icons/fa";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SessionPage = (): ReactElement<any, any> => {
@@ -200,7 +209,7 @@ const SessionPage = (): ReactElement<any, any> => {
                     <Menu>
                       <MenuButton pt="5%">
                         <Button>
-                          Session Type
+                          {puzzleType}
                           <ChevronDownIcon />
                         </Button>
                       </MenuButton>
@@ -327,6 +336,13 @@ const SessionPage = (): ReactElement<any, any> => {
         </Center>
         <Center pl="16" pr="16">
           <Text color="gray.400">{sessionDocs.sessionNotes}</Text>
+        </Center>
+        <Center pl="16" pr="16" mt={4}>
+          <NextLink href={`/session/${sessionId}/timer`} passHref>
+            <Button as={Link} leftIcon={<FaClock />} colorScheme="orange">
+              Timer
+            </Button>
+          </NextLink>
         </Center>
         <Divider pt="5" />
         <Box pl="3%" pt="3%" pr="3%" pb="24">
