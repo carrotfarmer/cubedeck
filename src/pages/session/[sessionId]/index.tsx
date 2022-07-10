@@ -55,12 +55,7 @@ import NextLink from "next/link";
 import { Navbar } from "../../../components/utils/nav/Navbar";
 import { Session } from "../../../types";
 
-import {
-  ChevronDownIcon,
-  DeleteIcon,
-  EditIcon,
-  RepeatClockIcon,
-} from "@chakra-ui/icons";
+import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { puzzleTypes } from "../../../constants";
 import { SessionTabs } from "../../../components/sessions/SessionTabs";
 import { PageHead } from "../../../components/utils/PageHead";
