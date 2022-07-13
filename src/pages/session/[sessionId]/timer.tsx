@@ -7,6 +7,7 @@ import {
   Button,
   Box,
   useToast,
+  IconButton,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { NextRouter, useRouter } from "next/router";
@@ -17,6 +18,7 @@ import { PageHead } from "../../../components/utils/PageHead";
 import { auth, db } from "../../../firebase.config";
 import { updateDoc, doc, arrayUnion } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
+import { FaPause, FaPlay } from "react-icons/fa";
 
 const TimerPage: NextPage = () => {
   const router: NextRouter = useRouter();
@@ -110,21 +112,28 @@ const TimerPage: NextPage = () => {
           mt={16}
           justifyContent="center"
           alignItems="center"
-          experimental_spaceY={8}
         >
           <Text fontWeight="bold" fontSize="2xl">
             {formatMilliseconds(time)}
           </Text>
-          <Flex experimental_spaceX={4} flexDir="row-reverse">
-            <Button onClick={handlePauseResumeStart} autoFocus={true}>
-              {isActive ? "Pause" : time === 0 ? "Start" : "Resume"}
+          <Flex flexDir="column" experimental_spaceY={8} mt={16}>
+            <Button onClick={handleReset} isDisabled={time === 0}>
+              Reset
             </Button>
-            {time > 0 && <Button onClick={handleReset}>Reset</Button>}
-          </Flex>
-
-          {time > 0 && !isActive && (
+            <IconButton
+              onClick={handlePauseResumeStart}
+              autoFocus={true}
+              rounded="full"
+              h={48}
+              w={48}
+              mt={8}
+              size="lg"
+              icon={isActive ? <FaPause /> : <FaPlay />}
+              aria-label={isActive ? "Pause" : time === 0 ? "Start" : "Resume"}
+            />
             <Button
-              colorScheme="teal"
+              isDisabled={!(time > 0 && !isActive)}
+              colorScheme="orange"
               onClick={async () => {
                 await addSolveToSession();
                 setTime(0);
@@ -139,7 +148,7 @@ const TimerPage: NextPage = () => {
             >
               Record Solve
             </Button>
-          )}
+          </Flex>
         </Flex>
       </Center>
     </Box>
