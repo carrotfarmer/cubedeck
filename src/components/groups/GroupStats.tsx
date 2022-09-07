@@ -59,6 +59,30 @@ export const GroupStats: React.FC<GroupStatsProps> = ({ group }) => {
     { member: group.grpMembers[0], averageTime: Infinity }
   );
 
+  // return fastest solve and the person with that solve time
+  const fastestSolve: {
+    member: Member;
+    solve: Solve;
+  } = group.grpMembers.reduce(
+    (acc, curr: Member) => {
+      const solves = getSolvesOfAMember(curr);
+      const fastestSolve = solves.reduce((acc, curr) => {
+        if (curr.totalInSeconds < acc.totalInSeconds) {
+          return curr;
+        }
+        return acc;
+      }, solves[0]);
+      if (fastestSolve.totalInSeconds < acc.solve.totalInSeconds) {
+        return {
+          member: curr,
+          solve: fastestSolve,
+        };
+      }
+      return acc;
+    },
+    { member: group.grpMembers[0], solve: group.solves[0] }
+  );
+
   const convertedBestSolver: {
     minutes: number;
     seconds: number;
@@ -92,7 +116,7 @@ export const GroupStats: React.FC<GroupStatsProps> = ({ group }) => {
             label="Member with best average solve time"
             aria-label="tooltip"
           >
-            Fastest Solver
+            Fastest Solver (avg)
           </Tooltip>
         </Heading>
       </Center>
@@ -100,6 +124,15 @@ export const GroupStats: React.FC<GroupStatsProps> = ({ group }) => {
         <Heading>
           {bestSolver.member.name} - {prettify(convertedBestSolver.minutes)}:
           {prettify(convertedBestSolver.seconds)}
+        </Heading>
+      </Center>
+      <Center pt="5">
+        <Heading fontSize="2xl">Fastest Solve</Heading>
+      </Center>
+      <Center color="blue.300">
+        <Heading>
+          {prettify(fastestSolve.solve.minutes)}:
+          {prettify(fastestSolve.solve.seconds)} - {fastestSolve.member.name}
         </Heading>
       </Center>
     </Box>

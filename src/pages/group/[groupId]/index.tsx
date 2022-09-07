@@ -40,10 +40,10 @@ import Router, { useRouter } from "next/router";
 import type { NextRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { auth, db } from "../../firebase.config";
-import { getGroupById, isUserInGroup, removeFromGroup } from "../../utils";
+import { auth, db } from "../../../firebase.config";
+import { getGroupById, isUserInGroup, removeFromGroup } from "../../../utils";
 import DefaultErrorPage from "next/error";
-import { Navbar } from "../../components/utils/nav/Navbar";
+import { Navbar } from "../../../components/utils/nav/Navbar";
 import {
   ChevronDownIcon,
   CopyIcon,
@@ -51,12 +51,12 @@ import {
   EditIcon,
 } from "@chakra-ui/icons";
 import React, { useState } from "react";
-import { GroupColor } from "../../types";
-import { DEFAULT_GROUP_COLOR, GROUP_COLORS } from "../../constants";
+import { GroupColor } from "../../../types";
+import { DEFAULT_GROUP_COLOR, GROUP_COLORS } from "../../../constants";
 import { ImExit } from "react-icons/im";
-import { GroupTabs } from "../../components/groups/GroupTabs";
-import { PageHead } from "../../components/utils/PageHead";
-import { Footer } from "../../components/std/Footer";
+import { GroupTabs } from "../../../components/groups/GroupTabs";
+import { PageHead } from "../../../components/utils/PageHead";
+import { Footer } from "../../../components/std/Footer";
 
 const GroupPage: NextPage = () => {
   const router: NextRouter = useRouter();

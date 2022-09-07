@@ -15,12 +15,17 @@ import {
   NumberInputField,
   PopoverFooter,
   Text,
+  Link,
+  Box,
 } from "@chakra-ui/react";
 import { arrayUnion, doc, DocumentData, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase.config";
 import { v4 as uuidv4 } from "uuid";
+import { FaClock } from "react-icons/fa";
+
+import NextLink from "next/link";
 
 interface NewSolveProps {
   group: DocumentData;
@@ -38,7 +43,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ group }) => {
   const close = () => setIsOpen(false);
   const toast = useToast();
 
-  const addSolveToSession = async (solve: {
+  const addSolveToGroupSession = async (solve: {
     minutes: number;
     seconds: number;
   }): Promise<void> => {
@@ -104,6 +109,17 @@ export const NewSolve: React.FC<NewSolveProps> = ({ group }) => {
                   <NumberInputField />
                   <Text fontSize="xs">secs</Text>
                 </NumberInput>
+                <Box pb="3">
+                  <NextLink href={`/group/${group.grpId}/timer`} passHref>
+                    <Button
+                      as={Link}
+                      leftIcon={<FaClock />}
+                      colorScheme="orange"
+                    >
+                      Timer
+                    </Button>
+                  </NextLink>
+                </Box>
               </HStack>
             </FocusLock>
           </FormControl>
@@ -120,7 +136,7 @@ export const NewSolve: React.FC<NewSolveProps> = ({ group }) => {
                 Number(minutes) === Math.floor(Number(minutes)) &&
                 Number(seconds) === Math.floor(Number(seconds))
               ) {
-                addSolveToSession({
+                addSolveToGroupSession({
                   minutes,
                   seconds,
                 });
