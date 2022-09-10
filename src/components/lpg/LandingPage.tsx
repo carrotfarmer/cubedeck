@@ -1,8 +1,9 @@
-import { Box, Center, Heading, Text, Image } from "@chakra-ui/react";
+import { Box, Center, Heading, Text, Image, Button } from "@chakra-ui/react";
 import React from "react";
 import { LINEAR_GRADIENT_THEME } from "../../constants";
 import { Features } from "./FeaturesSection";
 import { GetStarted } from "./GetStarted";
+import NextLink from "next/link";
 
 interface LandingPageProps {}
 
@@ -26,7 +27,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({}) => {
           Taking your cubing skills to the moon! 🚀🌕
         </Text>
       </Center>
+      <Center pt="5">
+        <Text>Try it! It&apos;s free! 🚀</Text>
+      </Center>
       <Center>
+        <Box pt="5">
+          <NextLink href="/timer" passHref>
+            <Button colorScheme="orange">Check out the Timer</Button>
+          </NextLink>
+        </Box>
+      </Center>
+      <Center pt="5">
         <Image
           src="https://www.pinclipart.com/picdir/big/541-5413373_clip-art-png-download.png"
           boxSize="36"
