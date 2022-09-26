@@ -76,7 +76,7 @@ const TimerPage: NextPage = () => {
   let toastType: "info" | "warning" | "success" | "error" = "info";
 
   user
-    ? ((toastMsg = "Use the session/group timer to record your solve."),
+    ? ((toastMsg = "Record solves in sessions or groups"),
       (toastTitle = "Timer"),
       (toastType = "error"))
     : ((toastMsg = "Start your cubing journey by signing up! :)"),
