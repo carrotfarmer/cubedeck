@@ -1,106 +1,75 @@
-import { DeleteIcon } from "@chakra-ui/icons";
-import {
-  ResponsiveValue,
-  useToast,
-  Box,
-  IconButton,
-  Text,
-  Avatar,
-} from "@chakra-ui/react";
+import { FiTrash2 } from "react-icons/fi";
 import { updateDoc, doc, DocumentData } from "firebase/firestore";
-import { motion } from "framer-motion";
-import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useState } from "react";
 import { auth, db } from "../../firebase.config";
 import { GroupColor, GroupSolve } from "../../types";
-import { prettify } from "../../utils";
+import { groupAccent } from "../../constants";
+import { displayTime } from "../std/StatCards";
+import { Avatar } from "../ui";
+import { useToast } from "../ui/Providers";
 
-interface GroupSolveRendererProps {
-  solve: GroupSolve;
-  groupColor: GroupColor;
-  group: DocumentData;
-}
-
-export const GroupSolveRenderer: React.FC<GroupSolveRendererProps> = ({
+export const GroupSolveRenderer = ({
   solve,
   groupColor,
   group,
+}: {
+  solve: GroupSolve;
+  groupColor: GroupColor;
+  group: DocumentData;
 }) => {
-  const [isHovering, setIsHovering] =
-    useState<ResponsiveValue<VisibilityState>>("hidden");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
+  const [deleting, setDeleting] = useState(false);
   const toast = useToast();
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  const deleteSolve = async () => {
-    await updateDoc(doc(db, `groups/${group.grpId}`), {
-      solves: group.solves.filter((s) => s.id !== solve.id),
-    });
+  const canDelete =
+    user &&
+    (user.uid === solve.member.uuid || user.uid === group.grpOwner.uuid);
+  const remove = async () => {
+    if (!canDelete || deleting) return;
+    setDeleting(true);
+    try {
+      await updateDoc(doc(db, "groups", group.grpId), {
+        solves: group.solves.filter((item) => item.id !== solve.id),
+      });
+      toast({ title: "Solve deleted", status: "info" });
+    } catch {
+      toast({ title: "Could not delete solve", status: "error" });
+      setDeleting(false);
+    }
   };
-
-  let paddingTop = 10;
-
-  if (user.uid === solve.member.uuid || user.uid === group.grpOwner.uuid) {
-    paddingTop = 3;
-  }
-
   return (
-    <motion.div
-      whileHover={{
-        scale: 1.08,
-      }}
+    <div
+      className="solve-card border-t-2"
+      style={{ borderTopColor: groupAccent(groupColor.colorVal) }}
     >
-      <Box
-        bgColor={groupColor.colorVal}
-        color="black"
-        height="28"
-        width="36"
-        textAlign="center"
-        borderRadius="xl"
-        onMouseEnter={() => setIsHovering("visible")}
-        onMouseLeave={() => setIsHovering("hidden")}
-      >
-        <Box textAlign="right">
-          {(user.uid === solve.member.uuid ||
-            user.uid === group.grpOwner.uuid) && (
-            <IconButton
-              icon={<DeleteIcon />}
-              visibility={isHovering}
-              color="red"
-              size="xs"
-              bgColor={`${groupColor.colorVal.split(".")[0]}.100`}
-              _hover={{ bgColor: `${groupColor.colorVal.split(".")[0]}.200` }}
-              onClick={() => {
-                deleteSolve();
-                toast({
-                  title: "Solve Deleted",
-                  description: "Successfully deleted the solve",
-                  status: "info",
-                  duration: 5000,
-                  isClosable: true,
-                });
-              }}
-              aria-label="delete solve"
-            />
+      {canDelete && (
+        <button
+          type="button"
+          className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded text-muted/60 hover:bg-soft hover:text-red-500 disabled:opacity-30"
+          aria-label={`Delete solve by ${solve.member.name}`}
+          onClick={remove}
+          disabled={deleting}
+        >
+          {deleting ? (
+            <span className="spinner h-3 w-3" />
+          ) : (
+            <FiTrash2 size={11} />
           )}
-        </Box>
-        <Text fontSize="xl" fontWeight="extrabold" pt={paddingTop}>
-          {prettify(solve.minutes)}:{prettify(solve.seconds)}
-        </Text>
-        <Box pt="2.5">
-          <Avatar
-            size="xs"
-            // align to the left
-            ml="-70%"
-            name={solve.member.name}
-            src={solve.member.profileImage}
-          />
-        </Box>
-      </Box>
-    </motion.div>
+        </button>
+      )}
+      <span className="mt-2 font-mono text-xl">
+        {displayTime(solve.totalInSeconds)}
+      </span>
+      <div className="mt-2 flex max-w-full items-center gap-1.5">
+        <Avatar
+          size="xs"
+          name={solve.member.name}
+          src={solve.member.profileImage}
+        />
+        <span className="truncate text-[9px] text-muted">
+          {solve.member.name?.split(" ")[0]}
+        </span>
+      </div>
+    </div>
   );
 };

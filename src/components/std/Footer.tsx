@@ -1,23 +1,25 @@
-import { Box, Center, Text, Link } from "@chakra-ui/react";
-import React from "react";
+import Link from "next/link";
+import { FiExternalLink } from "react-icons/fi";
 
-interface FooterProps {}
-
-export const Footer: React.FC<FooterProps> = ({}) => {
-  return (
-    <Box bgColor="yellow.200">
-      <Center>
-        <Text pt="2.5%" color="yellow.800" fontWeight="bold" height="24">
-          &copy; 2022 Dhruva Srinivas &bull;{" "}
-          <Link
-            href="https://github.com/carrotfarmer/cubedeck"
-            target="_blank"
-            color="blue.400"
-          >
-            GitHub
-          </Link>
-        </Text>
-      </Center>
-    </Box>
-  );
-};
+export const Footer = () => (
+  <footer className="mt-auto border-t border-line">
+    <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-5 text-[11px] text-muted sm:px-8">
+      <span>
+        Cubedeck <span className="mx-1.5 opacity-40">/</span> Dhruva Srinivas
+      </span>
+      <div className="flex items-center gap-5">
+        <Link href="/guide" passHref>
+          <a className="hover:text-ink">Guide</a>
+        </Link>
+        <a
+          href="https://github.com/carrotfarmer/cubedeck"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-1 hover:text-ink"
+        >
+          GitHub <FiExternalLink size={10} />
+        </a>
+      </div>
+    </div>
+  </footer>
+);

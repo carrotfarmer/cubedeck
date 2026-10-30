@@ -1,16 +1,16 @@
-import { useColorMode, Button } from "@chakra-ui/react";
-import { SunIcon, MoonIcon } from "@chakra-ui/icons";
+import { FiMoon, FiSun } from "react-icons/fi";
+import { useColorMode } from "../../ui/Providers";
 
 export const DarkModeSwitch = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <Button
+    <button
+      type="button"
+      className="icon-btn"
+      aria-label={`Switch to ${colorMode === "light" ? "dark" : "light"} mode`}
       onClick={toggleColorMode}
-      bgColor="yellow.400"
-      _hover={{ bgColor: "yellow.500" }}
-      color="yellow.900"
     >
-      {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-    </Button>
+      {colorMode === "light" ? <FiMoon size={15} /> : <FiSun size={16} />}
+    </button>
   );
 };

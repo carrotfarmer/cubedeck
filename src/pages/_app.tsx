@@ -1,27 +1,21 @@
-import { ChakraProvider } from "@chakra-ui/react";
-
 import "@fontsource/staatliches";
-
-import theme from "../theme";
+import "../styles/globals.css";
 import { AppProps } from "next/app";
 import NextNProgress from "nextjs-progressbar";
+import { Providers } from "../components/ui/Providers";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
-    <>
-      <ChakraProvider resetCSS theme={theme}>
-        <NextNProgress
-          color="#f5df66"
-          startPosition={0.3}
-          stopDelayMs={200}
-          height={3}
-          options={{ showSpinner: false }}
-        />
-
-        <Component {...pageProps} />
-      </ChakraProvider>
-    </>
+    <Providers>
+      <NextNProgress
+        color="#efd36b"
+        startPosition={0.3}
+        stopDelayMs={200}
+        height={2}
+        options={{ showSpinner: false }}
+      />
+      <Component {...pageProps} />
+    </Providers>
   );
 }
-
 export default MyApp;

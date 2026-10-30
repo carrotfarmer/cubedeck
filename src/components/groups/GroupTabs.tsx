@@ -1,67 +1,43 @@
-import {
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-  Box,
-  Center,
-} from "@chakra-ui/react";
 import { DocumentData } from "firebase/firestore";
-import React from "react";
+import { User } from "firebase/auth";
 import { Members } from "./Members";
 import { Solves } from "./Solves";
-import { User } from "firebase/auth";
 import { Leaderboard } from "./Leaderboard";
 import { GroupStats } from "./GroupStats";
+import { Tabs } from "../ui";
 
-interface GroupTabsProps {
-  group: DocumentData;
-  loggedInUser: User;
-}
-
-export const GroupTabs: React.FC<GroupTabsProps> = ({
+export const GroupTabs = ({
   group,
   loggedInUser,
-}) => {
-  return (
-    <Box>
-      <Tabs
-        variant="solid-rounded"
-        colorScheme={group.grpColor.colorVal.split(".")[0]}
-      >
-        <Center>
-          <TabList
-            border="1px"
-            borderRadius="xl"
-            p="4"
-            borderColor={group.grpColor.colorVal}
-          >
-            <Tab>Solves</Tab>
-            <Tab>Leaderboard</Tab>
-            <Tab>Stats</Tab>
-            <Tab>Members</Tab>
-          </TabList>
-        </Center>
-        <TabPanels>
-          <TabPanel>
-            <Solves group={group} />
-          </TabPanel>
-          <TabPanel>
-            <Leaderboard group={group} />
-          </TabPanel>
-          <TabPanel>
-            <GroupStats group={group} />
-          </TabPanel>
-          <TabPanel>
-            <Members
-              groupMembers={group.grpMembers}
-              group={group}
-              loggedInUser={loggedInUser}
-            />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </Box>
-  );
-};
+}: {
+  group: DocumentData;
+  loggedInUser: User;
+}) => (
+  <Tabs
+    label="Group"
+    tabs={[
+      { value: "solves", label: "Solves", content: <Solves group={group} /> },
+      {
+        value: "leaderboard",
+        label: "Leaderboard",
+        content: <Leaderboard group={group} />,
+      },
+      {
+        value: "stats",
+        label: "Statistics",
+        content: <GroupStats group={group} />,
+      },
+      {
+        value: "members",
+        label: "Members",
+        content: (
+          <Members
+            groupMembers={group.grpMembers}
+            group={group}
+            loggedInUser={loggedInUser}
+          />
+        ),
+      },
+    ]}
+  />
+);

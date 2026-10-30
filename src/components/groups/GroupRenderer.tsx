@@ -1,75 +1,41 @@
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Center,
-  Flex,
-  Spacer,
-  Text,
-} from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { FiArrowUpRight } from "react-icons/fi";
 import Link from "next/link";
-import React from "react";
-import { Group, Member } from "../../types";
-import { truncate } from "../../utils";
+import { Group } from "../../types";
+import { Avatar } from "../ui";
+import { groupAccent } from "../../constants";
 
-interface GroupRendererProps {
-  group: Group;
-}
-
-export const GroupRenderer: React.FC<GroupRendererProps> = ({ group }) => {
-  return (
-    <motion.div
-      whileHover={{
-        scale: 1.05,
-      }}
+export const GroupRenderer = ({ group }: { group: Group }) => (
+  <Link href={`/group/${group.grpId}`} passHref>
+    <a
+      className="panel flex min-h-[166px] flex-col border-t-2 p-4 transition-colors hover:border-x-[#bba34f] hover:border-b-[#bba34f]"
+      style={{ borderTopColor: groupAccent(group.grpColor.colorVal) }}
     >
-      <Box
-        pt="5"
-        borderRadius="md"
-        boxShadow="sm"
-        borderColor={group.grpColor.colorVal}
-        borderWidth="thin"
-        width="50"
-        height={["2xs", "xs", "xs", "2xs"]}
-      >
-        <Flex>
-          <Box pl="10">
-            <Center>
-              <Link href={`/group/${group.grpId}`} passHref>
-                <Text
-                  fontSize="xl"
-                  fontWeight="bold"
-                  color={group.grpColor.colorVal}
-                  _hover={{ textDecoration: "underline", cursor: "pointer" }}
-                >
-                  {group.grpName}
-                </Text>
-              </Link>
-            </Center>
-            <Text pt="2">{truncate(group.grpBio, 60)}</Text>
-            <Box>
-              <Text fontWeight="bold" color={group.grpColor.colorVal} pt="10">
-                Members
-              </Text>
-              <AvatarGroup>
-                {group.grpMembers.map((member: Member) => (
-                  <Avatar
-                    name={member.name}
-                    src={member.profileImage}
-                    size="sm"
-                    key={member.uuid}
-                  />
-                ))}
-              </AvatarGroup>
-            </Box>
-          </Box>
-          <Spacer />
-          <Box pr="5">
-            <Avatar name={group.grpName} src={group.grpImg} size="xl" />
-          </Box>
-        </Flex>
-      </Box>
-    </motion.div>
-  );
-};
+      <div className="mb-3 flex items-center justify-between">
+        <Avatar name={group.grpName} src={group.grpImg} size="sm" />
+        <FiArrowUpRight size={14} className="text-muted" />
+      </div>
+      <h2 className="break-words font-sans text-sm font-medium">
+        {group.grpName}
+      </h2>
+      {group.grpBio && (
+        <p className="mt-1.5 line-clamp-2 text-xs text-muted">{group.grpBio}</p>
+      )}
+      <div className="mt-auto flex items-center justify-between pt-5">
+        <div className="flex -space-x-1.5">
+          {group.grpMembers.slice(0, 4).map((member) => (
+            <Avatar
+              size="xs"
+              key={member.uuid}
+              name={member.name}
+              src={member.profileImage}
+            />
+          ))}
+        </div>
+        <span className="text-[10px] text-muted">
+          {group.grpMembers.length}{" "}
+          {group.grpMembers.length === 1 ? "member" : "members"}
+        </span>
+      </div>
+    </a>
+  </Link>
+);

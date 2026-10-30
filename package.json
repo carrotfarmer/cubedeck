@@ -4,32 +4,25 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "prepare": "husky install",
-    "pre-commit": "next lint"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@chakra-ui/focus-lock": "^1.2.4",
-    "@chakra-ui/icons": "1.1.5",
-    "@chakra-ui/react": "1.7.5",
-    "@chakra-ui/theme-tools": "1.1.5",
-    "@emotion/react": "11.1.5",
-    "@emotion/styled": "11.1.5",
     "@fontsource/staatliches": "^4.5.1",
     "firebase": "^9.6.5",
-    "framer-motion": "^4.0.3",
-    "next": "latest",
+    "next": "12.0.10",
     "next-pwa": "^5.5.4",
     "nextjs-progressbar": "^0.0.14",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-firebase-hooks": "^5.0.1",
     "react-icons": "^4.3.1",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "@radix-ui/react-dialog": "1.1.15",
+    "@radix-ui/react-alert-dialog": "1.1.15",
+    "@radix-ui/react-dropdown-menu": "2.1.16",
+    "@radix-ui/react-tabs": "1.1.13"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.2.1",
-    "@commitlint/config-conventional": "^16.2.1",
     "@next/eslint-plugin-next": "^12.1.0",
     "@types/node": "^17.0.23",
     "@types/react": "^17.0.3",
@@ -42,8 +35,10 @@
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
-    "husky": "^7.0.4",
     "prettier": "^2.5.1",
-    "typescript": "4.3.2"
+    "typescript": "4.9.5",
+    "tailwindcss": "^3.4.19",
+    "postcss": "^8.5.6",
+    "autoprefixer": "^10.4.21"
   }
 }

@@ -1,169 +1,112 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  FormControl,
-  FormLabel,
-  Input,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Box,
-  Menu,
-  MenuItem,
-  MenuList,
-  MenuButton,
-  useToast,
-} from "@chakra-ui/react";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import React, { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { v4 } from "uuid";
+import { FiPlus } from "react-icons/fi";
+import { useRouter } from "next/router";
 import { auth, db } from "../../firebase.config";
 import { DEFAULT_PUZZLE_TYPE, puzzleTypes } from "../../constants";
-import { v4 as uuidv4 } from "uuid";
-import { Solve } from "../../types";
-import Router from "next/router";
+import { Button, Dialog, DialogActions, Field, Input } from "../ui";
+import { useToast } from "../ui/Providers";
 
-interface CreateSessionProps {}
-
-export const CreateSession: React.FC<CreateSessionProps> = ({}) => {
-  // get logged in user
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const CreateSession = () => {
   const [user] = useAuthState(auth);
-
-  // modal stuff
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const initialRef = React.useRef();
-  const finalRef = React.useRef();
-
-  // helper function to add the session to firestore
-  const addSessionToFirestore = async (session: {
-    sessionTitle: string;
-    sessionNotes: string;
-    sessionType: string;
-    uuid: string;
-    solves: Solve[];
-  }): Promise<void> => {
-    await setDoc(doc(db, `${user.uid}/${session.uuid}`), {
-      sessionTitle: session.sessionTitle,
-      sessionNotes: session.sessionNotes,
-      sessionType: session.sessionType,
-      uuid: session.uuid,
-      solves: session.solves,
-      createdAt: serverTimestamp(),
-    });
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState(""),
+    [notes, setNotes] = useState(""),
+    [puzzle, setPuzzle] = useState(DEFAULT_PUZZLE_TYPE);
+  const [saving, setSaving] = useState(false);
+  const toast = useToast(),
+    router = useRouter();
+  const create = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!title.trim() || !notes.trim() || !user || saving) return;
+    setSaving(true);
+    const id = v4();
+    try {
+      await setDoc(doc(db, user.uid, id), {
+        sessionTitle: title.trim(),
+        sessionNotes: notes.trim(),
+        sessionType: puzzle,
+        uuid: id,
+        solves: [],
+        createdAt: serverTimestamp(),
+      });
+      setOpen(false);
+      setTitle("");
+      setNotes("");
+      setPuzzle(DEFAULT_PUZZLE_TYPE);
+      await router.push(`/session/${id}`);
+    } catch {
+      toast({
+        title: "Could not create session",
+        description: "Please try again.",
+        status: "error",
+      });
+    } finally {
+      setSaving(false);
+    }
   };
-
-  // initial state for the session title and session note
-  const [sessionTitle, setSessionTitle] = useState("");
-  const [sessionNote, setSessionNote] = useState("");
-
-  const toast = useToast();
-
-  // default puzzle type
-  const [puzzleType, setPuzzleType] = useState<string>(DEFAULT_PUZZLE_TYPE);
-
-  const uuid: string = uuidv4();
-
   return (
-    <Box pt="2%">
-      <Button onClick={onOpen} colorScheme="yellow">
-        Create a Session
-      </Button>
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create your session</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl isRequired>
-              <FormLabel>Session Title</FormLabel>
-              <Input
-                ref={initialRef}
-                id="sessionTitle"
-                placeholder="Eg: School contest practice #1"
-                onChange={(event) => setSessionTitle(event.currentTarget.value)}
-              />
-            </FormControl>
-            <FormControl pt="4%" isRequired>
-              <FormLabel>Session Notes/Description</FormLabel>
-              <Input
-                ref={finalRef}
-                placeholder="My awesome session...."
-                onChange={(event) => setSessionNote(event.currentTarget.value)}
-              />
-            </FormControl>
-
-            <Menu>
-              <Box pt="4%">
-                <MenuButton rightIcon={<ChevronDownIcon />} as={Button}>
-                  {puzzleType}
-                </MenuButton>
-              </Box>
-              <MenuList>
-                {puzzleTypes.map((puzzleType: string) => (
-                  <MenuItem
-                    onClick={() => setPuzzleType(puzzleType)}
-                    key={puzzleType}
-                  >
-                    {puzzleType}
-                  </MenuItem>
-                ))}
-              </MenuList>
-            </Menu>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              colorScheme="yellow"
-              mr={3}
-              onClick={() => {
-                if (sessionTitle !== "" && sessionNote !== "") {
-                  addSessionToFirestore({
-                    sessionTitle,
-                    sessionNotes: sessionNote,
-                    sessionType: puzzleType,
-                    uuid,
-                    solves: [],
-                  });
-                  setSessionTitle("");
-                  setSessionNote("");
-                  setPuzzleType(DEFAULT_PUZZLE_TYPE);
-                  toast({
-                    title: "Session Created",
-                    description: "Session created successfully",
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                  });
-                  onClose();
-                  Router.push(`/session/${uuid}`);
-                } else {
-                  toast({
-                    title: "Session Title/Notes Required",
-                    description: "Please fill in all the missing fields",
-                    status: "error",
-                    duration: 5000,
-                    isClosable: true,
-                  });
-                }
-              }}
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+      title="Create session"
+      trigger={
+        <Button>
+          <FiPlus size={14} />
+          New session
+        </Button>
+      }
+    >
+      <form onSubmit={create}>
+        <div className="space-y-4">
+          <Field id="session-name" label="Name" required>
+            <Input
+              id="session-name"
+              required
+              placeholder="e.g. 3×3 practice"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </Field>
+          <Field id="session-notes" label="Notes" required>
+            <Input
+              id="session-notes"
+              required
+              placeholder="Session notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
+          </Field>
+          <Field id="session-puzzle" label="Puzzle">
+            <select
+              id="session-puzzle"
+              className="input"
+              value={puzzle}
+              onChange={(e) => setPuzzle(e.target.value)}
             >
-              Create
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </Box>
+              {puzzleTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type === "Pyramix" ? "Pyraminx" : type}
+                </option>
+              ))}
+            </select>
+          </Field>
+        </div>
+        <DialogActions>
+          <Button variant="secondary" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            disabled={!title.trim() || !notes.trim()}
+            loading={saving}
+          >
+            Create session
+          </Button>
+        </DialogActions>
+      </form>
+    </Dialog>
   );
 };

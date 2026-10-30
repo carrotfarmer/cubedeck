@@ -1,19 +1,17 @@
 import NextDocument, { Html, Head, Main, NextScript } from "next/document";
-import { ColorModeScript } from "@chakra-ui/react";
 
+const themeScript = `try{var theme=localStorage.getItem('cubedeck-theme')||localStorage.getItem('chakra-ui-color-mode');document.documentElement.classList.toggle('dark',theme==='dark')}catch(e){}`;
 export default class Document extends NextDocument {
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
           <link rel="manifest" href="/manifest.json" />
-          <link rel="apple-touch-icon" href="/icons/512x512-icon.png"></link>
-          <meta name="theme-color" content="#1a202c" />
+          <link rel="apple-touch-icon" href="/icons/512x512-icon.png" />
+          <meta name="theme-color" content="#efd36b" />
         </Head>
-        {/* set favicon of the whole app to the favicon.ico in assets */}
         <body>
-          {/* Make Color mode to persists when you refresh the page. */}
-          <ColorModeScript />
+          <script dangerouslySetInnerHTML={{ __html: themeScript }} />
           <Main />
           <NextScript />
         </body>

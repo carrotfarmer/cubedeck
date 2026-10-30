@@ -1,85 +1,53 @@
-import { DeleteIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  IconButton,
-  ResponsiveValue,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { FiTrash2 } from "react-icons/fi";
 import { updateDoc, doc } from "firebase/firestore";
-import { motion } from "framer-motion";
-import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useState } from "react";
 import { auth, db } from "../../firebase.config";
 import { Session, Solve } from "../../types";
-import { prettify } from "../../utils";
+import { displayTime } from "../std/StatCards";
+import { useToast } from "../ui/Providers";
 
-interface SolveRendererProps {
-  solve: Solve;
-  session: Session;
-}
-
-export const SolveRenderer: React.FC<SolveRendererProps> = ({
+export const SolveRenderer = ({
   solve,
   session,
+}: {
+  solve: Solve;
+  session: Session;
 }) => {
-  const [isHovering, setIsHovering] =
-    useState<ResponsiveValue<VisibilityState>>("hidden");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
+  const [deleting, setDeleting] = useState(false);
   const toast = useToast();
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  const deleteSolve = async () => {
-    await updateDoc(doc(db, `${user.uid}/${session.uuid}`), {
-      solves: session.solves.filter((s) => s.id !== solve.id),
-    });
+  const remove = async () => {
+    if (!user || deleting) return;
+    setDeleting(true);
+    try {
+      await updateDoc(doc(db, user.uid, session.uuid), {
+        solves: session.solves.filter((item) => item.id !== solve.id),
+      });
+      toast({ title: "Solve deleted", status: "info" });
+    } catch {
+      toast({ title: "Could not delete solve", status: "error" });
+      setDeleting(false);
+    }
   };
-
   return (
-    <motion.div
-      whileHover={{
-        scale: 1.08,
-      }}
-    >
-      <Box
-        bgColor="blue.100"
-        color="black"
-        height="28"
-        width="36"
-        textAlign="center"
-        borderRadius="xl"
-        onMouseEnter={() => setIsHovering("visible")}
-        onMouseLeave={() => setIsHovering("hidden")}
+    <div className="solve-card">
+      <button
+        type="button"
+        className="absolute right-1 top-1 flex h-7 w-7 items-center justify-center rounded text-muted/60 hover:bg-soft hover:text-red-500 disabled:opacity-30"
+        aria-label={`Delete solve ${displayTime(solve.totalInSeconds)}`}
+        onClick={remove}
+        disabled={deleting}
       >
-        <Box textAlign="right">
-          <IconButton
-            icon={<DeleteIcon />}
-            visibility={isHovering}
-            color="red"
-            size="xs"
-            bgColor="blue.100"
-            _hover={{ bgColor: "blue.200" }}
-            onClick={() => {
-              deleteSolve();
-              toast({
-                title: "Solve Deleted",
-                description: "Successfully deleted the solve",
-                status: "info",
-                duration: 5000,
-                isClosable: true,
-              });
-            }}
-            aria-label="delete solve"
-          />
-        </Box>
-        <Text fontSize="xl" fontWeight="extrabold" pt="10%">
-          {prettify(solve.minutes)}:{prettify(solve.seconds)}
-        </Text>
-      </Box>
-    </motion.div>
+        {deleting ? (
+          <span className="spinner h-3 w-3" />
+        ) : (
+          <FiTrash2 size={11} />
+        )}
+      </button>
+      <span className="font-mono text-xl">
+        {displayTime(solve.totalInSeconds)}
+      </span>
+    </div>
   );
 };

@@ -32,7 +32,8 @@ Cubedeck is a web application that is designed to assist cubers to keep track of
 
 - React
 - Next.js
-- ChakraUI
+- Tailwind CSS + custom components
+- Radix UI primitives (dialogs, menus, tabs)
 - TypeScript
 - Firebase (Auth/Firestore)
 - Netlify/Netlify Functions (Hosting)

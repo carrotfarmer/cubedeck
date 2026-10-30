@@ -1,94 +1,64 @@
-import {
-  Avatar,
-  Box,
-  HStack,
-  Table,
-  TableCaption,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
 import { DocumentData } from "firebase/firestore";
-import React from "react";
-import { ImTrophy } from "react-icons/im";
+import { FiAward } from "react-icons/fi";
 import { GroupSolve } from "../../types";
-import { prettify } from "../../utils";
+import { displayTime } from "../std/StatCards";
+import { Avatar } from "../ui";
 
-interface LeaderboardProps {
-  group: DocumentData;
-}
-
-export const Leaderboard: React.FC<LeaderboardProps> = ({ group }) => {
-  const bestSolves: GroupSolve[] = group.solves.slice(0, 5).sort((a, b) => {
-    return a.totalInSeconds - b.totalInSeconds;
-  });
-
-  const topThree: GroupSolve[] = bestSolves.slice(0, 3);
-  const remaining: GroupSolve[] = bestSolves.slice(3);
-
+export const Leaderboard = ({ group }: { group: DocumentData }) => {
+  const solves = [...(group.solves as GroupSolve[])]
+    .sort((a, b) => a.totalInSeconds - b.totalInSeconds)
+    .slice(0, 5);
   return (
-    <Box>
-      <Table
-        variant="simple"
-        colorScheme={group.grpColor.colorVal.split(".")[0]}
-      >
-        <TableCaption fontSize="xl">
-          Top solves for {group.grpName}
-        </TableCaption>
-        <Thead>
-          <Tr>
-            <Th fontSize="md">Solve Time</Th>
-            <Th fontSize="md">By</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {topThree.length > 0 &&
-            topThree.map((solve: GroupSolve) => {
-              return (
-                <Tr key={solve.id}>
-                  <Td>
-                    {prettify(solve.minutes)}:{prettify(solve.seconds)}
-                  </Td>
-                  <Td>
-                    <HStack>
-                      <Avatar size="sm" src={solve.member.profileImage} />
-                      <Text>{solve.member.name}</Text>
-                      <ImTrophy color="orange" />
-                    </HStack>
-                  </Td>
-                </Tr>
-              );
-            })}
-          {topThree.length < 1 && (
-            <Tr>
-              <Td>No solves yet!</Td>
-              <Td></Td>
-            </Tr>
-          )}
-          {remaining.map((solve: GroupSolve) => {
-            return (
-              <Tr key={solve.id}>
-                <Td>
-                  {prettify(solve.minutes)}:{prettify(solve.seconds)}
-                </Td>
-                <Td>
-                  <HStack>
-                    <Avatar
-                      src={solve.member.profileImage}
-                      size="xs"
-                      key={solve.member.uuid}
+    <div className="panel overflow-x-auto">
+      <table className="w-full text-left text-xs">
+        <caption className="sr-only">
+          Top five solves for {group.grpName}
+        </caption>
+        <thead className="border-b border-line text-[10px] text-muted">
+          <tr>
+            <th className="px-4 py-3 font-medium">Rank</th>
+            <th className="px-4 py-3 font-medium">Cuber</th>
+            <th className="px-4 py-3 text-right font-medium">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {solves.map((solve, i) => (
+            <tr key={solve.id} className="border-b border-line last:border-0">
+              <td className="px-4 py-3">
+                <span className="inline-flex items-center gap-2 font-mono text-muted">
+                  {i + 1}
+                  {i === 0 && (
+                    <FiAward
+                      size={13}
+                      className="text-[#aa8b2b] dark:text-accent"
                     />
-                    <Text key={solve.member.uuid}>{solve.member.name}</Text>
-                  </HStack>
-                </Td>
-              </Tr>
-            );
-          })}
-        </Tbody>
-      </Table>
-    </Box>
+                  )}
+                </span>
+              </td>
+              <td className="px-4 py-3">
+                <span className="flex items-center gap-2 whitespace-nowrap">
+                  <Avatar
+                    size="xs"
+                    name={solve.member.name}
+                    src={solve.member.profileImage}
+                  />
+                  {solve.member.name}
+                </span>
+              </td>
+              <td className="px-4 py-3 text-right font-mono">
+                {displayTime(solve.totalInSeconds)}
+              </td>
+            </tr>
+          ))}
+          {!solves.length && (
+            <tr>
+              <td colSpan={3} className="px-4 py-9 text-center text-muted">
+                No solves recorded.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 };

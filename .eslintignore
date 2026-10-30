@@ -2,4 +2,3 @@ node_modules/
 .next/
 public/
 next.config.js
-.husky/

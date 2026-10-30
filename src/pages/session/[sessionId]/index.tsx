@@ -1,359 +1,221 @@
-import { auth, db } from "../../../firebase.config";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  DocumentData,
-  DocumentReference,
-  getDocs,
-  query,
-  QueryDocumentSnapshot,
-  QuerySnapshot,
-  serverTimestamp,
-  setDoc,
-  where,
-} from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Router, { NextRouter, useRouter } from "next/router";
-import React, { ReactElement, useState } from "react";
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Box,
-  Button,
-  Center,
-  Divider,
-  FormControl,
-  FormLabel,
-  Heading,
-  HStack,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverFooter,
-  PopoverHeader,
-  PopoverTrigger,
-  Spinner,
-  Text,
-  Link,
-  useToast,
-} from "@chakra-ui/react";
-
-import NextLink from "next/link";
-
+import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { FormEvent, useState } from "react";
+import { FiArrowLeft, FiClock, FiEdit2, FiTrash2 } from "react-icons/fi";
 import { Navbar } from "../../../components/utils/nav/Navbar";
+import { Footer } from "../../../components/std/Footer";
+import { PageState } from "../../../components/std/PageState";
+import { ConfirmDialog } from "../../../components/std/ConfirmDialog";
+import { PageHead } from "../../../components/utils/PageHead";
+import { SessionTabs } from "../../../components/sessions/SessionTabs";
+import {
+  Button,
+  buttonClass,
+  Dialog,
+  DialogActions,
+  Field,
+  Input,
+} from "../../../components/ui";
+import { useToast } from "../../../components/ui/Providers";
+import { puzzleTypes } from "../../../constants";
+import { auth, db } from "../../../firebase.config";
 import { Session } from "../../../types";
 
-import { ChevronDownIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { puzzleTypes } from "../../../constants";
-import { SessionTabs } from "../../../components/sessions/SessionTabs";
-import { PageHead } from "../../../components/utils/PageHead";
-import { Footer } from "../../../components/std/Footer";
-import { FaClock } from "react-icons/fa";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const SessionPage = (): ReactElement<any, any> => {
-  const router: NextRouter = useRouter();
-  const { sessionId } = router.query;
-
-  // currently logged in user
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [user, loading, error] = useAuthState(auth);
-  const [doesSessionExists, setSessionExists] = useState(false);
-  const [sessionDocs, setSessionDocs] = useState<Session>({
-    sessionTitle: "",
-    sessionNotes: "",
-    sessionType: "",
-    uuid: "",
-    solves: [],
-    createdAt: serverTimestamp(),
-  });
-
-  const [isOpen, setIsOpen] = React.useState(false);
-  const open = () => setIsOpen(!isOpen);
-  const close = () => setIsOpen(false);
-  const [sessionTitle, setSessionTitle] = useState(sessionDocs.sessionTitle);
-  const [sessionNotes, setSessionNotes] = useState(sessionDocs.sessionNotes);
-  const [puzzleType, setPuzzleType] = useState(sessionDocs.sessionType);
-
-  const [isAlertOpen, setIsAlertOpen] = React.useState(false);
-  const onClose = () => setIsAlertOpen(false);
-  const cancelRef: React.MutableRefObject<undefined> = React.useRef();
-
-  const initialFocusRef = React.useRef();
-
-  const toast = useToast();
-
-  // fetching user data
-  if (loading) {
+const SessionPage = () => {
+  const router = useRouter();
+  const [user, loading] = useAuthState(auth);
+  if (loading || !router.isReady) return <PageState loading />;
+  if (!user)
     return (
-      <Center pt="25%">
-        <Spinner />
-      </Center>
+      <PageState
+        title="Session"
+        description="Sign in to view this session."
+        signIn
+      />
     );
-  }
-
-  // User is not logged in
-  if (!user) {
-    return <p>You must be logged in to view this page.</p>;
-  }
-
-  // get session data from firestore
-  const userCollection = collection(db, user.uid);
-  const sessionDocQuery = query(userCollection, where("uuid", "==", sessionId));
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _sessionDocs: Promise<void> = getDocs(sessionDocQuery).then(
-    (sessionDocs: QuerySnapshot<DocumentData>) => {
-      const data = sessionDocs.docs;
-      data.map((docs: QueryDocumentSnapshot<DocumentData>) => {
-        const sessionDocData: DocumentData = docs.data();
-        if (typeof sessionDocData.sessionTitle !== "undefined") {
-          setSessionExists(true);
-          setSessionDocs({
-            sessionTitle: sessionDocData.sessionTitle,
-            sessionNotes: sessionDocData.sessionNotes,
-            sessionType: sessionDocData.sessionType,
-            uuid: sessionDocData.uuid,
-            solves: sessionDocData.solves,
-            createdAt: sessionDocData.createdAt,
-          });
-        }
-      });
-    }
+  if (typeof router.query.sessionId !== "string")
+    return <PageState title="Session not found" />;
+  return (
+    <SessionDetail
+      key={router.query.sessionId}
+      id={router.query.sessionId}
+      userId={user.uid}
+    />
   );
-
-  // Session exists
-  if (doesSessionExists) {
-    // const sessionsRef = collection(db, user.uid);
-    const docRef: DocumentReference<DocumentData> = doc(
-      db,
-      user.uid,
-      String(sessionId)
-    );
-    const updateSession = async (
-      sessionTitle: string,
-      sessionNotes: string,
-      sessionType: string
-    ): Promise<void> => {
-      await setDoc(
-        docRef,
-        {
-          sessionTitle,
-          sessionNotes,
-          sessionType,
-        },
-        { merge: true }
-      );
-    };
-
-    const deleteSession = async (): Promise<void> => {
-      await deleteDoc(doc(db, user.uid, String(sessionId)));
-    };
-
-    return (
-      <Box>
-        <PageHead title={`Cubedeck Session: ${sessionDocs.sessionTitle}`} />
-        <Navbar />
-        <Center pt="1%">
-          <HStack>
-            <Box>
-              <Popover
-                isOpen={isOpen}
-                onClose={close}
-                initialFocusRef={initialFocusRef}
-              >
-                <PopoverTrigger>
-                  <Button colorScheme="orange" size="xs" onClick={open}>
-                    <Box pr="1">
-                      <EditIcon />
-                    </Box>
-                    Edit
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <PopoverArrow />
-                  <PopoverCloseButton />
-                  <PopoverHeader fontWeight="bold">Edit Session</PopoverHeader>
-                  <PopoverBody>
-                    <FormControl>
-                      <FormLabel>Session Name</FormLabel>
-                      <Input
-                        placeholder={sessionDocs.sessionTitle}
-                        onChange={(e) => setSessionTitle(e.currentTarget.value)}
-                        ref={initialFocusRef}
-                      />
-                    </FormControl>
-                    <FormControl pt="5">
-                      <FormLabel>Session Notes</FormLabel>
-                      <Input
-                        placeholder={sessionDocs.sessionNotes}
-                        onChange={(e) => setSessionNotes(e.currentTarget.value)}
-                      />
-                    </FormControl>
-                    <Menu>
-                      <MenuButton pt="5%">
-                        <Button>
-                          {puzzleType}
-                          <ChevronDownIcon />
-                        </Button>
-                      </MenuButton>
-                      <Text fontSize="sm" pt="1">
-                        Current session type: {sessionDocs.sessionType}
-                      </Text>
-                      <MenuList>
-                        {puzzleTypes.map((puzzleType) => (
-                          <MenuItem
-                            onClick={() => {
-                              setPuzzleType(puzzleType);
-                            }}
-                            key={puzzleType}
-                          >
-                            {puzzleType}
-                          </MenuItem>
-                        ))}
-                      </MenuList>
-                    </Menu>
-                  </PopoverBody>
-                  <PopoverFooter>
-                    <Button
-                      colorScheme="orange"
-                      mr="2"
-                      onClick={(): void => {
-                        if (sessionTitle !== "") {
-                          updateSession(
-                            sessionTitle,
-                            sessionDocs.sessionNotes,
-                            sessionDocs.sessionType
-                          );
-                          close();
-                        } else if (sessionNotes !== "") {
-                          updateSession(
-                            sessionDocs.sessionTitle,
-                            sessionNotes,
-                            sessionDocs.sessionType
-                          );
-                          close();
-                        } else if (puzzleType !== sessionDocs.sessionType) {
-                          updateSession(
-                            sessionDocs.sessionTitle,
-                            sessionDocs.sessionNotes,
-                            puzzleType
-                          );
-                          close();
-                        } else {
-                          updateSession(
-                            sessionDocs.sessionTitle,
-                            sessionDocs.sessionNotes,
-                            sessionDocs.sessionType
-                          );
-                          close();
-                        }
-                      }}
-                    >
-                      Save
-                    </Button>
-                  </PopoverFooter>
-                </PopoverContent>
-              </Popover>
-            </Box>
-            <Box>
-              <Button
-                colorScheme="red"
-                size="xs"
-                onClick={() => setIsAlertOpen(true)}
-              >
-                <Box pr="1">
-                  <DeleteIcon />
-                </Box>
-                Delete
-              </Button>
-              <>
-                <AlertDialog
-                  isOpen={isAlertOpen}
-                  leastDestructiveRef={cancelRef}
-                  onClose={onClose}
-                >
-                  <AlertDialogOverlay>
-                    <AlertDialogContent>
-                      <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                        Delete Session
-                      </AlertDialogHeader>
-
-                      <AlertDialogBody>
-                        Are you sure? This action cannot be undone.
-                      </AlertDialogBody>
-
-                      <AlertDialogFooter>
-                        <Button ref={cancelRef} onClick={onClose}>
-                          Cancel
-                        </Button>
-                        <Button
-                          colorScheme="red"
-                          onClick={() => {
-                            deleteSession();
-                            onClose();
-                            Router.push("/");
-                            toast({
-                              title: "Session deleted.",
-                              description: "Session deleted successfully.",
-                              status: "success",
-                              duration: 5000,
-                              isClosable: true,
-                            });
-                          }}
-                          ml={3}
-                        >
-                          Delete
-                        </Button>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialogOverlay>
-                </AlertDialog>
-              </>
-            </Box>
-          </HStack>
-        </Center>
-        <Center>
-          <Heading textAlign="center" pt="1%" fontSize="5xl">
-            {sessionDocs.sessionTitle}
-          </Heading>
-        </Center>
-        <Center pl="16" pr="16">
-          <Text color="gray.400">{sessionDocs.sessionNotes}</Text>
-        </Center>
-        <Center pl="16" pr="16" mt={4}>
-          <NextLink href={`/session/${sessionId}/timer`} passHref>
-            <Button as={Link} leftIcon={<FaClock />} colorScheme="orange">
-              Timer
-            </Button>
-          </NextLink>
-        </Center>
-        <Divider pt="5" />
-        <Box pl="3%" pt="3%" pr="3%" pb="24">
-          <SessionTabs session={sessionDocs} />
-        </Box>
-        <Footer />
-      </Box>
-    );
-  } else {
-    return (
-      <Box>
-        {/* 404 not found; cannot return 404 because this component is rendered even on data loading */}
-        <Navbar />
-      </Box>
-    );
-  }
 };
-
+const SessionDetail = ({ id, userId }: { id: string; userId: string }) => {
+  const [data, loading, error] = useDocumentData(doc(db, userId, id));
+  const session = data as Session;
+  const [editOpen, setEditOpen] = useState(false),
+    [removeOpen, setRemoveOpen] = useState(false);
+  const [title, setTitle] = useState(""),
+    [notes, setNotes] = useState(""),
+    [puzzle, setPuzzle] = useState("3x3"),
+    [saving, setSaving] = useState(false);
+  const toast = useToast(),
+    router = useRouter();
+  if (loading) return <PageState loading />;
+  if (error)
+    return (
+      <PageState
+        title="Could not load session"
+        description="Please refresh and try again."
+      />
+    );
+  if (!session)
+    return (
+      <PageState
+        title="Session not found"
+        description="It may have been deleted."
+      />
+    );
+  const save = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!title.trim() || saving) return;
+    setSaving(true);
+    try {
+      await updateDoc(doc(db, userId, id), {
+        sessionTitle: title.trim(),
+        sessionNotes: notes.trim(),
+        sessionType: puzzle,
+      });
+      setEditOpen(false);
+      toast({ title: "Session updated", status: "success" });
+    } catch {
+      toast({ title: "Could not update session", status: "error" });
+    } finally {
+      setSaving(false);
+    }
+  };
+  const deleteSession = async () => {
+    if (saving) return;
+    setSaving(true);
+    try {
+      await deleteDoc(doc(db, userId, id));
+      await router.push("/");
+    } catch {
+      toast({ title: "Could not delete session", status: "error" });
+      setSaving(false);
+    }
+  };
+  return (
+    <>
+      <PageHead title={`${session.sessionTitle} | Cubedeck`} />
+      <Navbar />
+      <main className="page">
+        <Link href="/" passHref>
+          <a className="text-link mb-5 inline-flex items-center gap-1.5 text-xs">
+            <FiArrowLeft size={12} />
+            Sessions
+          </a>
+        </Link>
+        <div className="page-header">
+          <div className="min-w-0">
+            <h1 className="page-title break-words">{session.sessionTitle}</h1>
+            <div className="mt-2 flex items-center gap-3">
+              <span className="badge">
+                {session.sessionType === "Pyramix"
+                  ? "Pyraminx"
+                  : session.sessionType}
+              </span>
+              <span className="text-[11px] text-muted">
+                {session.solves.length} solves
+              </span>
+            </div>
+            {session.sessionNotes && (
+              <p className="mt-3 max-w-lg text-xs text-muted">
+                {session.sessionNotes}
+              </p>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            <Button
+              small
+              variant="secondary"
+              onClick={() => {
+                setTitle(session.sessionTitle);
+                setNotes(session.sessionNotes || "");
+                setPuzzle(session.sessionType);
+                setEditOpen(true);
+              }}
+            >
+              <FiEdit2 size={12} />
+              Edit
+            </Button>
+            <Button
+              small
+              variant="ghost"
+              aria-label="Delete session"
+              onClick={() => setRemoveOpen(true)}
+            >
+              <FiTrash2 size={12} />
+            </Button>
+            <Link href={`/session/${id}/timer`} passHref>
+              <a className={buttonClass("primary", true)}>
+                <FiClock size={12} />
+                Timer
+              </a>
+            </Link>
+          </div>
+        </div>
+        <SessionTabs session={session} />
+      </main>
+      <Footer />
+      <Dialog open={editOpen} onOpenChange={setEditOpen} title="Edit session">
+        <form onSubmit={save}>
+          <div className="space-y-4">
+            <Field id="edit-session-name" label="Name" required>
+              <Input
+                id="edit-session-name"
+                required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </Field>
+            <Field id="edit-session-notes" label="Notes">
+              <Input
+                id="edit-session-notes"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+            </Field>
+            <Field id="edit-session-puzzle" label="Puzzle">
+              <select
+                id="edit-session-puzzle"
+                className="input"
+                value={puzzle}
+                onChange={(e) => setPuzzle(e.target.value)}
+              >
+                {puzzleTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type === "Pyramix" ? "Pyraminx" : type}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          </div>
+          <DialogActions>
+            <Button variant="secondary" onClick={() => setEditOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={!title.trim()} loading={saving}>
+              Save changes
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+      <ConfirmDialog
+        isOpen={removeOpen}
+        onClose={() => setRemoveOpen(false)}
+        onConfirm={deleteSession}
+        loading={saving}
+        title="Delete session?"
+        description="The session and all its solves will be permanently deleted."
+      />
+    </>
+  );
+};
 export default SessionPage;

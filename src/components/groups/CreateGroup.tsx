@@ -1,211 +1,137 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-  Avatar,
-  Box,
-  Button,
-  Circle,
-  FormControl,
-  FormLabel,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
-import Router from "next/router";
-import React, { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { v4 } from "uuid";
+import { FiPlus } from "react-icons/fi";
+import { useRouter } from "next/router";
 import { DEFAULT_GROUP_COLOR, GROUP_COLORS } from "../../constants";
 import { auth, db } from "../../firebase.config";
-import { GroupColor } from "../../types";
 import { generateInviteCode } from "../../utils";
+import { Button, Dialog, DialogActions, Field, Input } from "../ui";
+import { useToast } from "../ui/Providers";
 
-interface CreateGroupProps {}
-
-// eslint-disable-next-line no-empty-pattern
-export const CreateGroup: React.FC<CreateGroupProps> = ({}) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  // const cancelRef = React.useRef();
-
-  const [grpColor, setGrpColor] = useState<GroupColor>(DEFAULT_GROUP_COLOR);
-  const [grpImgUrl, setGrpImgUrl] = useState<string>("https://broken-lmao.org");
-  const [grpName, setGrpName] = useState<string>("");
-  const [grpBio, setGrpBio] = useState<string>("");
-
-  const toast = useToast();
-
-  const initialFocusRef: React.MutableRefObject<undefined> = React.useRef();
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [user, loading, error] = useAuthState(auth);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  const ownerDpName = user.displayName;
-  const ownerUid = user.uid;
-  const ownerPfp = user.photoURL;
-  const inviteCode = generateInviteCode(7);
-
-  const addGroupToFirestore = async (
-    grpColor: GroupColor,
-    grpImg: string,
-    grpName: string,
-    grpBio: string,
-    grpId: string
-  ) => {
-    await setDoc(doc(db, `groups/${grpId}`), {
-      grpName,
-      grpBio,
-      grpOwner: {
-        name: ownerDpName,
-        uuid: ownerUid,
-        profileImage: ownerPfp,
-      },
-      grpMembers: [
-        {
-          name: ownerDpName,
-          uuid: ownerUid,
-          profileImage: ownerPfp,
-        },
-      ],
-      grpImg,
-      grpColor,
-      grpId,
-      inviteCode,
-      solves: [],
-    });
+export const CreateGroup = () => {
+  const [user] = useAuthState(auth);
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState(""),
+    [bio, setBio] = useState(""),
+    [image, setImage] = useState(""),
+    [color, setColor] = useState(DEFAULT_GROUP_COLOR.colorVal);
+  const [saving, setSaving] = useState(false);
+  const toast = useToast(),
+    router = useRouter();
+  const valid = name.trim().length >= 3 && bio.trim().length >= 3;
+  const create = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!valid || !user || saving) return;
+    setSaving(true);
+    const id = v4(),
+      inviteCode = generateInviteCode(7),
+      member = {
+        name: user.displayName,
+        uuid: user.uid,
+        profileImage: user.photoURL,
+      };
+    try {
+      await setDoc(doc(db, "groups", id), {
+        grpName: name.trim(),
+        grpBio: bio.trim(),
+        grpImg: image.trim(),
+        grpColor: GROUP_COLORS.find((item) => item.colorVal === color),
+        grpId: id,
+        grpOwner: member,
+        grpMembers: [member],
+        inviteCode,
+        solves: [],
+      });
+      setOpen(false);
+      setName("");
+      setBio("");
+      setImage("");
+      try {
+        await navigator.clipboard.writeText(inviteCode);
+      } catch {
+        /* The invite code is also shown on the group page. */
+      }
+      toast({ title: "Group created", status: "success" });
+      await router.push(`/group/${id}`);
+    } catch {
+      toast({
+        title: "Could not create group",
+        description: "Please try again.",
+        status: "error",
+      });
+    } finally {
+      setSaving(false);
+    }
   };
-
-  const groupId = v4();
-
   return (
-    <Box pt="10">
-      <Button colorScheme="yellow" onClick={onOpen}>
-        Create Group
-      </Button>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        size="2xl"
-        initialFocusRef={initialFocusRef}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create Group</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <FormLabel fontWeight="bold">Group Name</FormLabel>
-              <Input
-                placeholder="The Cubing Zone"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setGrpName(e.currentTarget.value)
-                }
-                ref={initialFocusRef}
-              />
-            </FormControl>
-            <FormControl pt="5">
-              <FormLabel fontWeight="bold">Group Bio</FormLabel>
-              <Input
-                placeholder="Cubing group for da boiz"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setGrpBio(e.currentTarget.value)
-                }
-              />
-            </FormControl>
-            <FormControl pt="5">
-              <FormLabel fontWeight="bold">Group Color</FormLabel>
-              <Menu>
-                <MenuButton>
-                  <Button>
-                    {grpColor.colorName}
-                    <Box pl="2">
-                      <Circle size="6" bg={grpColor.colorVal} />
-                    </Box>
-                    <ChevronDownIcon pl="1" />
-                  </Button>
-                </MenuButton>
-                <MenuList>
-                  {GROUP_COLORS.map((color: GroupColor) => (
-                    <MenuItem
-                      onClick={() => setGrpColor(color)}
-                      key={color.colorName}
-                    >
-                      <Circle size="6" bg={color.colorVal} />
-                      <Box pl="2">{color.colorName}</Box>
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </Menu>
-            </FormControl>
-            <FormControl pt="5">
-              <FormLabel fontWeight="bold">Group Image</FormLabel>
-              <Input
-                placeholder="Image URL"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setGrpImgUrl(e.currentTarget.value)
-                }
-              />
-            </FormControl>
-            <Box pt="5">
-              <Avatar src={grpImgUrl} name={grpName} size="2xl" />
-            </Box>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              colorScheme="yellow"
-              mr={3}
-              onClick={() => {
-                if (grpName.length >= 3 && grpBio.length >= 3) {
-                  addGroupToFirestore(
-                    grpColor,
-                    grpImgUrl,
-                    grpName,
-                    grpBio,
-                    groupId
-                  );
-                  onClose();
-                  toast({
-                    title: "Created Group",
-                    description:
-                      "Group created successfully! Invite copied to clipboard. You can now add your friends by sharing the invite code!",
-                    status: "success",
-                    duration: 10000,
-                    isClosable: true,
-                  });
-                  navigator.clipboard.writeText(inviteCode);
-                  Router.push(`/group/${groupId}`);
-                } else {
-                  toast({
-                    title: "Invalid inputs",
-                    description:
-                      "Group name and bio must be atleast 3 characters long",
-                    status: "error",
-                    duration: 5000,
-                    isClosable: true,
-                  });
-                }
-              }}
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+      title="Create group"
+      trigger={
+        <Button>
+          <FiPlus size={14} />
+          New group
+        </Button>
+      }
+    >
+      <form onSubmit={create}>
+        <div className="space-y-4">
+          <Field id="group-name" label="Name" required>
+            <Input
+              id="group-name"
+              required
+              minLength={3}
+              value={name}
+              placeholder="Group name"
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Field>
+          <Field id="group-description" label="Description" required>
+            <Input
+              id="group-description"
+              required
+              minLength={3}
+              value={bio}
+              placeholder="Group description"
+              onChange={(e) => setBio(e.target.value)}
+            />
+          </Field>
+          <Field id="group-color" label="Color">
+            <select
+              id="group-color"
+              className="input"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
             >
-              Create!
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </Box>
+              {GROUP_COLORS.map((item) => (
+                <option key={item.colorVal} value={item.colorVal}>
+                  {item.colorName}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field id="group-image" label="Image URL (optional)">
+            <Input
+              id="group-image"
+              type="url"
+              value={image}
+              placeholder="https://…"
+              onChange={(e) => setImage(e.target.value)}
+            />
+          </Field>
+        </div>
+        <DialogActions>
+          <Button variant="secondary" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={!valid} loading={saving}>
+            Create group
+          </Button>
+        </DialogActions>
+      </form>
+    </Dialog>
   );
 };

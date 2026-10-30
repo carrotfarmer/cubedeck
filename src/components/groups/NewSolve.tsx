@@ -1,171 +1,28 @@
-import FocusLock from "@chakra-ui/focus-lock";
-import {
-  useToast,
-  Popover,
-  PopoverTrigger,
-  Button,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverHeader,
-  PopoverBody,
-  FormControl,
-  HStack,
-  NumberInput,
-  NumberInputField,
-  PopoverFooter,
-  Text,
-  Link,
-  Box,
-} from "@chakra-ui/react";
-import { arrayUnion, doc, DocumentData, updateDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import { updateDoc, doc, arrayUnion, DocumentData } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { v4 } from "uuid";
 import { auth, db } from "../../firebase.config";
-import { v4 as uuidv4 } from "uuid";
-import { FaClock } from "react-icons/fa";
+import { AddSolveDialog } from "../solves/AddSolveDialog";
 
-import NextLink from "next/link";
-
-interface NewSolveProps {
-  group: DocumentData;
-}
-
-export const NewSolve: React.FC<NewSolveProps> = ({ group }) => {
-  const [minutes, setMinutes] = useState(0);
-  const handleMinutesChange = (value) => {
-    setMinutes(value);
-  };
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [user, loading, error] = useAuthState(auth);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const open = () => setIsOpen(!isOpen);
-  const close = () => setIsOpen(false);
-  const toast = useToast();
-
-  const addSolveToGroupSession = async (solve: {
-    minutes: number;
-    seconds: number;
-  }): Promise<void> => {
-    await updateDoc(doc(db, `groups/${group.grpId}`), {
-      solves: arrayUnion({
-        minutes: Number(solve.minutes),
-        seconds: Number(solve.seconds),
-        totalInSeconds: Number(solve.minutes * 60) + Number(solve.seconds),
-        id: uuidv4(),
-        member: {
-          name: user.displayName,
-          uuid: user.uid,
-          profileImage: user.photoURL,
-        },
-      }),
-    });
-  };
-
-  const [seconds, setSeconds] = useState(0);
-  const handleSecondsChange = (value) => {
-    setSeconds(value);
-  };
+export const NewSolve = ({ group }: { group: DocumentData }) => {
+  const [user] = useAuthState(auth);
   return (
-    <Popover
-      placement="top-start"
-      closeOnBlur={true}
-      closeOnEsc={true}
-      isOpen={isOpen}
-      onClose={close}
-    >
-      <PopoverTrigger>
-        <Button
-          variant="outline"
-          colorScheme={group.grpColor.colorVal.split(".")[0]}
-          height="28"
-          width="36"
-          onClick={open}
-        >
-          New Solve
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverHeader fontWeight="bold">Add Solve</PopoverHeader>
-        <PopoverBody>
-          <FormControl>
-            <FocusLock>
-              <HStack>
-                <NumberInput
-                  width="20"
-                  onChange={handleMinutesChange}
-                  value={minutes}
-                >
-                  <NumberInputField />
-                  <Text fontSize="xs">mins</Text>
-                </NumberInput>
-                <NumberInput
-                  width="20"
-                  onChange={handleSecondsChange}
-                  value={seconds}
-                >
-                  <NumberInputField />
-                  <Text fontSize="xs">secs</Text>
-                </NumberInput>
-                <Box pb="3">
-                  <NextLink href={`/group/${group.grpId}/timer`} passHref>
-                    <Button
-                      as={Link}
-                      leftIcon={<FaClock />}
-                      colorScheme="orange"
-                    >
-                      Timer
-                    </Button>
-                  </NextLink>
-                </Box>
-              </HStack>
-            </FocusLock>
-          </FormControl>
-        </PopoverBody>
-        <PopoverFooter>
-          <Button
-            colorScheme={group.grpColor.colorVal.split(".")[0]}
-            onClick={() => {
-              if (
-                Number(minutes * 60) + Number(seconds) >= 1 &&
-                Number(minutes) + Number(seconds) < 3600 &&
-                Number(minutes) < 60 &&
-                Number(seconds) < 60 &&
-                Number(minutes) === Math.floor(Number(minutes)) &&
-                Number(seconds) === Math.floor(Number(seconds))
-              ) {
-                addSolveToGroupSession({
-                  minutes,
-                  seconds,
-                });
-                setSeconds(0);
-                setMinutes(0);
-                close();
-                toast({
-                  title: "Added Solve!",
-                  description:
-                    "Successfully added this solve to the group board.",
-                  status: "success",
-                  duration: 5000,
-                  isClosable: true,
-                });
-              } else {
-                toast({
-                  title: "Yoo you tryna scam your friends? 💀",
-                  description: "Please enter a valid solve.",
-                  status: "error",
-                  duration: 5000,
-                  isClosable: true,
-                });
-              }
-            }}
-          >
-            Add
-          </Button>
-        </PopoverFooter>
-      </PopoverContent>
-    </Popover>
+    <AddSolveDialog
+      onSave={async (minutes, seconds) => {
+        await updateDoc(doc(db, "groups", group.grpId), {
+          solves: arrayUnion({
+            minutes,
+            seconds,
+            totalInSeconds: minutes * 60 + seconds,
+            id: v4(),
+            member: {
+              name: user.displayName,
+              uuid: user.uid,
+              profileImage: user.photoURL,
+            },
+          }),
+        });
+      }}
+    />
   );
 };

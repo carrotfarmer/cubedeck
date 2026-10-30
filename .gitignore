@@ -10,6 +10,9 @@
 
 # next.js
 /.next/
+/.next-verify/
+/.next-verify-build/
+*.tsbuildinfo
 /out/
 
 # production

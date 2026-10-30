@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --canvas: 251 250 246;
+    --panel: 255 254 250;
+    --soft: 243 241 234;
+    --ink: 43 43 39;
+    --muted: 116 114 104;
+    --line: 227 224 214;
+    color-scheme: light;
+  }
+  :root.dark {
+    --canvas: 23 24 22;
+    --panel: 30 31 28;
+    --soft: 38 39 35;
+    --ink: 232 230 221;
+    --muted: 159 159 146;
+    --line: 58 59 52;
+    color-scheme: dark;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px;
+  }
+  body {
+    @apply bg-canvas font-sans text-sm text-ink antialiased;
+    line-height: 1.6;
+  }
+  #__next {
+    @apply flex min-h-screen flex-col;
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    outline: 2px solid #c1a543;
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: #efd36b;
+    color: #332d19;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-normal;
+    line-height: 1.15;
+  }
+  a,
+  button {
+    touch-action: manipulation;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+@layer components {
+  .page {
+    @apply mx-auto w-full max-w-5xl flex-1 px-5 pb-12 pt-8 sm:px-8 sm:pt-10;
+  }
+  .page-title {
+    @apply text-3xl sm:text-4xl;
+  }
+  .page-header {
+    @apply mb-7 flex flex-wrap items-start justify-between gap-4;
+  }
+  .panel {
+    @apply rounded-lg border border-line bg-panel;
+  }
+  .btn {
+    @apply inline-flex min-h-[38px] shrink-0 items-center justify-center gap-2 rounded-md border px-3.5 py-2 text-[13px] font-medium leading-5 transition-colors disabled:pointer-events-none disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply border-transparent bg-accent text-accent-ink hover:bg-accent-hover;
+  }
+  .btn-secondary {
+    @apply border-line bg-panel text-ink hover:bg-soft;
+  }
+  .btn-ghost {
+    @apply border-transparent bg-transparent text-muted hover:bg-soft hover:text-ink;
+  }
+  .btn-danger {
+    @apply border-red-300/50 bg-red-50 text-red-700 hover:bg-red-100 dark:border-red-800/60 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-950;
+  }
+  .btn-small {
+    @apply min-h-[32px] px-2.5 py-1 text-xs;
+  }
+  .icon-btn {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-muted transition-colors hover:bg-soft hover:text-ink disabled:opacity-40;
+  }
+  .input {
+    @apply w-full min-w-0 rounded-md border border-line bg-canvas px-3 py-2 text-sm text-ink placeholder:text-muted/70 focus:border-[#b9a04e] focus:outline-none focus:ring-2 focus:ring-[#c7ae55]/20 disabled:opacity-50;
+    min-height: 40px;
+  }
+  .field-label {
+    @apply mb-1.5 block text-xs font-medium text-ink;
+  }
+  .text-link {
+    @apply text-muted underline-offset-4 hover:text-ink hover:underline;
+  }
+  .badge {
+    @apply inline-flex items-center rounded border border-line bg-soft px-2 py-0.5 font-mono text-[10px] leading-5 text-muted;
+  }
+  .tab-trigger {
+    @apply shrink-0 rounded px-3 py-1.5 text-xs font-medium text-muted transition-colors hover:text-ink data-[state=active]:bg-panel data-[state=active]:text-ink data-[state=active]:shadow-sm;
+  }
+  .menu-item {
+    @apply flex cursor-default select-none items-center gap-2 rounded px-3 py-2 text-xs outline-none data-[highlighted]:bg-soft;
+  }
+  .solve-grid {
+    @apply grid grid-cols-2 gap-2.5 min-[480px]:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6;
+  }
+  .solve-card {
+    @apply panel relative flex h-24 min-w-0 flex-col items-center justify-center px-2;
+  }
+  .kbd {
+    @apply rounded border border-line bg-soft px-1.5 py-0.5 font-mono text-[10px] leading-none text-muted;
+  }
+  .spinner {
+    @apply inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-r-transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
