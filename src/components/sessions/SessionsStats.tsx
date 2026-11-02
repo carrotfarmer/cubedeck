@@ -21,7 +21,7 @@ export const SessionsStats = ({ session }: { session: Session }) => {
           hint:
             times.length && average > 0
               ? `${Math.round(
-                  (1 - Math.min(...times) / average) * 100
+                  (1 - Math.min(...times) / average) * 100,
                 )}% faster than average`
               : undefined,
         },
@@ -31,7 +31,7 @@ export const SessionsStats = ({ session }: { session: Session }) => {
           hint:
             times.length && average > 0
               ? `${Math.round(
-                  (Math.max(...times) / average - 1) * 100
+                  (Math.max(...times) / average - 1) * 100,
                 )}% slower than average`
               : undefined,
         },

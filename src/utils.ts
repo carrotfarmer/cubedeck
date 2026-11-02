@@ -29,7 +29,7 @@ export const sessionTagColor = (sessionType: string): string => {
 };
 
 export const convertToMinutesAndSeconds = (
-  seconds: number
+  seconds: number,
 ): {
   minutes: number;
   seconds: number;
@@ -53,7 +53,7 @@ export const generateInviteCode = (length: number): string => {
 
 export const getGroupByInviteCode = (
   inviteCode: string,
-  groups: DocumentData[]
+  groups: DocumentData[],
 ) => {
   return groups.find((group) => group.inviteCode === inviteCode);
 };
@@ -73,14 +73,13 @@ export const isUserInGroup = (userId: string, group: DocumentData): boolean => {
 };
 
 export const removeFromGroup = (group, userId: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _group = updateDoc(doc(db, `groups/${group.grpId}`), {
     grpMembers: group.grpMembers.filter((member) => member.uuid !== userId),
   });
 
   if (group.solves.length > 0) {
     const _solves = group.solves.filter(
-      (solve) => solve.member.uuid !== userId
+      (solve) => solve.member.uuid !== userId,
     );
     updateDoc(doc(db, `groups/${group.grpId}`), {
       solves: _solves,

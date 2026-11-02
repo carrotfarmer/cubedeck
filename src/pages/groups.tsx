@@ -27,10 +27,10 @@ const Groups = () => {
 };
 const GroupList = ({ userId }: { userId: string }) => {
   const [groups, loading, error] = useCollectionData(
-    query(collection(db, "groups"), orderBy("grpName", "asc"))
+    query(collection(db, "groups"), orderBy("grpName", "asc")),
   );
   const myGroups = ((groups || []) as Group[]).filter((group) =>
-    group.grpMembers.some((member) => member.uuid === userId)
+    group.grpMembers.some((member) => member.uuid === userId),
   );
   return (
     <>

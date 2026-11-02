@@ -27,7 +27,7 @@ export const JoinGroup = () => {
     setSaving(true);
     try {
       const result = await getDocs(
-        query(collection(db, "groups"), where("inviteCode", "==", code.trim()))
+        query(collection(db, "groups"), where("inviteCode", "==", code.trim())),
       );
       if (result.empty) {
         toast({

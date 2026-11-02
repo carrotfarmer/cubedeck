@@ -12,11 +12,11 @@ import { Notice, Tabs } from "../ui";
 export const Sessions = () => {
   const [user] = useAuthState(auth);
   const [sessions, loading, error] = useCollectionData(
-    query(collection(db, user.uid), orderBy("createdAt", "desc"))
+    query(collection(db, user.uid), orderBy("createdAt", "desc")),
   );
   const allSessions = (sessions || []) as Session[];
   const times = allSessions.flatMap((session) =>
-    session.solves.map((solve) => solve.totalInSeconds)
+    session.solves.map((solve) => solve.totalInSeconds),
   );
   return (
     <main className="page">

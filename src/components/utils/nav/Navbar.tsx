@@ -29,16 +29,16 @@ export const Navbar = () => {
       : router.pathname === href ||
         (href === "/groups" && router.pathname.startsWith("/group/"));
   const navLinks = links.map((link) => (
-    <Link key={link.href} href={link.href} passHref>
-      <a
-        onClick={() => setOpen(false)}
-        aria-current={isActive(link.href) ? "page" : undefined}
-        className={`rounded px-3 py-2 text-xs transition-colors ${
-          isActive(link.href) ? "bg-soft text-ink" : "text-muted hover:text-ink"
-        }`}
-      >
-        {link.label}
-      </a>
+    <Link
+      key={link.href}
+      href={link.href}
+      onClick={() => setOpen(false)}
+      aria-current={isActive(link.href) ? "page" : undefined}
+      className={`rounded px-3 py-2 text-xs transition-colors ${
+        isActive(link.href) ? "bg-soft text-ink" : "text-muted hover:text-ink"
+      }`}
+    >
+      {link.label}
     </Link>
   ));
   return (
@@ -47,10 +47,12 @@ export const Navbar = () => {
         aria-label="Main navigation"
         className="mx-auto flex min-h-[64px] max-w-5xl flex-wrap items-center justify-between gap-x-4 px-5 sm:px-8"
       >
-        <Link href="/" passHref>
-          <a aria-label="Cubedeck home" onClick={() => setOpen(false)}>
-            <Brand />
-          </a>
+        <Link
+          href="/"
+          aria-label="Cubedeck home"
+          onClick={() => setOpen(false)}
+        >
+          <Brand />
         </Link>
         <div className="ml-4 mr-auto hidden items-center gap-1 sm:flex">
           {navLinks}

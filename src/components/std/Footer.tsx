@@ -8,8 +8,8 @@ export const Footer = () => (
         Cubedeck <span className="mx-1.5 opacity-40">/</span> Dhruva Srinivas
       </span>
       <div className="flex items-center gap-5">
-        <Link href="/guide" passHref>
-          <a className="hover:text-ink">Guide</a>
+        <Link href="/guide" className="hover:text-ink">
+          Guide
         </Link>
         <a
           href="https://github.com/carrotfarmer/cubedeck"

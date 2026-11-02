@@ -21,11 +21,9 @@ export const LandingPage = () => (
           friends.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2.5">
-          <Link href="/timer" passHref>
-            <a className={buttonClass()}>
-              <FiClock size={14} />
-              Open timer
-            </a>
+          <Link href="/timer" className={buttonClass()}>
+            <FiClock size={14} />
+            Open timer
           </Link>
           <LoginButton label="Sign in with Google" />
         </div>
@@ -68,7 +66,7 @@ export const LandingPage = () => (
         {["2×2", "3×3", "4×4", "5×5", "6×6", "7×7", "Pyraminx"].map(
           (puzzle) => (
             <span key={puzzle}>{puzzle}</span>
-          )
+          ),
         )}
       </div>
     </main>

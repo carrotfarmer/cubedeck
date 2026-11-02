@@ -129,7 +129,7 @@ const GroupDetail = ({ id, user }: { id: string; user: User }) => {
     try {
       await updateDoc(doc(db, "groups", id), {
         grpMembers: group.grpMembers.filter(
-          (member) => member.uuid !== user.uid
+          (member) => member.uuid !== user.uid,
         ),
         solves: group.solves.filter((solve) => solve.member.uuid !== user.uid),
       });
@@ -144,11 +144,12 @@ const GroupDetail = ({ id, user }: { id: string; user: User }) => {
       <PageHead title={`${group.grpName} | Cubedeck`} />
       <Navbar />
       <main className="page">
-        <Link href="/groups" passHref>
-          <a className="text-link mb-5 inline-flex items-center gap-1.5 text-xs">
-            <FiArrowLeft size={12} />
-            Groups
-          </a>
+        <Link
+          href="/groups"
+          className="text-link mb-5 inline-flex items-center gap-1.5 text-xs"
+        >
+          <FiArrowLeft size={12} />
+          Groups
         </Link>
         <div className="page-header">
           <div className="flex min-w-0 items-start gap-3">
@@ -202,11 +203,12 @@ const GroupDetail = ({ id, user }: { id: string; user: User }) => {
                 Leave
               </Button>
             )}
-            <Link href={`/group/${id}/timer`} passHref>
-              <a className={buttonClass("primary", true)}>
-                <FiClock size={12} />
-                Timer
-              </a>
+            <Link
+              href={`/group/${id}/timer`}
+              className={buttonClass("primary", true)}
+            >
+              <FiClock size={12} />
+              Timer
             </Link>
           </div>
         </div>

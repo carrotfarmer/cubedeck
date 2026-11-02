@@ -63,6 +63,10 @@ Most of the code lies in the `components` folder in `src`.
 
 ## Running Locally
 
+Use Node.js 24.22.2 (see `.nvmrc` / `.node-version`). With nvm, run `nvm install` and `nvm use`, then `corepack prepare yarn@1.22.22 --activate`.
+
+`yarn lint`, `yarn typecheck`, and `yarn build` run the project checks. PWA service workers are built with Serwist using the webpack build.
+
 - Clone the repo
 
 ```sh

@@ -26,7 +26,7 @@ interface ToastEntry extends ToastOptions {
   id: number;
 }
 const ToastContext = createContext<(options: ToastOptions) => void>(
-  () => undefined
+  () => undefined,
 );
 export const useToast = () => useContext(ToastContext);
 const Toast = ({
@@ -39,7 +39,7 @@ const Toast = ({
   useEffect(() => {
     const timeout = window.setTimeout(
       () => dismiss(item.id),
-      item.duration || 4500
+      item.duration || 4500,
     );
     return () => window.clearTimeout(timeout);
   }, [item, dismiss]);
@@ -81,7 +81,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
   const nextId = useRef(0);
   useEffect(() => {
     setColorMode(
-      document.documentElement.classList.contains("dark") ? "dark" : "light"
+      document.documentElement.classList.contains("dark") ? "dark" : "light",
     );
   }, []);
   const toggleColorMode = useCallback(() => {
@@ -103,7 +103,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
   const dismiss = useCallback(
     (id: number) =>
       setToasts((current) => current.filter((item) => item.id !== id)),
-    []
+    [],
   );
   return (
     <ThemeContext.Provider value={{ colorMode, toggleColorMode }}>

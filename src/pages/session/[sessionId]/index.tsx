@@ -106,11 +106,12 @@ const SessionDetail = ({ id, userId }: { id: string; userId: string }) => {
       <PageHead title={`${session.sessionTitle} | Cubedeck`} />
       <Navbar />
       <main className="page">
-        <Link href="/" passHref>
-          <a className="text-link mb-5 inline-flex items-center gap-1.5 text-xs">
-            <FiArrowLeft size={12} />
-            Sessions
-          </a>
+        <Link
+          href="/"
+          className="text-link mb-5 inline-flex items-center gap-1.5 text-xs"
+        >
+          <FiArrowLeft size={12} />
+          Sessions
         </Link>
         <div className="page-header">
           <div className="min-w-0">
@@ -153,11 +154,12 @@ const SessionDetail = ({ id, userId }: { id: string; userId: string }) => {
             >
               <FiTrash2 size={12} />
             </Button>
-            <Link href={`/session/${id}/timer`} passHref>
-              <a className={buttonClass("primary", true)}>
-                <FiClock size={12} />
-                Timer
-              </a>
+            <Link
+              href={`/session/${id}/timer`}
+              className={buttonClass("primary", true)}
+            >
+              <FiClock size={12} />
+              Timer
             </Link>
           </div>
         </div>
