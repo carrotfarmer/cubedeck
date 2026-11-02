@@ -53,7 +53,7 @@ export const TimerWorkspace = ({
     const interval = window.setInterval(
       () =>
         setElapsed(accumulated.current + performance.now() - startedAt.current),
-      10
+      10,
     );
     return () => window.clearInterval(interval);
   }, [active]);
@@ -66,7 +66,7 @@ export const TimerWorkspace = ({
         event.metaKey ||
         event.altKey ||
         target.closest(
-          "input,textarea,select,[contenteditable='true'],[role='dialog'],[role='alertdialog'],[role='menu']"
+          "input,textarea,select,[contenteditable='true'],[role='dialog'],[role='alertdialog'],[role='menu']",
         )
       )
         return;
@@ -121,11 +121,12 @@ export const TimerWorkspace = ({
       <PageHead title="Timer | Cubedeck" />
       <Navbar />
       <main className="page">
-        <Link href={backHref} passHref>
-          <a className="text-link mb-4 inline-flex items-center gap-1.5 text-xs">
-            <FiArrowLeft size={12} />
-            {backLabel}
-          </a>
+        <Link
+          href={backHref}
+          className="text-link mb-4 inline-flex items-center gap-1.5 text-xs"
+        >
+          <FiArrowLeft size={12} />
+          {backLabel}
         </Link>
         <div className="page-header">
           <div>
@@ -187,10 +188,11 @@ export const TimerWorkspace = ({
         </section>
         {!onRecord && (
           <p className="mt-4 text-center text-xs text-muted">
-            <Link href="/" passHref>
-              <a className="underline underline-offset-4 hover:text-ink">
-                Sign in
-              </a>
+            <Link
+              href="/"
+              className="underline underline-offset-4 hover:text-ink"
+            >
+              Sign in
             </Link>{" "}
             and use a session to save solves.
           </p>

@@ -4,7 +4,7 @@ import { AppProps } from "next/app";
 import NextNProgress from "nextjs-progressbar";
 import { Providers } from "../components/ui/Providers";
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+function MyApp({ Component, pageProps }: AppProps): React.JSX.Element {
   return (
     <Providers>
       <NextNProgress

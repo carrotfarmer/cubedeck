@@ -41,8 +41,8 @@ const GuidePage = () => (
           ))}
         </div>
         <div className="mt-8 border-t border-line pt-5">
-          <Link href="/timer" passHref>
-            <a className={buttonClass("secondary")}>Open timer</a>
+          <Link href="/timer" className={buttonClass("secondary")}>
+            Open timer
           </Link>
         </div>
       </div>

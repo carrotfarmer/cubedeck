@@ -48,7 +48,9 @@ export const LoginButton = ({ label = "Sign in" }: { label?: string }) => {
             <DropdownMenu.Separator className="my-1 h-px bg-line" />
             <DropdownMenu.Item
               className="menu-item"
-              onSelect={() => Router.push("/guide")}
+              onSelect={() => {
+                void Router.push("/guide");
+              }}
             >
               <FiBookOpen />
               Guide

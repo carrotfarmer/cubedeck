@@ -20,7 +20,7 @@ const buttonVariants = {
 };
 export const buttonClass = (
   variant: ButtonVariant = "primary",
-  small = false
+  small = false,
 ) => `btn ${buttonVariants[variant]}${small ? " btn-small" : ""}`;
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -39,7 +39,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       type = "button",
       ...props
     }: ButtonProps,
-    ref
+    ref,
   ) {
     return (
       <button
@@ -54,14 +54,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {children}
       </button>
     );
-  }
+  },
 );
 export const Input = forwardRef<
   HTMLInputElement,
   InputHTMLAttributes<HTMLInputElement>
 >(function Input(
   { className = "", ...props }: InputHTMLAttributes<HTMLInputElement>,
-  ref
+  ref,
 ) {
   return <input ref={ref} className={`input ${className}`} {...props} />;
 });
@@ -118,7 +118,7 @@ export const Dialog = ({
           onOpenAutoFocus={(event) => {
             previousFocus.current = document.activeElement as HTMLElement;
             const field = contentRef.current?.querySelector<HTMLElement>(
-              "input, select, textarea"
+              "input, select, textarea",
             );
             if (field) {
               event.preventDefault();
@@ -204,7 +204,7 @@ export const Avatar = ({
   src?: string;
   size?: "xs" | "sm" | "md" | "lg";
 }) => {
-  const [failedSrc, setFailedSrc] = useState<string>();
+  const [failedSrc, setFailedSrc] = useState<string | undefined>(undefined);
   const sizes = {
     xs: "h-5 w-5 text-[9px]",
     sm: "h-7 w-7 text-[10px]",

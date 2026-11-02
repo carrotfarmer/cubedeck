@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.js";
 
 @layer base {
   :root {
@@ -124,7 +123,7 @@
     @apply grid grid-cols-2 gap-2.5 min-[480px]:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6;
   }
   .solve-card {
-    @apply panel relative flex h-24 min-w-0 flex-col items-center justify-center px-2;
+    @apply rounded-lg border border-line bg-panel relative flex h-24 min-w-0 flex-col items-center justify-center px-2;
   }
   .kbd {
     @apply rounded border border-line bg-soft px-1.5 py-0.5 font-mono text-[10px] leading-none text-muted;

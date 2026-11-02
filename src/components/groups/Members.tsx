@@ -43,10 +43,10 @@ export const Members = ({
                   try {
                     await updateDoc(doc(db, "groups", group.grpId), {
                       grpMembers: groupMembers.filter(
-                        (item) => item.uuid !== member.uuid
+                        (item) => item.uuid !== member.uuid,
                       ),
                       solves: group.solves.filter(
-                        (solve) => solve.member.uuid !== member.uuid
+                        (solve) => solve.member.uuid !== member.uuid,
                       ),
                     });
                   } catch {

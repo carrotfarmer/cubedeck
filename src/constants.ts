@@ -43,4 +43,4 @@ export const groupAccent = (token: string): string =>
     pink: "#c998af",
     purple: "#ab98c5",
     cyan: "#80b5b7",
-  }[token.split(".")[0]] || "#d6bf6a");
+  })[token.split(".")[0]] || "#d6bf6a";

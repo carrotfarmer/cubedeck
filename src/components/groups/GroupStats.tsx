@@ -21,7 +21,7 @@ export const GroupStats = ({ group }: { group: DocumentData }) => {
     .filter((member) => member.count)
     .sort((a, b) => a.average - b.average)[0];
   const best = [...solves].sort(
-    (a, b) => a.totalInSeconds - b.totalInSeconds
+    (a, b) => a.totalInSeconds - b.totalInSeconds,
   )[0];
   return (
     <StatCards
@@ -31,7 +31,7 @@ export const GroupStats = ({ group }: { group: DocumentData }) => {
           value: displayTime(
             solves.length
               ? solves.reduce((a, b) => a + b.totalInSeconds, 0) / solves.length
-              : Infinity
+              : Infinity,
           ),
           hint: `${solves.length} solves · ${members.length} ${
             members.length === 1 ? "member" : "members"

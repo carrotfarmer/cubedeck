@@ -8,13 +8,13 @@ import { Notice } from "../ui";
 
 export const PersonalStats = ({ user }: { user: User }) => {
   const [sessions, loading, error] = useCollectionData(
-    collection(db, user.uid)
+    collection(db, user.uid),
   );
   if (loading) return <Notice>Loading statistics…</Notice>;
   if (error)
     return <Notice error>Could not load statistics. Please try again.</Notice>;
   const times = ((sessions || []) as Session[]).flatMap((session) =>
-    session.solves.map((solve) => solve.totalInSeconds)
+    session.solves.map((solve) => solve.totalInSeconds),
   );
   const average = times.length
     ? times.reduce((a, b) => a + b, 0) / times.length
